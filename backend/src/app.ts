@@ -6,7 +6,7 @@ const port: number = 3000
 app.use(express.static('dist'))
 
 app.use(express.static("public"))
-app.use(express.static("dist-frontend"))
+app.use(express.static("dist"))
 
 app.use(function(req, res, next) {
   res.setHeader("Content-Type", "text/plain")
@@ -14,5 +14,5 @@ app.use(function(req, res, next) {
 })
 
 app.listen(port, function() {
-  console.log(`Listening on http://localhost:${port}`)
+  console.log(`In ascolto su http://localhost:${port}`)
 })
