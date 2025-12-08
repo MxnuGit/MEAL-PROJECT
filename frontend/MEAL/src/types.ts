@@ -11,6 +11,7 @@ export interface Ricetta {
 
 export interface Utente {
     ID: string
+    immagine: string
 }
 
 export interface Ingrediente {

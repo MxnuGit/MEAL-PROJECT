@@ -28,4 +28,10 @@
            >
     <input type="submit">
 
+    <ul>
+        <li v-for="utente in utenti">
+            <img :src="utente.immagine" alt="immagine utente">
+            {{ utente.ID }}
+        </li>
+    </ul>
 </template>
