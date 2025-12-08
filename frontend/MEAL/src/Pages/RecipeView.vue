@@ -1,14 +1,14 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import axios from 'axios'
-    import type { Ricetta } from '../types';
-    import type { Ingrediente } from '../types';
+    import type { Ricetta, Ingrediente, Preparazioni } from '../types';
     
     export default defineComponent({
         data() {
             return {
                 ricetta: null as Ricetta | null,
-                ingredienti: [] as Ingrediente[]
+                ingredienti: [] as Ingrediente[],
+                preparazioni: [] as Preparazioni[]
             }
         },
         methods: {
@@ -18,13 +18,19 @@
             },
 
             getIngredients: function(){
-                axios.get("/api/ricetta/ingredienti/" + this.$route.params.ingredienti)
+                axios.get("/api/ricetta/" + this.$route.params.nomericetta + "/ingredienti/")
                     .then(response => this.ingredienti = response.data)
+            },
+
+            getStepsByRecipe: function(){
+                axios.get("/api/ricetta/"+ this.$route.params.nomericetta + "/passaggi/")
+                    .then(response => this.preparazioni = response.data)
             }
         },
         mounted() {
             this.getRecipe();
             this.getIngredients();
+            this.getStepsByRecipe();
         }
     })
 </script>
@@ -45,5 +51,23 @@
             </div>
         </section>
         <hr>
+        <section class="2/3">
+            <section class="description">
+                <h2>Descrizione</h2>
+                <p>{{ ricetta.descrizione }}</p>
+            </section>
+            <section class="ingredients">
+                <h2>Ingredienti</h2>
+                <ul>
+                    <li v-for="ingrediente in ingredienti">{{ ingrediente.nome }}</li>
+                </ul>
+            </section>
+        </section>
+        <section class="3/3">
+            <h2>Preparazione</h2>
+            <ul>
+                <li v-for="passaggio in preparazioni">{{ passaggio.step }}. {{ passaggio.passaggio }}</li>
+            </ul>
+        </section>
     </div>
 </template>
