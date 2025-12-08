@@ -18,13 +18,13 @@
             },
 
             getIngredients: function(){
-                axios.get("/api/ricetta/" + this.$route.params.ingredienti)
-                    .then(response => this.ingredienti = response.data[0])
+                axios.get("/api/ricetta/ingredienti/" + this.$route.params.ingredienti)
+                    .then(response => this.ingredienti = response.data)
             }
         },
         mounted() {
-            this.getRecipe(),
-            this.getIngredients()
+            this.getRecipe();
+            this.getIngredients();
         }
     })
 </script>
