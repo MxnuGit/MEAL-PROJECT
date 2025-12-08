@@ -10,5 +10,5 @@ export interface Ricetta {
 }
 
 export interface Utente {
-    id: string
+    ID: string
 }
