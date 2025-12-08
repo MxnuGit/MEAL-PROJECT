@@ -37,6 +37,16 @@
         </li>
       </ul>
     </section>
+    <section>
+      <ul>
+        <li>
+          <router-link to="/Login">
+            <img src="./assets/login.png" alt="" />
+            <p>Login</p>
+          </router-link>
+        </li>
+      </ul>
+    </section>
   </aside>
   <main>
     <router-view />
