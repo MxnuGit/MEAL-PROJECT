@@ -11,7 +11,7 @@
         },
         methods:{
             getUserName() {
-                axios.get("/api/autore/" + this.$route.params.ID)
+                axios.get("/api/utente/" + this.$route.params.ID)
                 .then(response => this.utente = response.data)
             }
         },
