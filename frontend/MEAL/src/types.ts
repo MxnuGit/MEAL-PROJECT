@@ -17,3 +17,8 @@ export interface Ingrediente {
     nome: string
     ID: string
 }
+
+export interface Preparazioni {
+    step: number
+    passaggio: string
+}
