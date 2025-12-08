@@ -12,3 +12,7 @@ export interface Ricetta {
 export interface Utente {
     id: string
 }
+
+export interface Ingrediente {
+    nome: string
+}
