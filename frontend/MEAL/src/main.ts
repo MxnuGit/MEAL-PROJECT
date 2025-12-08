@@ -6,6 +6,7 @@ import App from "./App.vue"
 import Home from "./Pages/Home.vue"
 import Users from "./Pages/Users.vue"
 import PersonalArea from "./Pages/PersonalArea.vue"
+import RecipeView from "./Pages/RecipeView.vue"
 import NotFound from "./Pages/NotFound.vue"
 import Login from "./Pages/Login.vue"
 
@@ -15,6 +16,7 @@ const router: Router = createRouter({
     { path: "/", component: Home },
     { path: "/Users", component: Users },
     { path: "/PersonalArea", component: PersonalArea },
+    { path: "/RecipeView", component: RecipeView },
     { path: "/Login", component: Login },
     { path: "/:pathMatch(.*)*", component: NotFound }
   ]
