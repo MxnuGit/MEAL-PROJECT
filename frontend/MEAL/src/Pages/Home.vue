@@ -1,3 +1,9 @@
+<script setup lang="ts">
+    import SearchBar from '../components/SearchBar.vue'
+</script>
+
 <template>
-    <h1>Welcome to MEAL</h1>
+  <div class="home-page">
+    <SearchBar/>
+  </div>
 </template>
