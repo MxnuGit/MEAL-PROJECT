@@ -15,4 +15,5 @@ export interface Utente {
 
 export interface Ingrediente {
     nome: string
+    ID: string
 }
