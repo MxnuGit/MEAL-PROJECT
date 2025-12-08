@@ -10,10 +10,13 @@
             }
         },
         methods: {
-         
+            getUserName() {
+                axios.get("/api/utente/" + this.$route.params.ID)
+                .then(response => this.utenti = response.data)
+            }
         },
         mounted() {
-          
+            this.getUserName();
         }
     })
 </script>
@@ -24,8 +27,7 @@
            id="findUser"
            minlength="2"
            maxlength="20"
-           required
-           >
+           required>
     <input type="submit">
 
     <ul>
