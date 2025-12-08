@@ -30,7 +30,7 @@
            required>
     <input type="submit">
 
-    <ul>
+    <ul v-if="utenti">
         <li v-for="utente in utenti">
             <img :src="utente.immagine" alt="immagine utente">
             {{ utente.ID }}
