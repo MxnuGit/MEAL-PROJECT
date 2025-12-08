@@ -4,5 +4,5 @@ export const connection: Connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'meal'
+  database: 'meal1'
 })

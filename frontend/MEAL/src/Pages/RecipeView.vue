@@ -2,21 +2,29 @@
     import { defineComponent } from 'vue';
     import axios from 'axios'
     import type { Ricetta } from '../types';
+    import type { Ingrediente } from '../types';
     
     export default defineComponent({
         data() {
             return {
-                ricetta: null as Ricetta | null
+                ricetta: null as Ricetta | null,
+                ingredienti: [] as Ingrediente[]
             }
         },
         methods: {
             getRecipe: function(){
-                axios.get("/api/ricetta/nomericetta")
+                axios.get("/api/ricetta/" + this.$route.params.nomericetta)
                     .then(response => this.ricetta = response.data)
+            },
+
+            getIngredients: function(){
+                axios.get("/api/ricetta/ingredienti/" + this.$route.params.ingredienti)
+                    .then(response => this.ingredienti = response.data)
             }
         },
         mounted() {
-            this.getRecipe()
+            this.getRecipe();
+            this.getIngredients();
         }
     })
 </script>
@@ -24,7 +32,7 @@
 <template>
     <div id="container" v-if="ricetta">
         <h1>{{ ricetta.titolo }}</h1>
-        <section>
+        <section class="1/3">
             <div class="img">
                 <img :src="ricetta.immagine" alt="immagine ">
             </div>
@@ -33,9 +41,9 @@
                     <li>difficoltà: {{ ricetta.difficolta }}</li>
                     <li>Tempo: {{ ricetta.tempoPrep }}</li>
                     <li>Portata: {{ ricetta.portata }}</li>
-                    <li></li>
                 </ul>
             </div>
         </section>
+        <hr>
     </div>
 </template>
