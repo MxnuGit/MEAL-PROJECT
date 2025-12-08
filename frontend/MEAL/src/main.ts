@@ -15,7 +15,7 @@ const router: Router = createRouter({
     { path: "/", component: Home },
     { path: "/Users", component: Users },
     { path: "/PersonalArea", component: PersonalArea },
-    { path: "/login", component: Login },
+    { path: "/Login", component: Login },
     { path: "/:pathMatch(.*)*", component: NotFound }
   ]
 })
