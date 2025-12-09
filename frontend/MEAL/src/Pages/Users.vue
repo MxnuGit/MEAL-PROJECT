@@ -6,13 +6,17 @@
     export default defineComponent({
         data() {
             return {
-              utenti: [] as Utente[]
+              utenti: [] as Utente[],
+              searchId: ""
             }
         },
         methods: {
             getUserName() {
-                axios.get("/api/utente/" + this.$route.params.ID)
-                .then(response => this.utenti = response.data)
+                if(this.searchId == "") return;
+                else{
+                    axios.get("/api/utente/" + this.searchId)
+                    .then(response => this.utenti = response.data)
+                }
             }
         },
         mounted() {
@@ -22,15 +26,18 @@
 </script>
 
 <template>
-    <input type="text" 
-           placeholder="Cerca un utente"
-           id="findUser"
-           minlength="2"
-           maxlength="20"
-           required>
-    <input type="submit">
+    <form @submit.prevent="getUserName">
+        <input type="text"
+               v-model="searchId"
+               placeholder="Cerca un utente"
+               id="findUser"
+               minlength="2"
+               maxlength="20"
+               required>
+        <button type="submit">Cerca</button>
+    </form>
 
-    <ul v-if="utenti">
+    <ul v-if="utenti.length > 0">
         <li v-for="utente in utenti">
             <img :src="utente.immagine" alt="immagine utente">
             {{ utente.ID }}
