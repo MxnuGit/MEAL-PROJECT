@@ -13,12 +13,12 @@
         },
         methods: {
             getRecipe: function(){
-                axios.get("/api/ricetta/" + this.$route.params.nomericetta)
+                axios.get("/api/ricetta/" + this.ricetta)
                     .then(response => this.ricetta = response.data)
             },
 
             getIngredients: function(){
-                axios.get("/api/ricetta/" + this.$route.params.nomericetta + "/ingredienti/")
+                axios.get("/api/ricetta/" + this.ricetta + "/" + this.ingredienti)
                     .then(response => this.ingredienti = response.data)
             },
 
