@@ -3,6 +3,6 @@ import * as utentiController from "../controller/userController"
 
 const router: Router = Router()
 
-router.get("/api/utente/:ID", utentiController.userByID)
+router.get("/utente/:ID", utentiController.userByID)
 
 export default router

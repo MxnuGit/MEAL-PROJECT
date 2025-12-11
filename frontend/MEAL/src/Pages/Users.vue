@@ -18,8 +18,6 @@
                     .then(response => this.utenti = response.data)
                 }
             }
-        },
-        mounted() {
         }
     })
 </script>
@@ -37,8 +35,8 @@
     </form>
 
     <ul v-if="utenti.length > 0">
-        <li v-for="utente in utenti">
-            <img :src="utente.immagine" alt="immagine utente">
+        <li v-for="utente in utenti" :key="utente.ID">
+            <img :src="utente.immagine" alt="">
             {{ utente.ID }}
         </li>
     </ul>
