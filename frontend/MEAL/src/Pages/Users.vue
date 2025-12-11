@@ -11,7 +11,7 @@
             }
         },
         methods: {
-            getUserName() {
+            userByID() {
                 if(this.searchId == "") return;
                 else{
                     axios.get("/api/utente/" + this.searchId)
@@ -20,13 +20,12 @@
             }
         },
         mounted() {
-            this.getUserName();
         }
     })
 </script>
 
 <template>
-    <form @submit.prevent="getUserName">
+    <form @submit.prevent="userByID">
         <input type="text"
                v-model="searchId"
                placeholder="Cerca un utente"
