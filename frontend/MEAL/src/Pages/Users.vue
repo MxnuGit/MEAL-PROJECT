@@ -1,12 +1,12 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import axios from 'axios'
-    import type { Utente } from '../types';
+    import type { User } from '../types';
     
     export default defineComponent({
         data() {
             return {
-              utenti: [] as Utente[],
+              users: [] as User[],
               searchId: ""
             }
         },
@@ -15,7 +15,7 @@
                 if(this.searchId == "") return;
                 else{
                     axios.get("/api/utente/" + this.searchId)
-                    .then(response => this.utenti = response.data)
+                    .then(response => this.users = response.data)
                 }
             }
         }
@@ -34,10 +34,9 @@
         <button type="submit">Cerca</button>
     </form>
 
-    <ul v-if="utenti.length > 0">
-        <li v-for="utente in utenti" :key="utente.ID">
-            <img :src="utente.immagine" alt="">
-            {{ utente.ID }}
+    <ul v-if="users.length > 0">
+        <li v-for="user in users" :key="user.username">
+            {{ user.username }}
         </li>
     </ul>
 </template>

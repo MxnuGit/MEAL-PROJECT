@@ -1,25 +1,22 @@
-export interface Ricetta {
-    titolo: string,
-    ingredienti: string[],
-    immagine: string,
-    creatore: string,
-    descrizione: string,
-    difficolta: string,
-    tempoPrep: number,
-    portata: string
+export interface Recipe {
+    name: string,
+    ingredients: string[],
+    author: string,
+    description: string,
+    difficulty: string,
+    prep_time: number,
+    course: string
 }
 
-export interface Utente {
-    ID: string
-    immagine: string
+export interface User {
+    username: string
 }
 
-export interface Ingrediente {
-    nome: string
-    ID: string
+export interface Ingredient {
+    name: string
 }
 
-export interface Preparazioni {
-    step: number
-    passaggio: string
+export interface Preparation {
+    step_number: number
+    step_desc: string
 }
