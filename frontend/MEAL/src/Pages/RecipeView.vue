@@ -23,7 +23,7 @@
             },
 
             getStepsByRecipe: function(){
-                axios.get("/api/recipe/"+ this.$route.params.nomericetta + "/passaggi/")
+                axios.get("/api/recipe/"+ this.$route.params.nomericetta + "/steps/")
                     .then(response => this.preparations = response.data)
             }
         },

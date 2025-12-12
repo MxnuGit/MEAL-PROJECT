@@ -3,6 +3,6 @@ import * as ricetteController from "../controller/recipesController"
 
 const router: Router = Router()
 
-router.get("/api/ricette", ricetteController.allRecipes)
+router.get("/api/recipe", ricetteController.allRecipes)
 
 export default router

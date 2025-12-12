@@ -14,7 +14,7 @@
             userByID() {
                 if(this.searchId == "") return;
                 else{
-                    axios.get("/api/utente/" + this.searchId)
+                    axios.get("/api/user/" + this.searchId)
                     .then(response => this.users = response.data)
                 }
             }
