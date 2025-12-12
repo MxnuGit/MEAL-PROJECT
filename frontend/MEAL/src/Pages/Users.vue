@@ -36,8 +36,8 @@
 
     <ul v-if="utenti.length > 0">
         <li v-for="utente in utenti" :key="utente.ID">
-            <img :src="utente.immagine" alt="">
-            {{ utente.ID }}
+                <img :src="utente.immagine" alt="">
+                <p>{{ utente.ID }}</p> 
         </li>
     </ul>
 </template>

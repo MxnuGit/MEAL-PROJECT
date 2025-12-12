@@ -1,10 +1,18 @@
 import express, { Express } from "express"
 import ricetteRouter from "./routes/recipesRouter"
 import usersRouter from "./routes/userRouter"
+import bodyParser from "body-parser"
+import cookieParser from "cookie-parser"
+
+import authRouter from "./routes/authRouter"
 
 const app: Express = express()
 const port: number = 3000
 
+app.use(bodyParser.json())
+app.use(cookieParser())
+
+app.use(authRouter)
 app.use(ricetteRouter)
 app.use("/api", usersRouter)
 
