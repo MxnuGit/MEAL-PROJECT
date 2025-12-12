@@ -1,21 +1,22 @@
 <template>
-  <div>
-    <input
-      v-model="searchTerm"
-      type="text"
-      placeholder="Cerca..."
-    />
-  </div>
+  <input
+    v-model="q"
+    :placeholder="placeholder"
+    @input="onInput"
+  />
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from "vue"
 
-const searchTerm = ref('')
-
-watch(searchTerm, (newVal, oldVal) => {
-  if (newVal.length > oldVal.length) {
-    console.log('Contenuto input:', newVal)
-  }
+const props = defineProps({
+  placeholder: { type: String, default: "Cerca..." },
+  onSearch: { type: Function, required: true },
 })
+
+const q = ref("")
+
+function onInput() {
+  props.onSearch(q.value)
+}
 </script>
