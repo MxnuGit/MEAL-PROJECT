@@ -1,11 +1,11 @@
 import express, { Express } from "express"
-import ricetteRouter from "./routes/recipesRouter"
+import recipesRouter from "./routes/recipesRouter"
 import usersRouter from "./routes/usersRouter"
 
 const app: Express = express()
 const port: number = 3000
 
-app.use("/api", ricetteRouter)
+app.use("/api", recipesRouter)
 app.use("/api", usersRouter)
 
 app.use(express.static('dist'))
