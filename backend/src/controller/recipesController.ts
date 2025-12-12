@@ -3,7 +3,7 @@ import { connection } from "../utils/db"
 
 export async function allRecipes(req: Request, res: Response){
     connection.execute(
-        'SELECT * FROM ricetta',
+        'SELECT * FROM recipes',
         [],
         function(err, results, fields){
             res.json(results)

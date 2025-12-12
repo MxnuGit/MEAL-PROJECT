@@ -1,18 +1,18 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import axios from "axios";
-    import type { Utente } from "../types";
+    import type { User } from "../types";
 
     export default defineComponent({
         data(){
             return{
-                utente: null as Utente | null
+                users: null as User | null
             }
         },
         methods:{
             getUserName() {
-                axios.get("/api/utente/" + this.$route.params.ID)
-                .then(response => this.utente = response.data)
+                axios.get("/api/utente/" + this.$route.params.username)
+                .then(response => this.users = response.data)
             }
         },
         mounted() {
@@ -25,7 +25,7 @@
     <div>
         <section>
             <img />
-            <h2 v-if="utente">{{ utente.ID }}</h2>
+            <h2 v-if="users">{{ users.username }}</h2>
         </section>
         <section class="myRecipes">
 
