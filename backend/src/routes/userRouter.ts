@@ -1,8 +1,8 @@
 import { Router } from "express"
-import * as utentiController from "../controller/userController"
+import * as userController from "../controller/userController"
 
 const router: Router = Router()
 
-router.get("/utente/:username", utentiController.userByID)
+router.get("/user/:username", userController.userByID)
 
 export default router
