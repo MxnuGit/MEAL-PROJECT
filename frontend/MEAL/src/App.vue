@@ -50,7 +50,7 @@
     <section>
       <ul>
         <li>
-          <router-link to="/CreareRecipe">
+          <router-link to="/CreateRecipe">
             <p>Crea Ricetta</p>
           </router-link>
         </li>
