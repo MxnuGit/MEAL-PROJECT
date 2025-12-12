@@ -39,7 +39,7 @@
                     <h4>Quantità</h4>
                     <input type="text">
                 </section>
-                <section id="unitMisure">
+                <section id="unitMisure"> 
                     <h4>Unità di misura</h4>
                     <input type="text">
                 </section>
