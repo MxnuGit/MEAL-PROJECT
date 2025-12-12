@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 export interface User {
-    id: number
     username: string
     role: "admin" | "user"
 }

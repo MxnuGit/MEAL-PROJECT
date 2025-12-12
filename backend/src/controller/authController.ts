@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { getUser, setUser, unsetUser, User } from "../utils/auth"
-import { connection } from "../utils/db"
+import { getUser, setUser, unsetUser, User } from "../utils/auth.js"
+import { connection } from "../utils/db.js"
 import bcrypt from "bcrypt"
 
 export const register = async (req: Request, res: Response) => {
