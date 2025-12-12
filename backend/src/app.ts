@@ -1,6 +1,6 @@
 import express, { Express } from "express"
 import ricetteRouter from "./routes/recipesRouter"
-import usersRouter from "./routes/userRouter"
+import usersRouter from "./routes/usersRouter"
 
 const app: Express = express()
 const port: number = 3000
