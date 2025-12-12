@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Dic 07, 2025 alle 18:05
+-- Creato il: Dic 12, 2025 alle 15:46
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.0.30
 
@@ -24,73 +24,74 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `accetta`
+-- Struttura della tabella `accepts`
 --
 
-CREATE TABLE `accetta` (
-  `RICETTA_IDRicetta` int(11) NOT NULL,
-  `TAG_nomeTag` varchar(255) NOT NULL
+CREATE TABLE `accepts` (
+  `RECIPES_recipe_id` int(11) NOT NULL,
+  `TAG_tag_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `ha`
+-- Struttura della tabella `has`
 --
 
-CREATE TABLE `ha` (
-  `RICETTA_IDRicetta` int(11) NOT NULL,
-  `INGREDIENTI_nome` varchar(255) NOT NULL,
-  `quantita` int(11) DEFAULT NULL
+CREATE TABLE `has` (
+  `RECIPES_recipe_id` int(11) NOT NULL,
+  `INGREDIENTS_name` varchar(255) NOT NULL,
+  `quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `ingredienti`
+-- Struttura della tabella `ingredients`
 --
 
-CREATE TABLE `ingredienti` (
-  `nome` varchar(255) NOT NULL
+CREATE TABLE `ingredients` (
+  `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `misurato_in_`
+-- Struttura della tabella `measured_in`
 --
 
-CREATE TABLE `misurato_in_` (
-  `INGREDIENTI_nome` varchar(255) NOT NULL,
-  `UNITA_DI_MISURA_MISURA` varchar(255) NOT NULL
+CREATE TABLE `measured_in` (
+  `INGREDIENTS_name` varchar(255) NOT NULL,
+  `UNIT_OF_MEASUREMENT_measurement` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `preparazioni`
+-- Struttura della tabella `preparations`
 --
 
-CREATE TABLE `preparazioni` (
-  `RICETTA_IDRicetta` int(11) NOT NULL,
-  `STEP` varchar(255) NOT NULL,
-  `passaggio` longtext NOT NULL
+CREATE TABLE `preparations` (
+  `RECIPES_recipe_id` int(11) NOT NULL,
+  `step_number` varchar(255) NOT NULL,
+  `step_desc` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `ricetta`
+-- Struttura della tabella `recipes`
 --
 
-CREATE TABLE `ricetta` (
-  `IDRicetta` int(11) NOT NULL,
-  `NOME` varchar(255) NOT NULL,
-  `tempoPrep` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `difficolta` varchar(255) NOT NULL,
-  `portata` varchar(255) NOT NULL,
-  `descrizione` longtext DEFAULT NULL,
-  `UTENTE_ID` varchar(255) NOT NULL
+CREATE TABLE `recipes` (
+  `recipe_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `prep_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `difficulty` varchar(255) NOT NULL,
+  `description` longtext NOT NULL,
+  `course` varchar(255) NOT NULL,
+  `recipe_image` mediumblob NOT NULL,
+  `USERS_username` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -100,30 +101,30 @@ CREATE TABLE `ricetta` (
 --
 
 CREATE TABLE `tag` (
-  `nomeTag` varchar(255) NOT NULL
+  `tag_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `unita_di_misura`
+-- Struttura della tabella `unit_of_measurement`
 --
 
-CREATE TABLE `unita_di_misura` (
-  `MISURA` varchar(255) NOT NULL
+CREATE TABLE `unit_of_measurement` (
+  `measurement` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `utente`
+-- Struttura della tabella `users`
 --
 
-CREATE TABLE `utente` (
-  `ID` varchar(255) NOT NULL,
+CREATE TABLE `users` (
+  `username` varchar(255) NOT NULL,
   `password` char(60) NOT NULL,
-  `nRicette` int(11) NOT NULL,
-  `ruolo` varchar(255) NOT NULL
+  `role` varchar(255) NOT NULL,
+  `profile_picture` mediumblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -131,109 +132,109 @@ CREATE TABLE `utente` (
 --
 
 --
--- Indici per le tabelle `accetta`
+-- Indici per le tabelle `accepts`
 --
-ALTER TABLE `accetta`
-  ADD PRIMARY KEY (`RICETTA_IDRicetta`,`TAG_nomeTag`),
-  ADD KEY `TAG_nomeTag` (`TAG_nomeTag`);
+ALTER TABLE `accepts`
+  ADD PRIMARY KEY (`RECIPES_recipe_id`,`TAG_tag_name`),
+  ADD KEY `TAG_tag_name` (`TAG_tag_name`);
 
 --
--- Indici per le tabelle `ha`
+-- Indici per le tabelle `has`
 --
-ALTER TABLE `ha`
-  ADD PRIMARY KEY (`RICETTA_IDRicetta`,`INGREDIENTI_nome`),
-  ADD KEY `INGREDIENTI_nome` (`INGREDIENTI_nome`);
+ALTER TABLE `has`
+  ADD PRIMARY KEY (`RECIPES_recipe_id`,`INGREDIENTS_name`),
+  ADD KEY `INGREDIENTS_name` (`INGREDIENTS_name`);
 
 --
--- Indici per le tabelle `ingredienti`
+-- Indici per le tabelle `ingredients`
 --
-ALTER TABLE `ingredienti`
-  ADD PRIMARY KEY (`nome`);
+ALTER TABLE `ingredients`
+  ADD PRIMARY KEY (`name`);
 
 --
--- Indici per le tabelle `misurato_in_`
+-- Indici per le tabelle `measured_in`
 --
-ALTER TABLE `misurato_in_`
-  ADD PRIMARY KEY (`INGREDIENTI_nome`,`UNITA_DI_MISURA_MISURA`),
-  ADD KEY `UNITA_DI_MISURA_MISURA` (`UNITA_DI_MISURA_MISURA`);
+ALTER TABLE `measured_in`
+  ADD PRIMARY KEY (`INGREDIENTS_name`,`UNIT_OF_MEASUREMENT_measurement`),
+  ADD KEY `UNIT_OF_MEASUREMENT_measurement` (`UNIT_OF_MEASUREMENT_measurement`);
 
 --
--- Indici per le tabelle `preparazioni`
+-- Indici per le tabelle `preparations`
 --
-ALTER TABLE `preparazioni`
-  ADD PRIMARY KEY (`RICETTA_IDRicetta`,`STEP`);
+ALTER TABLE `preparations`
+  ADD PRIMARY KEY (`RECIPES_recipe_id`,`step_number`);
 
 --
--- Indici per le tabelle `ricetta`
+-- Indici per le tabelle `recipes`
 --
-ALTER TABLE `ricetta`
-  ADD PRIMARY KEY (`IDRicetta`),
-  ADD KEY `UTENTE_ID` (`UTENTE_ID`);
+ALTER TABLE `recipes`
+  ADD PRIMARY KEY (`recipe_id`),
+  ADD KEY `USERS_username` (`USERS_username`);
 
 --
 -- Indici per le tabelle `tag`
 --
 ALTER TABLE `tag`
-  ADD PRIMARY KEY (`nomeTag`);
+  ADD PRIMARY KEY (`tag_name`);
 
 --
--- Indici per le tabelle `unita_di_misura`
+-- Indici per le tabelle `unit_of_measurement`
 --
-ALTER TABLE `unita_di_misura`
-  ADD PRIMARY KEY (`MISURA`);
+ALTER TABLE `unit_of_measurement`
+  ADD PRIMARY KEY (`measurement`);
 
 --
--- Indici per le tabelle `utente`
+-- Indici per le tabelle `users`
 --
-ALTER TABLE `utente`
-  ADD PRIMARY KEY (`ID`);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`username`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
 --
 
 --
--- AUTO_INCREMENT per la tabella `ricetta`
+-- AUTO_INCREMENT per la tabella `recipes`
 --
-ALTER TABLE `ricetta`
-  MODIFY `IDRicetta` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `recipes`
+  MODIFY `recipe_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Limiti per le tabelle scaricate
 --
 
 --
--- Limiti per la tabella `accetta`
+-- Limiti per la tabella `accepts`
 --
-ALTER TABLE `accetta`
-  ADD CONSTRAINT `accetta_ibfk_1` FOREIGN KEY (`RICETTA_IDRicetta`) REFERENCES `ricetta` (`IDRicetta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `accetta_ibfk_2` FOREIGN KEY (`TAG_nomeTag`) REFERENCES `tag` (`nomeTag`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `accepts`
+  ADD CONSTRAINT `accepts_ibfk_1` FOREIGN KEY (`RECIPES_recipe_id`) REFERENCES `recipes` (`recipe_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `accepts_ibfk_2` FOREIGN KEY (`TAG_tag_name`) REFERENCES `tag` (`tag_name`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Limiti per la tabella `ha`
+-- Limiti per la tabella `has`
 --
-ALTER TABLE `ha`
-  ADD CONSTRAINT `ha_ibfk_1` FOREIGN KEY (`RICETTA_IDRicetta`) REFERENCES `ricetta` (`IDRicetta`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `ha_ibfk_2` FOREIGN KEY (`INGREDIENTI_nome`) REFERENCES `ingredienti` (`nome`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `has`
+  ADD CONSTRAINT `has_ibfk_1` FOREIGN KEY (`RECIPES_recipe_id`) REFERENCES `recipes` (`recipe_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `has_ibfk_2` FOREIGN KEY (`INGREDIENTS_name`) REFERENCES `ingredients` (`name`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Limiti per la tabella `misurato_in_`
+-- Limiti per la tabella `measured_in`
 --
-ALTER TABLE `misurato_in_`
-  ADD CONSTRAINT `misurato_in__ibfk_1` FOREIGN KEY (`INGREDIENTI_nome`) REFERENCES `ingredienti` (`nome`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `misurato_in__ibfk_2` FOREIGN KEY (`UNITA_DI_MISURA_MISURA`) REFERENCES `unita_di_misura` (`MISURA`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `measured_in`
+  ADD CONSTRAINT `measured_in_ibfk_1` FOREIGN KEY (`INGREDIENTS_name`) REFERENCES `ingredients` (`name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `measured_in_ibfk_2` FOREIGN KEY (`UNIT_OF_MEASUREMENT_measurement`) REFERENCES `unit_of_measurement` (`measurement`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Limiti per la tabella `preparazioni`
+-- Limiti per la tabella `preparations`
 --
-ALTER TABLE `preparazioni`
-  ADD CONSTRAINT `preparazioni_ibfk_1` FOREIGN KEY (`RICETTA_IDRicetta`) REFERENCES `ricetta` (`IDRicetta`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `preparations`
+  ADD CONSTRAINT `preparations_ibfk_1` FOREIGN KEY (`RECIPES_recipe_id`) REFERENCES `recipes` (`recipe_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Limiti per la tabella `ricetta`
+-- Limiti per la tabella `recipes`
 --
-ALTER TABLE `ricetta`
-  ADD CONSTRAINT `ricetta_ibfk_1` FOREIGN KEY (`UTENTE_ID`) REFERENCES `utente` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `recipes`
+  ADD CONSTRAINT `recipes_ibfk_1` FOREIGN KEY (`USERS_username`) REFERENCES `users` (`username`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
