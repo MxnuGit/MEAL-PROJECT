@@ -19,7 +19,7 @@ const router: Router = createRouter({
     { path: "/PersonalArea", component: PersonalArea },
     { path: "/RecipeView", component: RecipeView },
     { path: "/Login", component: Login },
-    { path: "/CreareRecipe", component: CreateRecipe },
+    { path: "/CreateRecipe", component: CreateRecipe },
     { path: "/:pathMatch(.*)*", component: NotFound }
   ]
 })
