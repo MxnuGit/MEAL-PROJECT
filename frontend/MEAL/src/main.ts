@@ -9,6 +9,7 @@ import PersonalArea from "./Pages/PersonalArea.vue"
 import RecipeView from "./Pages/RecipeView.vue"
 import NotFound from "./Pages/NotFound.vue"
 import Login from "./Pages/Login.vue"
+import CreateRecipe from "./Pages/CreateRecipe.vue"
 
 const router: Router = createRouter({
   history: createWebHistory(),
@@ -18,6 +19,7 @@ const router: Router = createRouter({
     { path: "/PersonalArea", component: PersonalArea },
     { path: "/RecipeView", component: RecipeView },
     { path: "/Login", component: Login },
+    { path: "/CreareRecipe", component: CreateRecipe },
     { path: "/:pathMatch(.*)*", component: NotFound }
   ]
 })

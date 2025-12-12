@@ -47,6 +47,15 @@
         </li>
       </ul>
     </section>
+    <section>
+      <ul>
+        <li>
+          <router-link to="/CreareRecipe">
+            <p>Crea Ricetta</p>
+          </router-link>
+        </li>
+      </ul>
+    </section>
   </aside>
   <main>
     <router-view />
