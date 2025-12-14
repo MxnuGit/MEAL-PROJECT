@@ -20,7 +20,7 @@ export const userByID = async (req: Request, res: Response) => {
 
     const [rows] = await connection.execute<RowDataPacket[]>(
         "SELECT username FROM users WHERE username=?",
-        [req.params.ID]
+        [req.params.username]
     )
 
     const user = rows[0];

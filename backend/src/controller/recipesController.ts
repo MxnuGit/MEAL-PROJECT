@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { connection } from "../utils/db"
+import { connection } from "../utils/db.js"
 
 // export async function allRecipes(req: Request, res: Response){
 //     connection.execute(
