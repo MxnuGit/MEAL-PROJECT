@@ -14,11 +14,11 @@
             <ul>
                 <li>
                     <img />
-                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente">
+                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" required>
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="password" name="password" placeholder="Inserisci la Password">
+                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" required>
                 </li>
             </ul>
             <input type="submit" value="Submit">
@@ -29,15 +29,15 @@
             <ul>
                 <li>
                     <img />
-                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente">
+                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" required>
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="password" name="password" placeholder="Inserisci la Password"> 
+                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" required> 
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password"> 
+                    <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" required> 
                 </li>
             </ul>
             <input type="submit" value="Submit">
