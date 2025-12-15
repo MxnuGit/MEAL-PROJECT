@@ -4,7 +4,7 @@
 
 <template>
   <aside>
-    <section>
+    <section id="imgSec">
       <router-link to="/">
         <img src="./assets/logo.png" alt="home" />
       </router-link>
