@@ -1,11 +1,19 @@
 import express, { Express } from "express"
-import recipesRouter from "./routes/recipesRouter"
+import ricetteRouter from "./routes/recipesRouter"
 import usersRouter from "./routes/usersRouter"
+import bodyParser from "body-parser"
+import cookieParser from "cookie-parser"
+
+import authRouter from "./routes/authRouter"
 
 const app: Express = express()
 const port: number = 3000
 
-app.use(recipesRouter)
+app.use(bodyParser.json())
+app.use(cookieParser())
+
+app.use(authRouter)
+app.use(ricetteRouter)
 app.use(usersRouter)
 
 app.use(express.static('dist'))
@@ -17,5 +25,5 @@ app.use(function(req, res, next) {
 })
 
 app.listen(port, function() {
-  console.log(`In ascolto su http://localhost:${port}`)
+  console.log("In ascolto su http://localhost:${port});
 })
