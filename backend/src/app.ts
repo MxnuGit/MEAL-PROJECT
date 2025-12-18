@@ -5,8 +5,8 @@ import usersRouter from "./routes/usersRouter"
 const app: Express = express()
 const port: number = 3000
 
-app.use("/api", recipesRouter)
-app.use("/api", usersRouter)
+app.use(recipesRouter)
+app.use(usersRouter)
 
 app.use(express.static('dist'))
 app.use(express.static("public"))

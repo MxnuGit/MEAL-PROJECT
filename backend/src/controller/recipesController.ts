@@ -10,3 +10,13 @@ export async function recipeByName(req: Request, res: Response){
         }
     )
 }
+
+export async function createRecipe(req: Request, res: Response){
+    connection.execute(
+        '',
+        [],
+        function(err, results, fields){
+            res.json(results)
+        }
+    )
+}
