@@ -10,34 +10,34 @@
         </header>
 
         <!-- LOGIN -->
-        <form v-if="activeForm === 'login'" class="Login">
+        <form v-if="activeForm === 'login'" class="Login" @submit.prevent="handleLogin">
             <ul>
                 <li>
                     <img />
-                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" required>
+                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" v-model="login.username" required>
                 </li>
                 <li>
                     <img />
-                    <input type="password" id="password" name="password" placeholder="Inserisci la Password" required>
+                    <input type="password" id="password" name="password" placeholder="Inserisci la Password" v-model="login.password" required>
                 </li>
             </ul>
             <input type="submit" value="Submit">
         </form>
 
         <!-- SIGN UP -->
-        <form v-if="activeForm === 'signup'" class="SignUp">
+        <form v-if="activeForm === 'signup'" class="SignUp" @submit.prevent="handleSignUp">
             <ul>
                 <li>
                     <img />
-                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" v-model="username" required>
+                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" v-model="signup.username" required>
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" v-model="password" required> 
+                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" v-model="signup.password" required> 
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="confPassword" required> 
+                    <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="signup.confPassword" required> 
                 </li>
             </ul>
             <input type="submit" value="Submit">
@@ -47,33 +47,86 @@
 
 
 <script lang="ts">
-export default {
-  data() {
-    return {
-      activeForm: "login" as "login" | "signup",
-      username: "",
-      password: "",
-      confPassword: "",
+  import axios from 'axios'
 
-    };
-  },
-};
-</script>
+  export default {
+    data() {
+      return {
+        activeForm: "login" as "login" | "signup",
+        signup: {
+          username: "",
+          password: "",
+          confPassword: ""
+        },
+        login: {
+          username: "",
+          password: ""
+        }
+      };
+    },
+    methods: {
+      async handleSignUp() {
+        if(this.signup.password != this.signup.confPassword){
+          console.log("Le password non combaciano...");
+          return;
+        }
 
-<style>
-h1 {
-  cursor: pointer;
-  opacity: 0.5;
-}
+        try {
+          const res = await axios.post("/api/auth/register", {
+            username: this.signup.username,
+            password: this.signup.password
+          });
 
-h1.active {
-  opacity: 1;
-  text-decoration: underline;
-}
+          console.log("Risposta backend:", res.data);
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+          if (res.data.success) {
+            console.log("Registrazione completata!");
+          } else {
+            console.log("Errore: " + res.data.message);
+          }
+        } catch (err) {
+          console.error(err);
+          console.log("Errore di connessione al server");
+        }
+      },
+
+      async handleLogin() {
+        try {
+          const res = await axios.post("/api/auth/login", {
+            username: this.login.username,
+            password: this.login.password
+          });
+
+          console.log("Risposta backend:", res.data);
+
+          if (res.data.success) {
+            console.log("Login effettuato!");
+          } else {
+            console.log("Credenziali non valide");
+          }
+        } catch (err) {
+          console.error(err);
+          console.log("Errore di connessione al server");
+        }
+      }
+    }
+  };
+  </script>
+
+  <style>
+  h1 {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  h1.active {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 </style>
