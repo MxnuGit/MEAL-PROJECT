@@ -29,15 +29,15 @@
             <ul>
                 <li>
                     <img />
-                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" required>
+                    <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" v-model="username" required>
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" required> 
+                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" v-model="password" required> 
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" required> 
+                    <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="confPassword" required> 
                 </li>
             </ul>
             <input type="submit" value="Submit">
@@ -51,6 +51,10 @@ export default {
   data() {
     return {
       activeForm: "login" as "login" | "signup",
+      username: "",
+      password: "",
+      confPassword: "",
+
     };
   },
 };
