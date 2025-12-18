@@ -98,12 +98,6 @@
           });
 
           console.log("Risposta backend:", res.data);
-
-          if (res.data.success) {
-            console.log("Login effettuato!");
-          } else {
-            console.log("Credenziali non valide");
-          }
         } catch (err) {
           console.error(err);
           console.log("Errore di connessione al server");

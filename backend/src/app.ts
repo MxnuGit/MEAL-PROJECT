@@ -3,7 +3,6 @@ import ricetteRouter from "./routes/recipesRouter"
 import usersRouter from "./routes/usersRouter"
 import bodyParser from "body-parser"
 import cookieParser from "cookie-parser"
-
 import authRouter from "./routes/authRouter"
 
 const app: Express = express()
