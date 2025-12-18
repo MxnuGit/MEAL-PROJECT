@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" required>
+                    <input type="password" id="password" name="password" placeholder="Inserisci la Password" required>
                 </li>
             </ul>
             <input type="submit" value="Submit">
@@ -33,11 +33,11 @@
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" required> 
+                    <input type="password" id="password" name="password" placeholder="Inserisci la Password" required> 
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" required> 
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Conferma Password" required> 
                 </li>
             </ul>
             <input type="submit" value="Submit">
