@@ -20,8 +20,10 @@
                     <img />
                     <input type="password" id="password" name="password" placeholder="Inserisci la Password" v-model="login.password" required>
                 </li>
+                <li>
+                  <input type="submit" value="Submit"></input>
+                </li>
             </ul>
-            <input type="submit" value="Submit">
         </form>
 
         <!-- SIGN UP -->
@@ -39,8 +41,10 @@
                     <img />
                     <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="signup.confPassword" required> 
                 </li>
+                <li>
+                  <input type="submit" value="Submit"></input>
+                </li>
             </ul>
-            <input type="submit" value="Submit">
         </form>
     </div>
 </template>
@@ -113,7 +117,27 @@
   };
   </script>
 
-  <style>
+  <style scoped>  
+  div{
+    background-color: #DCC9A3;
+    border-radius: 10px;
+    border-color: white;
+    border: 2.5px solid white;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  form{
+    display: flex;
+    justify-content: center;
+  }
+  
   h1 {
     cursor: pointer;
     opacity: 0.5;
@@ -128,5 +152,19 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 12px;
+  }
+
+  input {
+    width: 100%;
+    max-width: 240px;
+    padding: 8px;
+    box-sizing: border-box;
+
+    border-radius: 10px;
+    border: 1.5px solid white;
   }
 </style>
