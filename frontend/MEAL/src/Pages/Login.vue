@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <img />
-                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" required>
+                    <input type="password" id="password" name="password" placeholder="Inserisci la Password" required>
                 </li>
             </ul>
             <input type="submit" value="Submit">
