@@ -25,5 +25,5 @@ app.use(function(req, res, next) {
 })
 
 app.listen(port, function() {
-  console.log("In ascolto su http://localhost:${port});
+  console.log(`In ascolto su http://localhost:${port}`);
 })
