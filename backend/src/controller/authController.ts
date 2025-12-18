@@ -74,7 +74,7 @@ export const login = (req: Request, res: Response) => {
   const { username, password } = req.body
 
   connection.execute(
-    "SELECT username, password, role FROM users WHERE username=?",
+    "SELECT username, password FROM users WHERE username=?",
     [username],
     function (err, results: any[]) {
       if (err) {
