@@ -49,7 +49,6 @@
 
 <script setup lang="ts">
 import { ref, watch } from "vue"
-import axios from "axios"
 
 const props = defineProps({
     recipeId: {type: String, required: true},

@@ -1,4 +1,111 @@
-html{
-    background-color: cyan;
-    font-family:'Roboto', sans-serif;;
+#app {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 250px;
+  padding: 28px 22px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(90deg, #ff914d 75%, #ffde59 100%);
+  border-radius: 0 32px 0 0;
+  overflow: hidden;
+}
+
+main {
+  margin-left: 280px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 24px;
+}
+
+#imgSec {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 8px;
+}
+
+#imgSec a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+#imgSec img {
+  width: 210px;
+  height: auto;
+  display: block;
+}
+
+
+aside hr {
+  width: 100%;
+  border: 0;
+  height: 3px;
+  background: #262a52;
+  margin: 12px 0;
+}
+
+aside section {
+  margin-top: 10px;
+}
+
+aside ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+aside li {
+  margin: 0;
+  padding: 0;
+}
+
+aside a {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+aside section ul img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  display: block;
+}
+
+aside a p {
+  margin: 0;
+  color: #262a52;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+@media (max-width: 900px) {
+  aside {
+    width: 240px;
+  }
+  main {
+    margin-left: 240px;
+  }
 }
