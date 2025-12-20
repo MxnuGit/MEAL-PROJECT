@@ -21,7 +21,7 @@
                     <input type="password" id="password" name="password" placeholder="Inserisci la Password" v-model="login.password" required>
                 </li>
                 <li>
-                  <input type="submit" value="Submit"></input>
+                  <input type="submit" value="Submit" id="submit"></input>
                 </li>
             </ul>
         </form>
@@ -42,7 +42,7 @@
                     <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="signup.confPassword" required> 
                 </li>
                 <li>
-                  <input type="submit" value="Submit"></input>
+                  <input type="submit" value="Submit" id="submit"></input>
                 </li>
             </ul>
         </form>
@@ -114,18 +114,26 @@
   <style scoped>  
   div{
     background-color: #DCC9A3;
+
     border-radius: 10px;
     border-color: white;
     border: 2.5px solid white;
+
     display: flex;
     flex-direction: column;
+
+    width: 100%;
+    max-width: 600px;
+
+    margin: 80px auto;
+    padding: 10px;
   }
 
   header{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 10px;
+    gap: 50px;
   }
 
   form{
@@ -140,7 +148,7 @@
 
   h1.active {
     opacity: 1;
-    text-decoration: underline;
+    border-bottom: solid black;
   }
 
   ul {
@@ -156,10 +164,25 @@
   input {
     width: 100%;
     max-width: 240px;
+    
     padding: 8px;
     box-sizing: border-box;
 
     border-radius: 10px;
     border: 1.5px solid white;
+
+    font-weight: bold;
+  }
+
+  #submit{
+    background-color: #1D2B65;
+    border: 1.5px solid #1D2B65;
+    color: white;
+  }
+
+  #submit:hover{
+    background-color: white;
+    border: 1.5px solid white;
+    color: #1D2B65;
   }
 </style>
