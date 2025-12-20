@@ -21,7 +21,7 @@
                     <input type="password" id="password" name="password" placeholder="Inserisci la Password" v-model="login.password" required>
                 </li>
                 <li>
-                  <input type="submit" value="Submit"></input>
+                  <input type="submit" value="Submit" id="submit"></input>
                 </li>
             </ul>
         </form>
@@ -42,7 +42,7 @@
                     <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="signup.confPassword" required> 
                 </li>
                 <li>
-                  <input type="submit" value="Submit"></input>
+                  <input type="submit" value="Submit" id="submit"></input>
                 </li>
             </ul>
         </form>
@@ -123,7 +123,8 @@
     flex-direction: column;
 
     width: 100%;
-    max-width: 420px;
+    max-width: 600px;
+
     margin: 80px auto;
     padding: 10px;
   }
@@ -163,10 +164,25 @@
   input {
     width: 100%;
     max-width: 240px;
+    
     padding: 8px;
     box-sizing: border-box;
 
     border-radius: 10px;
     border: 1.5px solid white;
+
+    font-weight: bold;
+  }
+
+  #submit{
+    background-color: #1D2B65;
+    border: 1.5px solid #1D2B65;
+    color: white;
+  }
+
+  #submit:hover{
+    background-color: white;
+    border: 1.5px solid white;
+    color: #1D2B65;
   }
 </style>
