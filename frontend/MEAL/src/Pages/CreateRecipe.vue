@@ -65,7 +65,7 @@
             </div>
 
             <!-- Ingredienti -->
-            <div>
+            <div id="secondPart">
                 <section id="ingredients">
                     <h4>Ingredienti</h4>
                     <input type="text" v-model="recipeIngredients" required>
@@ -95,7 +95,7 @@
                 </section>
 
             </div>
-            <div>
+            <div id="tagDiv">
                 <h4>Tag</h4>
 
                 <input type="checkbox" id="vegan" value="vegan" v-model="tags">
@@ -132,7 +132,7 @@
         border-radius: 10px;
         border-color: white;
         border: 2.5px solid white;
-        max-width: 50%;
+        max-width: 60%;
     }
 
     header {
@@ -193,6 +193,44 @@
         border-radius: 6px;
     }
 
+    #secondPart {
+        display: flex;
+        align-items: center;
+    }
+
+    #secondPart section {
+        padding: 10px;
+    }
+
+    #secondPart li {
+        list-style: none;
+    }
+
+    #secondPart section input{
+        width: 120px;
+    }
+
+    #secondPart section:nth-child(1) {
+        margin-left: 60px;
+        padding-left: 0px;
+    }
+
+
+    #addButton button{
+        height: 20px;
+        margin-top: 23px;
+        background-color: greenyellow;
+        border-radius: 5px;
+        border: none;
+    }
+
+    #tagDiv {
+        margin-left: 60px;
+    }
+
+    #vegan, #proteinRich, #glutenFree, #lactoseFree {
+        width: 30px;
+    }
 
 
 </style>
