@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import SearchBar from "../components/SearchBar.vue"
+import Card from "../components/Card.vue"
 
 const results = ref<any[]>([])
 
@@ -12,6 +13,16 @@ async function searchRecipes(q: string) {
 <template>
   <div class="home-page">
     <SearchBar placeholder="Cerca una ricetta..." :onSearch="searchRecipes" />
-    <h1>{{ results }}</h1>
+    <Card
+      recipeId="1"
+      image="../assets/carbonara.jpg"
+      user="Chef Mario"
+      difficul="Facile"
+      time="0:30"
+      title="Spaghetti alla Carbonara"
+      dishType="Primo"
+      people="4 persone"
+      :likes="120"
+    />
   </div>
 </template>
