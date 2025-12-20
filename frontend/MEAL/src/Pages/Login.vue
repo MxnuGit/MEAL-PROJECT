@@ -125,14 +125,14 @@
     width: 100%;
     max-width: 420px;
     margin: 80px auto;
-    padding: 24px;
+    padding: 10px;
   }
 
   header{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 10px;
+    gap: 50px;
   }
 
   form{
@@ -147,7 +147,7 @@
 
   h1.active {
     opacity: 1;
-    text-decoration: underline;
+    border-bottom: solid black;
   }
 
   ul {
