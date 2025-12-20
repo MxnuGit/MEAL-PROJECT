@@ -41,12 +41,13 @@
         <hr>
         <form @submit.prevent="">
             <!-- Nome Ricetta -->
-            <label for="recipeName">Nome della Ricetta</label>
-            <input type="text" id="recipeName" v-model="recipeName" required>
+             <section id="nameField">
+                <label for="recipeName">Nome della Ricetta</label>
+                <input type="text" id="recipeName" v-model="recipeName" required>
+             </section>
 
             <!-- Difficoltà & Tempo -->
-            <div>
-
+            <div id="firstPart">
                 <section id="difficulty">
                     <h4>Difficoltà</h4>
                     <select name="difficulty" v-model="difficulty">
@@ -65,7 +66,6 @@
 
             <!-- Ingredienti -->
             <div>
-
                 <section id="ingredients">
                     <h4>Ingredienti</h4>
                     <input type="text" v-model="recipeIngredients" required>
@@ -125,3 +125,74 @@
         </form>
     </div>
 </template>
+
+<style scoped> 
+    #container{
+        background-color: #DCC9A3;
+        border-radius: 10px;
+        border-color: white;
+        border: 2.5px solid white;
+        max-width: 50%;
+    }
+
+    header {
+        display: flex;
+        justify-content: center;
+    }
+
+    header h1 {
+        font-weight: bold;
+        color: #262a52;
+        margin-top: 12px;
+        margin-bottom: 10px;
+    }
+
+    hr{
+        width: 95%;
+        background-color: #262a52;
+        height: 3px;
+    }
+
+    #nameField {
+        display: flex;
+        flex-direction: column;
+        margin-left: 60px;
+    }
+
+    #nameField label, h4 {
+        color: #262a52;
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+    
+    input {
+        color: #262a52;
+        width: 200px;
+        border-radius: 6px;
+        height: 25px;
+    }
+
+    #firstPart {
+        display: flex;
+        flex-direction: row;
+    }
+
+    #firstPart #difficulty{
+        margin-left: 60px;
+        margin-right: 80px;
+    }
+
+    #firstPart #difficulty h4 {
+        color: #262a52;
+        font-weight: bold;
+    }
+
+    #firstPart #difficulty select {
+        width: 100px;
+        height: 30px;
+        border-radius: 6px;
+    }
+
+
+
+</style>
