@@ -114,11 +114,18 @@
   <style scoped>  
   div{
     background-color: #DCC9A3;
+
     border-radius: 10px;
     border-color: white;
     border: 2.5px solid white;
+
     display: flex;
     flex-direction: column;
+
+    width: 100%;
+    max-width: 420px;
+    margin: 80px auto;
+    padding: 24px;
   }
 
   header{
