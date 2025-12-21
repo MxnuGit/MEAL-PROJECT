@@ -23,9 +23,31 @@
 
 <template>
     <div>
-        <section>
-            <img />
-            <h2 v-if="user">{{ user.username }}</h2>
+        <img src="../assets/lock.png" />
+        <section class="">
+            <h1>User Name</h1>
+            <ul>
+                <li>
+                    Like
+                </li>
+                <li>
+                    Follower
+                </li>
+                <li>
+                    Seguiti
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    1
+                </li>
+                <li>
+                    1
+                </li>
+                <li>
+                    1
+                </li>
+            </ul>
         </section>
         <section class="myRecipes">
 
@@ -35,3 +57,9 @@
         </section>
     </div>
 </template>
+
+<style scoped>
+    div{
+        background-color: #DCC9A3;
+    }
+</style>
