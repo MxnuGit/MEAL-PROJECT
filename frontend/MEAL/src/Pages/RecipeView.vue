@@ -104,8 +104,6 @@
         justify-content: center;
     }
 
-
-
     #tagView {
         display: flex;
         flex-direction: column;
