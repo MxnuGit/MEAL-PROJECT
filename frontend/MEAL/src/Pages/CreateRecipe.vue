@@ -263,5 +263,16 @@
         width: 30px;
     }
 
+    #description {
+        margin-left: 60px;
+    }
+
+    #descriptionText {
+        width: 80%;
+        height: 50px;
+        resize: none;
+        border-radius: 6px;
+        border-color: black;
+    }
 
 </style>
