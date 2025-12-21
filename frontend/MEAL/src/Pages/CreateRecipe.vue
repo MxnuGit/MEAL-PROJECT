@@ -118,7 +118,7 @@
                 </section>
 
                 <section id="unitMisure"> <!-- da fare poi la query -->
-                    <h4>Unità di misura</h4>
+                    <h4>Unità</h4>
                     <input type="text" v-model="unitInput" required>
                     <ol>
                         <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.unit }}</li>
@@ -164,10 +164,13 @@
 <style scoped> 
     #container{
         background-color: #DCC9A3;
-        border-radius: 10px;
+        border-radius: 20px;
         border-color: white;
         border: 2.5px solid white;
-        max-width: 60%;
+        width: 100%;
+        max-width: 800px;
+        margin: 80px auto;
+        padding: 10px;
     }
 
     header {
@@ -178,7 +181,7 @@
     header h1 {
         font-weight: bold;
         color: #262a52;
-        margin-top: 12px;
+        margin-top: 5%;
         margin-bottom: 10px;
     }
 
@@ -191,7 +194,8 @@
     #nameField {
         display: flex;
         flex-direction: column;
-        margin-left: 60px;
+        margin-left: 10%;
+        margin-right: 10%;
     }
 
     #nameField label, h4 {
@@ -202,7 +206,7 @@
     
     input {
         color: #262a52;
-        width: 200px;
+        width: 100%;
         border-radius: 6px;
         height: 25px;
     }
@@ -213,8 +217,8 @@
     }
 
     #firstPart #difficulty{
-        margin-left: 60px;
-        margin-right: 80px;
+        margin-left: 10%;
+        margin-right: 10%;
     }
 
     #firstPart #difficulty h4 {
@@ -223,7 +227,7 @@
     }
 
     #firstPart #difficulty select {
-        width: 100px;
+        width: 100%;
         height: 30px;
         border-radius: 6px;
     }
@@ -238,14 +242,13 @@
     }
 
     #secondPart section input{
-        width: 120px;
+        width: 100%;
     }
 
     #secondPart section:nth-child(1) {
-        margin-left: 60px;
+        margin-left: 10%;
         padding-left: 0px;
     }
-
 
     #addButton button{
         height: 20px;
@@ -256,7 +259,8 @@
     }
 
     #tagDiv {
-        margin-left: 60px;
+        margin-left: 10%;
+        margin-right: 10%;
     }
 
     #vegan, #proteinRich, #glutenFree, #lactoseFree {
@@ -264,11 +268,12 @@
     }
 
     #description {
-        margin-left: 60px;
+        margin-left: 10%;
+        margin-right: 10%;
     }
 
     #descriptionText {
-        width: 80%;
+        width: 100%;
         height: 50px;
         resize: none;
         border-radius: 6px;
