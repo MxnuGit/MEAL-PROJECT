@@ -133,7 +133,6 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 50px;
   }
 
   form{
@@ -144,6 +143,8 @@
   h1 {
     cursor: pointer;
     opacity: 0.5;
+    width: 50%;
+    text-align: center;
   }
 
   h1.active {
