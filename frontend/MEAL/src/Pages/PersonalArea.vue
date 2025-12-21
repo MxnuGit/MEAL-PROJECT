@@ -24,7 +24,7 @@
 <template>
     <div class="mainContainer">
         <img src="../assets/lock.png" />
-        <section class="">
+        <section class="userInfo">
             <h1>User Name</h1>
             <div class="stats">
                 <ul class="labels">
@@ -63,6 +63,10 @@
         height: 100%;
     }
 
+    .userInfo{
+        border-bottom: solid whi;
+    }
+
     .stats {
         display: grid;
         grid-template-rows: auto auto;
@@ -76,5 +80,7 @@
         padding: 0;
         margin: 0;
         text-align: center;
+        color: white;
+        font-weight: bold;
     }
 </style>
