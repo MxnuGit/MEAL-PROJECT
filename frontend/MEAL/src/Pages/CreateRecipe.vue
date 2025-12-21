@@ -13,13 +13,27 @@
                 quantityInput: null as number | null,
                 unitInput: "",
 
-                recipeIngredients: [] as string[],
-                recipeIngredientsQuantity: [] as number[],
-                recipeIngredientsUnit: [] as string[],
+                ingredients: [] as {
+                    name: string,
+                    quantity: number,
+                    unit: string
+                }[],
 
-                tags: [] as string[],
+                tag: {
+                    vegan: false,
+                    proteinRich: false,
+                    lactoseFree: false,
+                    glutenFree: false,
+                },
+
+                // recipeIngredients: [] as string[],
+                // recipeIngredientsQuantity: [] as number[],
+                // recipeIngredientsUnit: [] as string[],
+
                 description: "",
-                steps: [] as string[]
+                steps: [] as {
+                    step: string
+                }[]
             }
         },
         methods:{
@@ -27,9 +41,17 @@
                 if(!this.ingredientInput || this.quantityInput === null || !this.unitInput) {
                     return
                 }
-                this.recipeIngredients.push(this.ingredientInput);
-                this.recipeIngredientsQuantity.push(this.quantityInput);
-                this.recipeIngredientsUnit.push(this.unitInput);
+                // this.recipeIngredients.push(this.ingredientInput);
+                // this.recipeIngredientsQuantity.push(this.quantityInput);
+                // this.recipeIngredientsUnit.push(this.unitInput);
+
+                this.ingredients.push(
+                    {
+                        name: this.ingredientInput,
+                        quantity: this.quantityInput,
+                        unit: this.unitInput
+                    }
+                )
 
                 this.ingredientInput = "";
                 this.quantityInput = null;
@@ -83,23 +105,23 @@
                     <h4>Ingredienti</h4>
                     <input type="text" v-model="ingredientInput" required>
                     <ol>
-                        <li v-for="(ingredient, i) in recipeIngredients" :key="i">{{ ingredient }}</li>
+                        <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.name }}</li>
                     </ol>
                 </section>
 
                 <section id="quantity">
                     <h4>Quantità</h4>
-                    <input type="text" v-model="quantityInput " required>
+                    <input type="text" v-model="quantityInput" required>
                     <ol>
-                        <li v-for="(quantity, i) in recipeIngredientsQuantity" :key="i">{{ quantity }}</li>
+                        <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.quantity }}</li>
                     </ol>
                 </section>
 
                 <section id="unitMisure"> <!-- da fare poi la query -->
                     <h4>Unità di misura</h4>
-                    <input type="text" v-model="unitInput">
+                    <input type="text" v-model="unitInput" required>
                     <ol>
-                        <li v-for="(unit, i) in recipeIngredientsUnit" :key="i">{{ unit }}</li>
+                        <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.unit }}</li>
                     </ol>
                 </section>
 
@@ -111,16 +133,16 @@
             <div id="tagDiv">
                 <h4>Tag</h4>
 
-                <input type="checkbox" id="vegan" value="vegan" v-model="tags">
+                <input type="checkbox" id="vegan" value="vegan" v-model="tag.vegan">
                 <label for="vegan">Vegano</label>
 
-                <input type="checkbox" id="lactoseFree" v-model="tags" value="lactoseFree">
+                <input type="checkbox" id="lactoseFree" v-model="tag.lactoseFree" value="lactoseFree">
                 <label for="lactoseFree">Senza lattosio</label>
 
-                <input type="checkbox" id="glutenFree" v-model="tags" value="glutenFree">
+                <input type="checkbox" id="glutenFree" v-model="tag.glutenFree" value="glutenFree">
                 <label for="glutenFree">Senza glutine</label>
 
-                <input type="checkbox" id="proteinRich" v-model="tags" value="proteinRich">
+                <input type="checkbox" id="proteinRich" v-model="tag.proteinRich" value="proteinRich">
                 <label for="proteinRich">Ricco di proteine</label>
             </div>
             <hr>
