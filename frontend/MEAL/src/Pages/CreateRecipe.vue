@@ -8,6 +8,10 @@
                 recipeName: "",
                 difficulty: "",
                 recipeTime: "",
+                
+                ingredientInput: "",
+                quantityInput: null as number | null,
+                unitInput: "",
 
                 recipeIngredients: [] as string[],
                 recipeIngredientsQuantity: [] as number[],
@@ -20,7 +24,16 @@
         },
         methods:{
             addIngredient: function(){
-                
+                if(!this.ingredientInput || this.quantityInput === null || !this.unitInput) {
+                    return
+                }
+                this.recipeIngredients.push(this.ingredientInput);
+                this.recipeIngredientsQuantity.push(this.quantityInput);
+                this.recipeIngredientsUnit.push(this.unitInput);
+
+                this.ingredientInput = "";
+                this.quantityInput = null;
+                this.unitInput = "";
             },
 
             submitRecipe: function(){
@@ -68,30 +81,30 @@
             <div id="secondPart">
                 <section id="ingredients">
                     <h4>Ingredienti</h4>
-                    <input type="text" v-model="recipeIngredients" required>
-                    <ul>
-                        <li><!-- mostra ingredienti scelti--></li>
-                    </ul>
+                    <input type="text" v-model="ingredientInput" required>
+                    <ol>
+                        <li v-for="(ingredient, i) in recipeIngredients" :key="i">{{ ingredient }}</li>
+                    </ol>
                 </section>
 
                 <section id="quantity">
                     <h4>Quantità</h4>
-                    <input type="text" v-model="recipeIngredientsQuantity" required>
-                    <ul>
-                        <li><!-- mostra Quantità scelta--></li>
-                    </ul>
+                    <input type="text" v-model="quantityInput " required>
+                    <ol>
+                        <li v-for="(quantity, i) in recipeIngredientsQuantity" :key="i">{{ quantity }}</li>
+                    </ol>
                 </section>
 
                 <section id="unitMisure"> <!-- da fare poi la query -->
                     <h4>Unità di misura</h4>
-                    <input type="text" v-model="recipeIngredientsUnit">
-                    <ul>
-                        <li><!-- mostra Unità di misura scelta--></li>
-                    </ul>
+                    <input type="text" v-model="unitInput">
+                    <ol>
+                        <li v-for="(unit, i) in recipeIngredientsUnit" :key="i">{{ unit }}</li>
+                    </ol>
                 </section>
 
                 <section id="addButton">
-                    <button @click="addIngredient">+</button>
+                    <button type="button" @click="addIngredient">+</button>
                 </section>
 
             </div>
@@ -200,10 +213,6 @@
 
     #secondPart section {
         padding: 10px;
-    }
-
-    #secondPart li {
-        list-style: none;
     }
 
     #secondPart section input{
