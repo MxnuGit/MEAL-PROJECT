@@ -1,12 +1,12 @@
 <template>
   <div>
     <div>
-      <img :src="image" alt="#" />
+      <img :src="image" alt="" />
       <p>{{ user }}</p>
       <p>{{ difficul }}</p>
 
       <div>
-        <img src="https://www.svgrepo.com/show/421561/clock-time.svg" alt="#" width="20px" height="20px"/>
+        <img src="https://www.svgrepo.com/show/421561/clock-time.svg" alt="" width="20px" height="20px"/>
         <p>{{ time }}</p>
       </div>
     </div>

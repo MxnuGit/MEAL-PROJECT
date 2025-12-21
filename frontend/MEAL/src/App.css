@@ -4,6 +4,7 @@
 
 body {
   margin: 0;
+  padding: 0;
 }
 
 aside {
@@ -11,29 +12,30 @@ aside {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 250px;
-  padding: 28px 22px;
+  width: 35%;
+  padding: 2px 2px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   background: linear-gradient(90deg, #ff914d 75%, #ffde59 100%);
   border-radius: 0 32px 0 0;
   overflow: hidden;
+  text-align: center;
+  align-items: center;
 }
 
 main {
-  margin-left: 280px;
+  position: fixed;
+  left: 35%;
+  top: 0;
   min-height: 100vh;
-  box-sizing: border-box;
-  padding: 24px;
+  margin: 20px;
 }
 
 #imgSec {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
-  margin-bottom: 8px;
 }
 
 #imgSec a {
@@ -44,22 +46,23 @@ main {
 }
 
 #imgSec img {
-  width: 210px;
+  width: 100%;
   height: auto;
   display: block;
 }
 
-
 aside hr {
-  width: 100%;
+  width: 90%;
   border: 0;
   height: 3px;
   background: #262a52;
-  margin: 12px 0;
 }
 
 aside section {
   margin-top: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
 aside ul {
@@ -69,43 +72,39 @@ aside ul {
   display: flex;
   flex-direction: column;
   gap: 18px;
+  width: 100%;
 }
 
 aside li {
   margin: 0;
   padding: 0;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 aside a {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 18px;
+  justify-content: center;
+  gap: 8px;
   text-decoration: none;
-  padding: 10px 12px;
-  border-radius: 16px;
-  cursor: pointer;
+  width: 100%;
 }
 
 aside section ul img {
   width: 44px;
   height: 44px;
   object-fit: contain;
-  display: block;
+  display: inline-block;
 }
 
 aside a p {
-  margin: 0;
+  margin: 2px;
   color: #262a52;
-  font-weight: 800;
-  font-size: 22px;
+  font-weight: bold;
+  font-size: 18px;
   line-height: 1.1;
-}
-
-@media (max-width: 900px) {
-  aside {
-    width: 240px;
-  }
-  main {
-    margin-left: 240px;
-  }
+  text-align: center;
 }

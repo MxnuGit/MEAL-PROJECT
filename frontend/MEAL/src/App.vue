@@ -7,8 +7,8 @@
       <router-link to="/">
         <img src="./assets/logo.png" alt="home" />
       </router-link>
-      <hr/>
     </section>
+    <hr/>
     <section>
       <ul>
         <li>
@@ -24,8 +24,8 @@
           </router-link>
         </li>
       </ul>
-      <hr/>
     </section>
+    <hr/>
     <section>
       <ul>
         <li>
@@ -39,9 +39,9 @@
     <section>
       <ul>
         <li>
-          <router-link to="/Login">
+          <router-link to="/CreateRecipe">
             <img src="./assets/login.png" alt="" />
-            <p>Login</p>
+            <p>Crea una Ricetta</p>
           </router-link>
         </li>
       </ul>
@@ -49,8 +49,9 @@
     <section>
       <ul>
         <li>
-          <router-link to="/CreateRecipe">
-            <p>Crea Ricetta</p>
+          <router-link to="/Login">
+            <img src="./assets/login.png" alt="" />
+            <p>Login</p>
           </router-link>
         </li>
       </ul>
