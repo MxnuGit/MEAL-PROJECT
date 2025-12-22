@@ -8,19 +8,54 @@
                 recipeName: "",
                 difficulty: "",
                 recipeTime: "",
+                
+                ingredientInput: "",
+                quantityInput: null as number | null,
+                unitInput: "",
 
-                recipeIngredients: [] as string[],
-                recipeIngredientsQuantity: [] as number[],
-                recipeIngredientsUnit: [] as string[],
+                ingredients: [] as {
+                    name: string,
+                    quantity: number,
+                    unit: string
+                }[],
 
-                tags: [] as string[],
+                tag: {
+                    vegan: false,
+                    proteinRich: false,
+                    lactoseFree: false,
+                    glutenFree: false,
+                },
+
+                // recipeIngredients: [] as string[],
+                // recipeIngredientsQuantity: [] as number[],
+                // recipeIngredientsUnit: [] as string[],
+
                 description: "",
-                steps: [] as string[]
+                steps: [] as {
+                    step: string
+                }[]
             }
         },
         methods:{
             addIngredient: function(){
-                
+                if(!this.ingredientInput || this.quantityInput === null || !this.unitInput) {
+                    return
+                }
+                // this.recipeIngredients.push(this.ingredientInput);
+                // this.recipeIngredientsQuantity.push(this.quantityInput);
+                // this.recipeIngredientsUnit.push(this.unitInput);
+
+                this.ingredients.push(
+                    {
+                        name: this.ingredientInput,
+                        quantity: this.quantityInput,
+                        unit: this.unitInput
+                    }
+                )
+
+                this.ingredientInput = "";
+                this.quantityInput = null;
+                this.unitInput = "";
             },
 
             submitRecipe: function(){
@@ -68,46 +103,46 @@
             <div id="secondPart">
                 <section id="ingredients">
                     <h4>Ingredienti</h4>
-                    <input type="text" v-model="recipeIngredients" required>
-                    <ul>
-                        <li><!-- mostra ingredienti scelti--></li>
-                    </ul>
+                    <input type="text" v-model="ingredientInput" required>
+                    <ol>
+                        <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.name }}</li>
+                    </ol>
                 </section>
 
                 <section id="quantity">
                     <h4>Quantità</h4>
-                    <input type="text" v-model="recipeIngredientsQuantity" required>
-                    <ul>
-                        <li><!-- mostra Quantità scelta--></li>
-                    </ul>
+                    <input type="text" v-model="quantityInput" required>
+                    <ol>
+                        <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.quantity }}</li>
+                    </ol>
                 </section>
 
                 <section id="unitMisure"> <!-- da fare poi la query -->
-                    <h4>Unità di misura</h4>
-                    <input type="text" v-model="recipeIngredientsUnit">
-                    <ul>
-                        <li><!-- mostra Unità di misura scelta--></li>
-                    </ul>
+                    <h4>Unità</h4>
+                    <input type="text" v-model="unitInput" required>
+                    <ol>
+                        <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.unit }}</li>
+                    </ol>
                 </section>
 
                 <section id="addButton">
-                    <button @click="addIngredient">+</button>
+                    <button type="button" @click="addIngredient">+</button>
                 </section>
 
             </div>
             <div id="tagDiv">
                 <h4>Tag</h4>
 
-                <input type="checkbox" id="vegan" value="vegan" v-model="tags">
+                <input type="checkbox" id="vegan" value="vegan" v-model="tag.vegan">
                 <label for="vegan">Vegano</label>
 
-                <input type="checkbox" id="lactoseFree" v-model="tags" value="lactoseFree">
+                <input type="checkbox" id="lactoseFree" v-model="tag.lactoseFree" value="lactoseFree">
                 <label for="lactoseFree">Senza lattosio</label>
 
-                <input type="checkbox" id="glutenFree" v-model="tags" value="glutenFree">
+                <input type="checkbox" id="glutenFree" v-model="tag.glutenFree" value="glutenFree">
                 <label for="glutenFree">Senza glutine</label>
 
-                <input type="checkbox" id="proteinRich" v-model="tags" value="proteinRich">
+                <input type="checkbox" id="proteinRich" v-model="tag.proteinRich" value="proteinRich">
                 <label for="proteinRich">Ricco di proteine</label>
             </div>
             <hr>
@@ -129,10 +164,13 @@
 <style scoped> 
     #container{
         background-color: #DCC9A3;
-        border-radius: 10px;
+        border-radius: 20px;
         border-color: white;
         border: 2.5px solid white;
-        max-width: 60%;
+        width: 100%;
+        max-width: 800px;
+        margin: 80px auto;
+        padding: 10px;
     }
 
     header {
@@ -143,7 +181,7 @@
     header h1 {
         font-weight: bold;
         color: #262a52;
-        margin-top: 12px;
+        margin-top: 5%;
         margin-bottom: 10px;
     }
 
@@ -156,7 +194,8 @@
     #nameField {
         display: flex;
         flex-direction: column;
-        margin-left: 60px;
+        margin-left: 10%;
+        margin-right: 10%;
     }
 
     #nameField label, h4 {
@@ -167,7 +206,7 @@
     
     input {
         color: #262a52;
-        width: 200px;
+        width: 100%;
         border-radius: 6px;
         height: 25px;
     }
@@ -178,8 +217,8 @@
     }
 
     #firstPart #difficulty{
-        margin-left: 60px;
-        margin-right: 80px;
+        margin-left: 10%;
+        margin-right: 10%;
     }
 
     #firstPart #difficulty h4 {
@@ -188,7 +227,7 @@
     }
 
     #firstPart #difficulty select {
-        width: 100px;
+        width: 100%;
         height: 30px;
         border-radius: 6px;
     }
@@ -202,19 +241,14 @@
         padding: 10px;
     }
 
-    #secondPart li {
-        list-style: none;
-    }
-
     #secondPart section input{
-        width: 120px;
+        width: 100%;
     }
 
     #secondPart section:nth-child(1) {
-        margin-left: 60px;
+        margin-left: 10%;
         padding-left: 0px;
     }
-
 
     #addButton button{
         height: 20px;
@@ -225,12 +259,25 @@
     }
 
     #tagDiv {
-        margin-left: 60px;
+        margin-left: 10%;
+        margin-right: 10%;
     }
 
     #vegan, #proteinRich, #glutenFree, #lactoseFree {
         width: 30px;
     }
 
+    #description {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+    #descriptionText {
+        width: 100%;
+        height: 50px;
+        resize: none;
+        border-radius: 6px;
+        border-color: black;
+    }
 
 </style>

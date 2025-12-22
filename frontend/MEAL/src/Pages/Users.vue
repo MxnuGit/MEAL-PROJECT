@@ -31,12 +31,43 @@
                minlength="2"
                maxlength="20"
                required>
-        <button type="submit">Cerca</button>
+        <button type="submit" id="findButton">Cerca</button>
     </form>
 
     <ul v-if="users.length > 0">
-        <li v-for="user in users" :key="user.username">
+        <li v-for="user in users" :key="user.username" id="userItemList">
             {{ user.username }}
         </li>
     </ul>
 </template>
+
+<style scoped>
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    #findUser{
+        width: 600px;
+        height: 35px;
+        font-size: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    #userItemList{
+        background-color: #DCC9A3;
+        border-radius: 6px;
+    }
+
+    #findButton {
+        width: 70px;
+        height: 40px;
+        font-size: 15px;
+        border-radius: 10px;
+        background-color: orange;
+        font-weight: bold;
+    }
+</style>

@@ -13,11 +13,11 @@
         <form v-if="activeForm === 'login'" class="Login" @submit.prevent="handleLogin">
             <ul>
                 <li>
-                    <img />
+                    <img src="../assets/user_blank.png"/>
                     <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" v-model="login.username" required>
                 </li>
                 <li>
-                    <img />
+                    <img src="../assets/lock.png" />
                     <input type="password" id="password" name="password" placeholder="Inserisci la Password" v-model="login.password" required>
                 </li>
                 <li>
@@ -30,15 +30,15 @@
         <form v-if="activeForm === 'signup'" class="SignUp" @submit.prevent="handleSignUp">
             <ul>
                 <li>
-                    <img />
+                    <img src="../assets/user_blank.png"/>
                     <input type="text" id="username" name="username" placeholder="Inserisci il nome utente" v-model="signup.username" required>
                 </li>
                 <li>
-                    <img />
+                    <img src="../assets/lock.png"/>
                     <input type="text" id="password" name="password" placeholder="Inserisci la Password" v-model="signup.password" required> 
                 </li>
                 <li>
-                    <img />
+                    <img src="../assets/lock.png"/>
                     <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="signup.confPassword" required> 
                 </li>
                 <li>
@@ -133,7 +133,6 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 50px;
   }
 
   form{
@@ -143,12 +142,15 @@
   
   h1 {
     cursor: pointer;
-    opacity: 0.5;
+    color: white;
+    width: 50%;
+    text-align: center;
   }
 
   h1.active {
     opacity: 1;
-    border-bottom: solid black;
+    border-bottom: solid #1D2B65;
+    color: #1D2B65;
   }
 
   ul {
@@ -159,6 +161,10 @@
     flex-direction: column;
     align-items: center; 
     gap: 12px;
+  }
+
+  li{
+    display: flex;
   }
 
   input {
@@ -178,11 +184,22 @@
     background-color: #1D2B65;
     border: 1.5px solid #1D2B65;
     color: white;
+    cursor: pointer;
   }
 
   #submit:hover{
     background-color: white;
     border: 1.5px solid white;
     color: #1D2B65;
+  }
+
+  img{
+    max-width: 30px;
+    width: 100%;
+    
+    max-height: 30px;
+    height: 100%;
+
+    margin-right: 10px;
   }
 </style>
