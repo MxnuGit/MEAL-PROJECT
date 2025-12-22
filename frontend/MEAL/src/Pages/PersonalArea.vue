@@ -6,6 +6,7 @@
     export default defineComponent({
         data(){
             return{
+                activeViewRecipe: "myRecipe" as "myRecipe" | "favourites",
                 user: null as User | null
             }
         },
@@ -35,19 +36,27 @@
                 <div>1</div>
             </section>
         </div>
-        <div>
-
-        </div>
+        <header>
+            <h2 :class="{ active: activeViewRecipe === 'myRecipe' }"
+            @click="activeViewRecipe = 'myRecipe'">Le mie ricette</h2>
+            <h2 :class="{ active: activeViewRecipe === 'favourites' }"
+            @click="activeViewRecipe = 'favourites'">Preferiti</h2>
+        </header>
     </div>
 </template>
 
 <style scoped>
     .mainContainer{
         background-color: #DCC9A3;
-        margin: 10px;
+
         border: solid 10px white;
         border-radius: 25px;
-        max-width: fit-content;
+        
+        width: 100%;
+        max-width: 600px;
+
+        margin: 80px auto;
+        padding: 10px;
     }
 
     img{
@@ -77,6 +86,25 @@
     }
 
     .userStats > div{
+        color: white;
+    }
+    
+    header{
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    h2{
+       background-color: white; 
+       border-radius: 15px;
+       padding: 5px;
+       color: #2D2C53;
+       cursor: pointer;
+    }
+
+    h2.active{
+        background-color: #E18727;
         color: white;
     }
 </style>
