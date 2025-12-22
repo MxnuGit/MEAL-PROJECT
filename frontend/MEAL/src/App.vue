@@ -45,7 +45,7 @@ function onSidebarClick(e: MouseEvent) {
       <ul>
         <li>
           <router-link to="/">
-            <img src="./assets/home-icon.png" alt="" />
+            <img src="./assets/home.png" alt=""/>
             <p>Home</p>
           </router-link>
         </li>
@@ -72,7 +72,7 @@ function onSidebarClick(e: MouseEvent) {
       <ul>
         <li>
           <router-link to="/CreateRecipe">
-            <img src="./assets/login.png" alt="" />
+            <img src="./assets/plus.png" alt="" />
             <p>Crea una Ricetta</p>
           </router-link>
         </li>
