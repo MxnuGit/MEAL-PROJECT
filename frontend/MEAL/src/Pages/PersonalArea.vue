@@ -42,6 +42,9 @@
             <h2 :class="{ active: activeViewRecipe === 'favourites' }"
             @click="activeViewRecipe = 'favourites'">Preferiti</h2>
         </header>
+        <div class="logout">
+            <input type="button" id="logoutButton" value="Logout">
+        </div>
     </div>
 </template>
 
@@ -101,10 +104,31 @@
        padding: 5px;
        color: #2D2C53;
        cursor: pointer;
+       
+       text-align: center;
+       width: 50%;
     }
 
     h2.active{
         background-color: #E18727;
         color: white;
+    }
+
+    .logout{
+        width: 100%;
+        display: flex;
+        justify-content: right;
+    }
+
+    #logoutButton{
+        border: red;
+        background-color: red;
+        border-radius: 3.5px;
+
+        font-size: large;
+        font-weight: bold;
+        color: white;
+
+        cursor: pointer;
     }
 </style>
