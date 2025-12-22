@@ -31,7 +31,7 @@
                minlength="2"
                maxlength="20"
                required>
-        <button type="submit" id="findButton">Cerca</button>
+        <button type="submit" id="findButton">O</button>
     </form>
 
     <ul v-if="users.length > 0">
@@ -46,14 +46,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 20px;
+        margin: 30px auto;
+        max-width: 800px;
     }
 
     #findUser{
-        width: 600px;
+        width: 100%;
         height: 35px;
-        font-size: 20px;
-        border-radius: 10px;
+        font-size: 100%;
+        border-radius: 20px;
         text-align: center;
     }
 
@@ -63,10 +64,10 @@
     }
 
     #findButton {
-        width: 70px;
+        width: 5%;
         height: 40px;
         font-size: 15px;
-        border-radius: 10px;
+        border-radius: 20px;
         background-color: orange;
         font-weight: bold;
     }
