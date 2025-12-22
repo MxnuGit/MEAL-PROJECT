@@ -299,6 +299,7 @@
     @media screen and (max-width: 816px){
         #ingredients {
             display: flex;
+            flex-wrap: wrap;
         }
     }
 </style>
