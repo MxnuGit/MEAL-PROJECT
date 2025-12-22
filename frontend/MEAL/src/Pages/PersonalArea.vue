@@ -23,9 +23,11 @@
 
 <template>
     <div class="mainContainer">
-        <img src="../assets/lock.png" />
         <section class="userInfo">
+            <div class="userHeader">
+            <img src="../assets/lock.png" />
             <h1>User Name</h1>
+            </div>
             <div class="stats">
                 <ul class="labels">
                     <li>Like</li>
@@ -39,6 +41,10 @@
                 </ul>
             </div>
         </section>
+        <header>
+            <h2>Le Mie Ricette</h2>
+            <h2>Preferiti</h2>
+        </header>
         <section class="myRecipes">
 
         </section>
@@ -52,7 +58,9 @@
     .mainContainer{
         background-color: #DCC9A3;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        border: 2.5px;
+        margin: 20px;
     }
 
     img{
@@ -61,6 +69,11 @@
 
         max-height: 120px;
         height: 100%;
+    }
+
+    .userHeader{
+        display: flex;
+        flex-direction: row;
     }
 
     .userInfo{
@@ -82,5 +95,10 @@
         text-align: center;
         color: white;
         font-weight: bold;
+    }
+
+    header{
+        display: flex;
+        justify-content: center;
     }
 </style>
