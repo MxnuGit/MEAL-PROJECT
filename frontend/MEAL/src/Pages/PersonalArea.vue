@@ -23,82 +23,60 @@
 
 <template>
     <div class="mainContainer">
-        <section class="userInfo">
-            <div class="userHeader">
+        <div class="userInfo">
             <img src="../assets/lock.png" />
-            <h1>User Name</h1>
-            </div>
-            <div class="stats">
-                <ul class="labels">
-                    <li>Like</li>
-                    <li>Follower</li>
-                    <li>Seguiti</li>
-                </ul>
-                <ul class="values">
-                    <li>1</li>
-                    <li>1</li>
-                    <li>1</li>
-                </ul>
-            </div>
-        </section>
-        <header>
-            <h2>Le Mie Ricette</h2>
-            <h2>Preferiti</h2>
-        </header>
-        <section class="myRecipes">
+            <section class="userStats">
+                <h1>User Name</h1>
+                <div>Like</div>
+                <div>Follower</div>
+                <div>Seguiti</div>
+                <div>1</div>
+                <div>1</div>
+                <div>1</div>
+            </section>
+        </div>
+        <div>
 
-        </section>
-        <section class="myFavourites">
-
-        </section>
+        </div>
     </div>
 </template>
 
 <style scoped>
     .mainContainer{
         background-color: #DCC9A3;
-        display: flex;
-        flex-direction: column;
-        border: 2.5px;
-        margin: 20px;
+        margin: 10px;
+        border: solid 10px white;
+        border-radius: 25px;
+        max-width: fit-content;
     }
 
     img{
-        max-width: 100px;
-        width: 100%;
-
-        max-height: 120px;
-        height: 100%;
-    }
-
-    .userHeader{
-        display: flex;
-        flex-direction: row;
+        max-width: 200px;
+        max-height: 150px;
+        border-radius: 25px;
+        padding: 10px;
     }
 
     .userInfo{
-        border-bottom: solid whi;
-    }
-
-    .stats {
-        display: grid;
-        grid-template-rows: auto auto;
-    }
-
-    .labels,
-    .values {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        text-align: center;
-        color: white;
-        font-weight: bold;
-    }
-
-    header{
         display: flex;
-        justify-content: center;
+        flex-direction: row;
+        border-bottom: solid white;
+    }
+
+    .userStats{
+        display: grid;
+        text-align: center;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        height: auto;
+    }
+
+    .userStats > h1{
+        grid-column: span 3;
+        text-align: center;
+    }
+
+    .userStats > div{
+        color: white;
     }
 </style>
