@@ -52,7 +52,7 @@
     .mainContainer{
         background-color: #DCC9A3;
 
-        border: solid 10px white;
+        border: solid px white;
         border-radius: 25px;
         
         width: 100%;
