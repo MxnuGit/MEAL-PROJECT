@@ -93,7 +93,7 @@
                 </section>
 
                 <section id="time">
-                    <h4>Tempo (minuti)</h4>
+                    <h4>minuti</h4>
                     <input type="text" placeholder="120..." v-model="recipeTime" required>
                 </section>
 
@@ -132,18 +132,27 @@
             </div>
             <div id="tagDiv">
                 <h4>Tag</h4>
-
-                <input type="checkbox" id="vegan" value="vegan" v-model="tag.vegan">
-                <label for="vegan">Vegano</label>
-
-                <input type="checkbox" id="lactoseFree" v-model="tag.lactoseFree" value="lactoseFree">
-                <label for="lactoseFree">Senza lattosio</label>
-
-                <input type="checkbox" id="glutenFree" v-model="tag.glutenFree" value="glutenFree">
-                <label for="glutenFree">Senza glutine</label>
-
-                <input type="checkbox" id="proteinRich" v-model="tag.proteinRich" value="proteinRich">
-                <label for="proteinRich">Ricco di proteine</label>
+                <div id="tagInputDiv">
+                    <div>
+                        <input type="checkbox" id="vegan" value="vegan" v-model="tag.vegan">
+                        <label for="vegan">Vegano</label>
+                    </div>
+                    
+                    <div>
+                        <input type="checkbox" id="lactoseFree" v-model="tag.lactoseFree" value="lactoseFree">
+                        <label for="lactoseFree">Senza lattosio</label>
+                    </div>
+                    
+                    <div>
+                        <input type="checkbox" id="glutenFree" v-model="tag.glutenFree" value="glutenFree">
+                        <label for="glutenFree">Senza glutine</label>
+                    </div>
+                    
+                    <div>
+                        <input type="checkbox" id="proteinRich" v-model="tag.proteinRich" value="proteinRich">
+                        <label for="proteinRich">Ricco di proteine</label>
+                    </div>
+                </div>
             </div>
             <hr>
             <section id="description">
@@ -167,7 +176,7 @@
         border-radius: 20px;
         border-color: white;
         border: 2.5px solid white;
-        width: 100%;
+        width: 80%;
         max-width: 800px;
         margin: 80px auto;
         padding: 10px;
@@ -182,7 +191,7 @@
         font-weight: bold;
         color: #262a52;
         margin-top: 5%;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
     hr{
@@ -194,19 +203,19 @@
     #nameField {
         display: flex;
         flex-direction: column;
-        margin-left: 10%;
-        margin-right: 10%;
+        padding-left: 10px;
     }
 
     #nameField label, h4 {
         color: #262a52;
         font-weight: bold;
-        margin-bottom: 0;
+        margin: 0;
+        margin-top: 10px;
     }
     
     input {
         color: #262a52;
-        width: 100%;
+        width: 50%;
         border-radius: 6px;
         height: 25px;
     }
@@ -214,11 +223,11 @@
     #firstPart {
         display: flex;
         flex-direction: row;
+        gap: 10%;
     }
 
     #firstPart #difficulty{
-        margin-left: 10%;
-        margin-right: 10%;
+        padding-left: 10px;
     }
 
     #firstPart #difficulty h4 {
@@ -235,6 +244,7 @@
     #secondPart {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     #secondPart section {
@@ -246,8 +256,7 @@
     }
 
     #secondPart section:nth-child(1) {
-        margin-left: 10%;
-        padding-left: 0px;
+        padding-left: 10px;
     }
 
     #addButton button{
@@ -259,8 +268,12 @@
     }
 
     #tagDiv {
-        margin-left: 10%;
-        margin-right: 10%;
+        padding-left: 10px;
+    }
+
+    #tagInputDiv {
+        display: flex;
+        flex-wrap: wrap;
     }
 
     #vegan, #proteinRich, #glutenFree, #lactoseFree {
@@ -268,8 +281,7 @@
     }
 
     #description {
-        margin-left: 10%;
-        margin-right: 10%;
+        padding-left: 10px; 
     }
 
     #descriptionText {
@@ -280,4 +292,13 @@
         border-color: black;
     }
 
+    #steps h4 {
+        padding-left: 10px;
+    }
+
+    @media screen and (max-width: 816px){
+        #ingredients {
+            display: flex;
+        }
+    }
 </style>
