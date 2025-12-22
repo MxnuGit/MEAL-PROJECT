@@ -17,9 +17,9 @@ aside {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(90deg, #ff914d 75%, #ffde59 100%);
+  background: #ff914d;
   border-radius: 0 32px 0 0;
-  overflow: hidden;
+  overflow:visible;
   text-align: center;
   align-items: center;
 }
@@ -104,7 +104,7 @@ aside a p {
   margin: 2px;
   color: #262a52;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 1.1;
   text-align: center;
 }

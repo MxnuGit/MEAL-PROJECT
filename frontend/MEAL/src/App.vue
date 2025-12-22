@@ -1,14 +1,46 @@
 <script setup lang="ts">
+import { ref } from "vue"
+
+const sidebarOpen = ref(false)
+
+function toggleSidebar() {
+  sidebarOpen.value = !sidebarOpen.value
+}
+
+function closeSidebar() {
+  sidebarOpen.value = false
+}
+
+function onSidebarClick(e: MouseEvent) {
+  const target = e.target as HTMLElement | null
+  if (!target) return
+  if (target.closest("a")) closeSidebar()
+}
 </script>
 
 <template>
-  <aside>
+  <button
+    class="sidebar-toggle"
+    type="button"
+    @click="toggleSidebar"
+    :aria-label="sidebarOpen ? 'Chiudi menu' : 'Apri menu'"
+  >
+    {{ sidebarOpen ? "✕" : "☰" }}
+  </button>
+
+  <div
+    class="sidebar-overlay"
+    v-show="sidebarOpen"
+    @click="closeSidebar"
+  ></div>
+
+  <aside :class="{ open: sidebarOpen }" @click="onSidebarClick">
     <section id="imgSec">
       <router-link to="/">
         <img src="./assets/logo.png" alt="home" />
       </router-link>
     </section>
-    <hr/>
+    <hr />
     <section>
       <ul>
         <li>
@@ -25,7 +57,7 @@
         </li>
       </ul>
     </section>
-    <hr/>
+    <hr />
     <section>
       <ul>
         <li>
@@ -60,5 +92,4 @@
   <main>
     <router-view />
   </main>
-
 </template>
