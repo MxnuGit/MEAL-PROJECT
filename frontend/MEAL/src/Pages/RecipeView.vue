@@ -84,42 +84,49 @@
         border-radius: 10px;
         border-color: white;
         border: 2.5px solid white;
-        width: 100%;
-        max-width: 800px;
+        max-width: 80%;
         margin: 80px auto;
         padding: 10px;
     }
 
     #title h1 {
-        margin-left: 40px;
-        margin-top: 40px;
-        font-size: 2.5rem;
+        margin-left: 3%;
+        margin-top: 5%;
+        font-size: 35px;
         color: #262a52;
     }
 
     #firstPart {
         display: flex;
-        gap: 40px;
         align-items: center;
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 10%;
+    }
+
+    #imageCont img {
+        width: 100%;
+        height: auto;
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 20px;
     }
 
     #tagView {
         display: flex;
-        flex-direction: column;
         justify-content: center;
+        justify-items: center;
         background-color: #262a52;
         border-radius: 20px;
         color: #ffffff;
-        width: 30%;
-        height: 140px;
     }
 
     #tagView ul{
-        padding: 20px;
         display: flex;
         flex-direction: column;
         text-align: center;
+        padding: 10px;
+        margin: 0 auto;
     }
 
     #tagView li {
@@ -129,4 +136,9 @@
         font-weight: bold;
     }
 
+    @media screen and (min-width: 800px) {
+    #imageCont{
+        float: left;
+    }
+}
 </style>

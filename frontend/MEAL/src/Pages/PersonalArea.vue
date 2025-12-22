@@ -6,6 +6,7 @@
     export default defineComponent({
         data(){
             return{
+                activeViewRecipe: "myRecipe" as "myRecipe" | "favourites",
                 user: null as User | null
             }
         },
@@ -23,64 +24,111 @@
 
 <template>
     <div class="mainContainer">
-        <img src="../assets/lock.png" />
-        <section class="userInfo">
-            <h1>User Name</h1>
-            <div class="stats">
-                <ul class="labels">
-                    <li>Like</li>
-                    <li>Follower</li>
-                    <li>Seguiti</li>
-                </ul>
-                <ul class="values">
-                    <li>1</li>
-                    <li>1</li>
-                    <li>1</li>
-                </ul>
-            </div>
-        </section>
-        <section class="myRecipes">
-
-        </section>
-        <section class="myFavourites">
-
-        </section>
+        <div class="userInfo">
+            <img src="../assets/lock.png" />
+            <section class="userStats">
+                <h1>User Name</h1>
+                <div>Like</div>
+                <div>Follower</div>
+                <div>Seguiti</div>
+                <div>1</div>
+                <div>1</div>
+                <div>1</div>
+            </section>
+        </div>
+        <header>
+            <h2 :class="{ active: activeViewRecipe === 'myRecipe' }"
+            @click="activeViewRecipe = 'myRecipe'">Le mie ricette</h2>
+            <h2 :class="{ active: activeViewRecipe === 'favourites' }"
+            @click="activeViewRecipe = 'favourites'">Preferiti</h2>
+        </header>
+        <div class="logout">
+            <input type="button" id="logoutButton" value="Logout">
+        </div>
     </div>
 </template>
 
 <style scoped>
     .mainContainer{
         background-color: #DCC9A3;
-        display: flex;
-        flex-direction: row;
+
+        border: solid px white;
+        border-radius: 25px;
+        
+        width: 100%;
+        max-width: 600px;
+
+        margin: 80px auto;
+        padding: 10px;
     }
 
     img{
-        max-width: 100px;
-        width: 100%;
-
-        max-height: 120px;
-        height: 100%;
+        max-width: 200px;
+        max-height: 150px;
+        border-radius: 25px;
+        padding: 10px;
     }
 
     .userInfo{
-        border-bottom: solid whi;
+        display: flex;
+        flex-direction: row;
+        border-bottom: solid white;
     }
 
-    .stats {
+    .userStats{
         display: grid;
-        grid-template-rows: auto auto;
-    }
-
-    .labels,
-    .values {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        list-style: none;
-        padding: 0;
-        margin: 0;
         text-align: center;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        height: auto;
+    }
+
+    .userStats > h1{
+        grid-column: span 3;
+        text-align: center;
+    }
+
+    .userStats > div{
         color: white;
+    }
+    
+    header{
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    h2{
+       background-color: white; 
+       border-radius: 15px;
+       padding: 5px;
+       color: #2D2C53;
+       cursor: pointer;
+       
+       text-align: center;
+       width: 50%;
+    }
+
+    h2.active{
+        background-color: #E18727;
+        color: white;
+    }
+
+    .logout{
+        width: 100%;
+        display: flex;
+        justify-content: right;
+    }
+
+    #logoutButton{
+        border: red;
+        background-color: red;
+        border-radius: 3.5px;
+
+        font-size: large;
         font-weight: bold;
+        color: white;
+
+        cursor: pointer;
     }
 </style>
