@@ -29,8 +29,7 @@
                placeholder="Cerca un utente"
                id="findUser"
                minlength="2"
-               maxlength="20"
-               required>
+               maxlength="20">
         <button type="submit" id="findButton">O</button>
     </form>
 
@@ -61,6 +60,13 @@
     #userItemList{
         background-color: #DCC9A3;
         border-radius: 6px;
+        list-style: none;
+        width: 30%;
+        border-color: white;
+        border: solid white 2px;
+        height: 20px;
+        font-size: 20px;
+        font-weight: bold;
     }
 
     #findButton {
@@ -70,5 +76,10 @@
         border-radius: 20px;
         background-color: orange;
         font-weight: bold;
+    }
+
+    ul {
+        display: flex;
+        justify-content: center;
     }
 </style>
