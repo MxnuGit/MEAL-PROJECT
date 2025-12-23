@@ -35,11 +35,11 @@
                 </li>
                 <li>
                     <img src="../assets/lock.png"/>
-                    <input type="text" id="password" name="password" placeholder="Inserisci la Password" v-model="signup.password" required> 
+                    <input type="password" id="password" name="password" placeholder="Inserisci la Password" v-model="signup.password" required> 
                 </li>
                 <li>
                     <img src="../assets/lock.png"/>
-                    <input type="text" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="signup.confPassword" required> 
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="signup.confPassword" required> 
                 </li>
                 <li>
                   <input type="submit" value="Submit" id="submit"></input>
