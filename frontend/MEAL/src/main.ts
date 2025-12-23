@@ -10,18 +10,33 @@ import RecipeView from "./Pages/RecipeView.vue"
 import NotFound from "./Pages/NotFound.vue"
 import Login from "./Pages/Login.vue"
 import CreateRecipe from "./Pages/CreateRecipe.vue"
+import axios from "axios"
+import type { User } from "./types"
 
 const router: Router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: "/", component: Home },
     { path: "/Users", component: Users },
-    { path: "/PersonalArea", component: PersonalArea },
+    { path: "/PersonalArea", component: PersonalArea, meta: { requireLogin: true } },
     { path: "/RecipeView", component: RecipeView },
-    { path: "/Login", component: Login },
-    { path: "/CreateRecipe", component: CreateRecipe },
+    { path: "/Login", component: Login, meta: { requireLogout: true } },
+    { path: "/CreateRecipe", component: CreateRecipe, meta: { requireLogin: true } },
     { path: "/:pathMatch(.*)*", component: NotFound }
   ]
+})
+
+router.beforeEach(async (to) => {
+  const res = await axios.get("/api/auth/profile")
+  const user = res.data as User | null
+
+  if(to.meta.requireLogin && !user) {
+    return { path: "/login" }
+  }
+
+  if(to.meta.requireLogout && user) {
+    return { path: "/" }
+  }
 })
 
 createApp(App)
