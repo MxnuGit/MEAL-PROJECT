@@ -27,14 +27,20 @@ const router: Router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  const res = await axios.get("/api/auth/profile")
-  const user = res.data as User | null
+  let user: User | null = null
 
-  if(to.meta.requireLogin && !user) {
+  try {
+    const res = await axios.get("/api/auth/profile")
+    user = res.data
+  } catch (err) {
+    // backend offline → user rimane null
+  }
+
+  if (to.meta.requireLogin && !user) {
     return { path: "/login" }
   }
 
-  if(to.meta.requireLogout && user) {
+  if (to.meta.requireLogout && user) {
     return { path: "/" }
   }
 })
