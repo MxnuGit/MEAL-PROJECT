@@ -73,7 +73,6 @@
         <header>
             <h1>Crea La Tua Ricetta</h1>
         </header>
-        <hr>
         <form @submit.prevent="">
             <!-- Nome Ricetta -->
              <section id="nameField">
@@ -154,7 +153,6 @@
                     </div>
                 </div>
             </div>
-            <hr>
             <section id="description">
                 <h4>Descrizione</h4>
                 <textarea name="description" id="descriptionText" v-model="description"></textarea>
@@ -185,6 +183,7 @@
     header {
         display: flex;
         justify-content: center;
+        border-bottom: solid #262A52; 
     }
 
     header h1 {
@@ -192,12 +191,6 @@
         color: #262a52;
         margin-top: 5%;
         margin-bottom: 5px;
-    }
-
-    hr{
-        width: 95%;
-        background-color: #262a52;
-        height: 3px;
     }
 
     #nameField {
@@ -213,11 +206,23 @@
         margin-top: 10px;
     }
     
-    input {
+    input, textarea, select {
         color: #262a52;
         width: 50%;
         border-radius: 6px;
         height: 25px;
+        border: white;
+    }
+
+    button{
+        background-color: #68B65B;
+        color: white;
+        font-weight: bold;
+        font-size: larger;
+        border-radius: 6px;
+        border: white;
+
+        cursor: pointer;
     }
 
     #firstPart {
@@ -262,13 +267,15 @@
     #addButton button{
         height: 20px;
         margin-top: 23px;
-        background-color: greenyellow;
+        background-color: #68B65B;
         border-radius: 5px;
         border: none;
     }
 
     #tagDiv {
         padding-left: 10px;
+        border-bottom: solid #262A52;
+        padding-bottom: 10px;
     }
 
     #tagInputDiv {
