@@ -69,7 +69,7 @@
         background-color: #DCC9A3;
         border-radius: 6px;
         list-style: none;
-        width: 30%;
+        min-width: 20%;
         border-color: white;
         border: solid white 2px;
         height: 20px;
@@ -93,5 +93,13 @@
         justify-content: center;
         flex-direction: column;
         align-items: center;
+        padding: 0;
+
+    }
+
+    a{
+        text-decoration: none;
+        color: #262A52;
+        text-align: center;
     }
 </style>

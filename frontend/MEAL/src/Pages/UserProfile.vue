@@ -6,15 +6,15 @@
     export default defineComponent({
         data(){
             return{
-                users: null as User | null,
-                searchId: ""
+                user: null as User | null,
             }
         },
         methods:{
             userByID() {
                 axios.get("/api/username/" + this.$route.params.username)
                 .then(response => {
-                    this.users = response.data
+                    this.user = response.data[0]
+                    console.log(this.user?.username)
                 })
             }
         },
@@ -29,7 +29,7 @@
         <div class="userInfo">
             <img src="../assets/lock.png" />
             <section class="userStats">
-                <h1>{{ users?.username }}</h1>
+                <h1>{{ user?.username }}</h1>
                 <div>Like</div>
                 <div>1</div>
             </section>
