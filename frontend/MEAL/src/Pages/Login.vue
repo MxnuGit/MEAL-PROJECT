@@ -80,16 +80,9 @@
             username: this.signup.username,
             password: this.signup.password
           });
-
+          location.href = "/";
           console.log("Risposta backend:", res.data);
-
-          if (res.data.success) {
-            console.log("Registrazione completata!");
-          } else {
-            console.log("Errore: " + res.data.message);
-          }
         } catch (err) {
-          console.error(err);
           console.log("Errore di connessione al server");
         }
       },
@@ -100,10 +93,9 @@
             username: this.login.username,
             password: this.login.password
           });
-
+          location.href = "/";
           console.log("Risposta backend:", res.data);
         } catch (err) {
-          console.error(err);
           console.log("Errore di connessione al server");
         }
       }

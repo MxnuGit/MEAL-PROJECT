@@ -1,5 +1,18 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
+import axios from "axios";
+import type { User } from "./types";
+
+const user = ref<User | null>(null)
+
+async function getUser() {
+  const res = await axios.get("/api/auth/profile")
+  user.value = res.data
+}
+
+onMounted(() => {
+  getUser()
+})
 
 const sidebarOpen = ref(false)
 
@@ -61,7 +74,7 @@ function onSidebarClick(e: MouseEvent) {
     <section>
       <ul>
         <li>
-          <router-link to="/PersonalArea">
+          <router-link to="/PersonalArea" v-if="user">
             <img src="./assets/person.png" alt="" />
             <p>Area Personale</p>
           </router-link>
@@ -71,7 +84,7 @@ function onSidebarClick(e: MouseEvent) {
     <section>
       <ul>
         <li>
-          <router-link to="/CreateRecipe">
+          <router-link to="/CreateRecipe" v-if="user">
             <img src="./assets/plus.png" alt="" />
             <p>Crea una Ricetta</p>
           </router-link>
@@ -81,7 +94,7 @@ function onSidebarClick(e: MouseEvent) {
     <section>
       <ul>
         <li>
-          <router-link to="/Login">
+          <router-link to="/Login" v-if="!user">
             <img src="./assets/login.png" alt="" />
             <p>Login</p>
           </router-link>

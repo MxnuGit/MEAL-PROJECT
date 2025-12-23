@@ -11,13 +11,26 @@
             }
         },
         methods:{
-            getUserName() {
-                axios.get("/api/user/" + this.$route.params.username)
-                .then(response => this.user = response.data)
+            async getUser() {
+                const res = await axios.get("/api/auth/profile")
+                this.user = res.data;
+            },
+
+            async logout() {
+                try {
+                    await axios.post("/api/auth/logout");
+                    console.log("Logout effettuato con successo")
+                    location.href = "/";
+                    
+                } catch(err) {
+                    console.log("Devi essere prima registrato")
+                    console.error(err)
+                }
+                
             }
         },
         mounted() {
-            this.getUserName()
+            this.getUser()
         },
     })
 </script>
@@ -27,7 +40,7 @@
         <div class="userInfo">
             <img src="../assets/lock.png" />
             <section class="userStats">
-                <h1>User Name</h1>
+                <h1>{{ user?.username }}</h1>
                 <div>Like</div>
                 <div>Follower</div>
                 <div>Seguiti</div>
@@ -43,7 +56,7 @@
             @click="activeViewRecipe = 'favourites'">Preferiti</h2>
         </header>
         <div class="logout">
-            <input type="button" id="logoutButton" value="Logout">
+            <input type="button" id="logoutButton" value="Logout" @click="logout">
         </div>
     </div>
 </template>
