@@ -72,6 +72,7 @@
         font-size: 20px;
         font-weight: bold;
         padding: 10px;
+        margin-bottom: 8px;
     }
 
     #findButton {
@@ -86,5 +87,7 @@
     ul {
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
     }
 </style>
