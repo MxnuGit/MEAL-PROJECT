@@ -10,18 +10,20 @@
               searchId: ""
             }
         },
-        methods: {
-            userByID() {
-                if(this.searchId == "") {
-                    return
+    methods: {
+        userByID() {
+            if (this.searchId.length < 1) return
+
+            axios.get("/api/user", {
+                params: {
+                    search: this.searchId
                 }
-                else{
-                    axios.get("/api/user/" + this.searchId)
-                    .then(response => this.users = response.data)
-                }
-            }
+            }).then(response => {
+                this.users = response.data
+            })
         }
-    })
+    }
+})
 </script>
 
 <template>

@@ -42,10 +42,6 @@
             <section class="userStats">
                 <h1>{{ user?.username }}</h1>
                 <div>Like</div>
-                <div>Follower</div>
-                <div>Seguiti</div>
-                <div>1</div>
-                <div>1</div>
                 <div>1</div>
             </section>
         </div>
@@ -103,6 +99,8 @@
 
     .userStats > div{
         color: white;
+        font-size: large;
+        font-weight: bold;
     }
     
     header{
