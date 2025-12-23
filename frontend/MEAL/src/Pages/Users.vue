@@ -21,6 +21,10 @@
             }).then(response => {
                 this.users = response.data
             })
+        },
+
+        goToProfile(user: User){
+            this.$router.push(`/UserProfile/${user.username}`)
         }
     }
 })
@@ -39,7 +43,7 @@
 
     <ul v-if="users.length > 0">
         <li v-for="user in users" :key="user.username" id="userItemList">
-            {{ user.username }}
+            <router-link :to="`/UserProfile/${ user.username }`">{{ user.username }}</router-link>
         </li>
     </ul>
 </template>
