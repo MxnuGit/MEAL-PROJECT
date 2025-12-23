@@ -18,22 +18,9 @@ export async function createRecipe(req: Request, res: Response){
         res.status(401).send("Creare il post richiede il login")
         return 
     }
-    const results = connection.execute("SELECT * FROM recipes WHERE users_username =?", 
-        [req.params.username])
-    if (!Array.isArray(results) || results.length === 0) {
-        res.status(400).send("Post non trovato")
-        return
-      }
 
-    const recipe = results[0] as any
-
-    if(recipe.authorId != user.username && user.role != "admin") {
-        res.status(401).send("Non possiedi i permessi necessari per eliminare il post")
-        return
-    }
-    
     connection.execute(
-        'DELETE FROM recipes WHERE name = ?',
+        'INSERT INTO ',
         [req.params.name],
         function(err, results, fields){
             res.json(results)
@@ -47,9 +34,19 @@ export async function deleteRecipe(req: Request, res: Response){
         res.status(401).send("Creare il post richiede il login")
         return 
     }
+
+    const results = connection.execute("SELECT * FROM recipes WHERE USERS_username = ?", 
+        [user.username])
+    if (!Array.isArray(results) || results.length === 0) {
+        res.status(400).send("Ricette non trovate")
+        return
+      }
+
+    const recipe = results[0] as any
+
     connection.execute(
-        'INSERT INTO recipes (name, usernameCreator)',
-        [req.body.name, user.username],
+        'DELETE FROM recipes WHERE USERS_username = ? and recipe_id = ?',
+        [user.username, recipe.id],
         function(err, results, fields){
             res.json(results)
         }

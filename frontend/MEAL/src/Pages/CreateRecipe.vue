@@ -221,7 +221,6 @@
         font-size: larger;
         border-radius: 6px;
         border: white 2.5px;
-
         cursor: pointer;
     }
 

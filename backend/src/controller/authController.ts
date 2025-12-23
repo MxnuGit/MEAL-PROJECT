@@ -31,7 +31,7 @@ export const register = async (req: Request, res: Response) => {
       bcrypt.hash(password, 10).then(function (passwordHash) {
 
         connection.execute(
-          "INSERT INTO users (username, password) VALUES (?, ?)",
+           `INSERT INTO users (username, password, role) VALUES (?, ?, "user")`,
           [username, passwordHash],
           function (err) {
             if (err) {
