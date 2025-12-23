@@ -65,7 +65,7 @@
     .mainContainer{
         background-color: #DCC9A3;
 
-        border: solid px white;
+        border: solid 2.5px white;
         border-radius: 25px;
         
         width: 100%;

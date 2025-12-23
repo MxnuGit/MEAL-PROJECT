@@ -220,7 +220,7 @@
         font-weight: bold;
         font-size: larger;
         border-radius: 6px;
-        border: white;
+        border: white 2.5px;
 
         cursor: pointer;
     }
