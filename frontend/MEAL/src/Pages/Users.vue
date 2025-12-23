@@ -67,6 +67,7 @@
         height: 20px;
         font-size: 20px;
         font-weight: bold;
+        padding: 10px;
     }
 
     #findButton {
