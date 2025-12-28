@@ -74,7 +74,7 @@ export async function createRecipe(req: Request, res: Response){
 export async function deleteRecipe(req: Request, res: Response){
     const user = getUser(req, res)
     if(!user) {
-        res.status(401).send("Creare il post richiede il login")
+        res.status(401).send("Eliminare il post richiede il login")
         return 
     }
 
