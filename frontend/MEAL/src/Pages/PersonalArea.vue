@@ -16,6 +16,11 @@
                 this.user = res.data;
             },
 
+            async getMyRecipes() {
+            const res = await axios.get("/api/recipes/me");
+            console.log(res.data);
+            },
+
             async logout() {
                 try {
                     await axios.post("/api/auth/logout");
@@ -31,6 +36,7 @@
         },
         mounted() {
             this.getUser()
+            this.getMyRecipes()
         },
     })
 </script>

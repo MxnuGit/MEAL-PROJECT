@@ -12,6 +12,23 @@ export async function recipeByName(req: Request, res: Response){
     )
 }
 
+export async function recipesByLoggedUser(req: Request, res: Response) {
+    const user = getUser(req, res);
+
+    if (!user) {
+        return res.status(401).json({ error: "Non autenticato" });
+    }
+
+    connection.execute(
+        `SELECT * FROM recipes WHERE USERS_username = ?`,
+        [user.username],
+        (err, results) => {
+            if (err) return res.status(500).json(err);
+            res.json(results);
+        }
+    );
+}
+
 export async function createRecipe(req: Request, res: Response){
     const user = getUser(req, res)
     if(!user) {
