@@ -43,6 +43,12 @@
                 <div>1</div>
             </section>
         </div>
+        <div class="MyRecipes">
+            <div class="Card" v-for="recipe in recipes">
+                <img src="../assets/carbonara.jpg">
+                <h3>{{ recipe.name }}</h3>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -91,44 +97,27 @@
         font-size: large;
         font-weight: bold;
     }
-    
-    header{
-        display: flex;
-        justify-content: center;
+
+    .MyRecipes{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+
+        justify-items: center;
     }
 
-    h2{
-       background-color: white; 
-       border-radius: 15px;
-       padding: 5px;
-       color: #2D2C53;
-       cursor: pointer;
-       
-       text-align: center;
-       width: 50%;
-    }
+    .Card{
+        background-color: white;
+        border-radius: 15px;
 
-    h2.active{
-        background-color: #E18727;
-        color: white;
-    }
-
-    .logout{
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
         width: 100%;
+        max-width: 250px;
+
         display: flex;
-        justify-content: right;
-    }
-
-    #logoutButton{
-        border: red;
-        background-color: red;
-        border-radius: 3.5px;
-
-        font-size: large;
-        font-weight: bold;
-        color: white;
-
-        cursor: pointer;
+        flex-direction: column;
+        align-items: center;
     }
 </style>
