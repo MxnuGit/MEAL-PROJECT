@@ -59,9 +59,16 @@
             @click="activeViewRecipe = 'favourites'">Preferiti</h2>
         </header>
         <div class="MyRecipes">
-            <div v-for="recipe in recipes">
+            <div class="Card" v-for="recipe in recipes">
                 <img src="../assets/carbonara.jpg">
-                <h1>{{ recipe.name }}</h1>
+                <h3>{{ recipe.name }}</h3>
+                <form>
+                    <input type="button" id="Edit" value="Modifica">
+                    <input type="button" id="Remove" value="Elimina">
+                </form>
+            </div>
+            <div class="AddCard">
+                <img src="../assets/addButton.png">
             </div>
         </div>
         <div class="logout">
@@ -142,16 +149,68 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+
+        justify-items: center;
     }
 
-    .MyRecipes{
+    .Card{
         background-color: white;
+        border-radius: 15px;
+
+        padding: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 250px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .Card > form{
+        display: flex;
+        gap: 20px;
+        height: 30%;
+    }
+
+    .Card > form > input{
+        border-radius: 10px;
+        border: none;
+        
+        font-size: larger;
+        font-weight: bolder;
+        color: white;
+        padding: 5px;
+
+        cursor: pointer;
+    }
+
+    #Edit{
+        background-color: #004AAD;
+    }
+
+    #Remove{
+        background-color: #FF3131;
+    }
+
+    .AddCard{
+        width: 100%;
+        max-width: 250px;
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .AddCard > img{
+        cursor: pointer;
     }
 
     .logout{
         width: 100%;
         display: flex;
-        justify-content: right;
+        justify-content: flex-end;
     }
 
     #logoutButton{
