@@ -53,7 +53,7 @@ export default defineComponent({
 <template>
     <div id="container">
         <header id="title">
-            <h1>Carbonara</h1>
+            <h1>{{ recipe?.name }}</h1>
         </header>
         <div id="firstPart">
             <section id="imageCont">
@@ -61,9 +61,9 @@ export default defineComponent({
             </section>
             <section id="tagView">
                 <ul>
-                    <li>difficoltà: FACILE</li>
-                    <li>Tempo: 120</li>
-                    <li>Portata: PRIMO</li>
+                    <li>difficoltà: {{ recipe?.difficulty }}</li>
+                    <li>Tempo: {{ recipe?.prep_time }}</li>
+                    <li>Portata: {{ recipe?.course }}</li>
                 </ul>
             </section>
         </div>
@@ -71,7 +71,7 @@ export default defineComponent({
         <section id="secondPart">
             <section id="description">
                 <h2>Descrizione</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae blanditiis architecto fugit aliquam in iure nulla cupiditate quibusdam eum. Iure, nisi. Veritatis sapiente amet, quis fuga qui nulla est eum!</p>
+                <p>{{ recipe?.description }}</p>
             </section>
             <section id="ingredients">
                 <h2>ingredients</h2>

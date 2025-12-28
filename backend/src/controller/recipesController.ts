@@ -30,16 +30,29 @@ export async function recipesByLoggedUser(req: Request, res: Response) {
 }
 
 export async function recipesByUsername(req: Request, res: Response) {
-  const { username } = req.params;
+    const { username } = req.params;
 
-  connection.execute(
-    "SELECT * FROM recipes WHERE USERS_username = ?",
-    [username],
-    (err, results) => {
-      if (err) return res.sendStatus(500);
-      res.json(results); // ARRAY
-    }
-  );
+    connection.execute(
+        "SELECT * FROM recipes WHERE USERS_username = ?",
+        [username],
+        (err, results) => {
+            if (err) return res.sendStatus(500);
+            res.json(results);
+        }
+    );
+}
+
+export async function recipesByID(req: Request, res: Response) {
+    const { id } = req.params;
+
+    connection.execute(
+        "SELECT * FROM recipes WHERE recipe_id = ?",
+        [id],
+        (err, results: any[]) => {
+            if (err) return res.sendStatus(500);
+            res.json(results[0] ?? null);
+        }
+    );
 }
 
 export async function createRecipe(req: Request, res: Response){

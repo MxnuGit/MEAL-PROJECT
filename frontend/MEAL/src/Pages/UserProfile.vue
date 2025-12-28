@@ -45,8 +45,10 @@
         </div>
         <div class="MyRecipes">
             <div class="Card" v-for="recipe in recipes">
-                <img src="../assets/carbonara.jpg">
-                <h3>{{ recipe.name }}</h3>
+                <router-link :to="`/RecipeView/${recipe.recipe_id}`" class="Card">
+                    <img src="../assets/carbonara.jpg">
+                    <h3>{{ recipe.name }}</h3>
+                </router-link>
             </div>
         </div>
     </div>
@@ -119,5 +121,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        text-decoration: none;
+        color: inherit;
     }
 </style>
