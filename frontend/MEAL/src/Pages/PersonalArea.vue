@@ -1,13 +1,14 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import axios from "axios";
-    import type { User } from "../types";
+    import type { User, Recipe } from "../types";
 
     export default defineComponent({
         data(){
             return{
                 activeViewRecipe: "myRecipe" as "myRecipe" | "favourites",
-                user: null as User | null
+                user: null as User | null,
+                recipes: [] as Recipe[]
             }
         },
         methods:{
@@ -18,7 +19,7 @@
 
             async getMyRecipes() {
             const res = await axios.get("/api/recipes/me");
-            console.log(res.data);
+            this.recipes = res.data;
             },
 
             async logout() {
@@ -57,6 +58,12 @@
             <h2 :class="{ active: activeViewRecipe === 'favourites' }"
             @click="activeViewRecipe = 'favourites'">Preferiti</h2>
         </header>
+        <div class="MyRecipes">
+            <div v-for="recipe in recipes">
+                <img src="../assets/carbonara.jpg">
+                <h1>{{ recipe.name }}</h1>
+            </div>
+        </div>
         <div class="logout">
             <input type="button" id="logoutButton" value="Logout" @click="logout">
         </div>
@@ -129,6 +136,16 @@
     h2.active{
         background-color: #E18727;
         color: white;
+    }
+
+    .MyRecipes{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .MyRecipes{
+        background-color: white;
     }
 
     .logout{
