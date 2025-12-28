@@ -29,6 +29,19 @@ export async function recipesByLoggedUser(req: Request, res: Response) {
     );
 }
 
+export async function recipesByUsername(req: Request, res: Response) {
+  const { username } = req.params;
+
+  connection.execute(
+    "SELECT * FROM recipes WHERE USERS_username = ?",
+    [username],
+    (err, results) => {
+      if (err) return res.sendStatus(500);
+      res.json(results); // ARRAY
+    }
+  );
+}
+
 export async function createRecipe(req: Request, res: Response){
     const user = getUser(req, res)
     if(!user) {

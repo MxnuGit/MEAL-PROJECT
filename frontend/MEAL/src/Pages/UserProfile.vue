@@ -1,12 +1,13 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import axios from "axios";
-    import type { User } from "../types";
+    import type { User, Recipe } from "../types";
 
     export default defineComponent({
         data(){
             return{
                 user: null as User | null,
+                recipes: [] as Recipe[]
             }
         },
         methods:{
@@ -16,10 +17,18 @@
                     this.user = response.data[0]
                     console.log(this.user?.username)
                 })
+            },
+
+            async getUserRecipes() {
+                const username = this.$route.params.username;
+                const res = await axios.get(`/api/users/${username}/recipes`);
+                this.recipes = res.data;
             }
         },
+
         mounted() {
             this.userByID()
+            this.getUserRecipes()
         },
     })
 </script>
