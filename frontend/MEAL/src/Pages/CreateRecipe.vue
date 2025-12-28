@@ -78,8 +78,10 @@
             <!-- Nome Ricetta -->
              <section id="nameField">
                 <label for="recipeName">Nome della Ricetta</label>
-                <input type="text" id="recipeName" v-model="recipeName" required>
-                <input type="file">
+                <div id="nameAndImage">
+                    <input type="text" id="recipeName" v-model="recipeName" required>
+                    <input type="file" value>
+                </div>
              </section>
 
             <!-- Difficoltà & Tempo -->
@@ -104,7 +106,7 @@
             <div id="secondPart">
                 <section id="ingredients">
                     <h4>Ingredienti</h4>
-                    <input type="text" v-model="ingredientInput" required>
+                    <input type="text" v-model="ingredientInput" id="inputIngredients">
                     <ol>
                         <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.name }}</li>
                     </ol>
@@ -112,7 +114,7 @@
 
                 <section id="quantity">
                     <h4>Quantità</h4>
-                    <input type="text" v-model="quantityInput" required>
+                    <input type="text" v-model="quantityInput">
                     <ol>
                         <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.quantity }}</li>
                     </ol>
@@ -120,14 +122,14 @@
 
                 <section id="unitMisure"> <!-- da fare poi la query -->
                     <h4>Unità</h4>
-                    <input type="text" v-model="unitInput" required>
+                    <input type="text" v-model="unitInput">
                     <ol>
                         <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.unit }}</li>
                     </ol>
                 </section>
 
                 <section id="addButton">
-                    <button type="button" @click="addIngredient">+</button>
+                    <button type="button" @click="addIngredient" id="">+</button>
                 </section>
 
             </div>
@@ -207,10 +209,17 @@
         margin: 0;
         margin-top: 10px;
     }
+
+    #nameAndImage {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        flex-wrap: wrap;
+    }
     
     input, textarea, select {
         color: #262a52;
-        width: 50%;
+        width: 40%;
         border-radius: 6px;
         height: 25px;
         border: white;
@@ -224,6 +233,7 @@
         border-radius: 6px;
         border: white 2.5px;
         cursor: pointer;
+        margin-left: 10px;
     }
 
     #firstPart {
@@ -251,26 +261,24 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-    }
-
-    #secondPart section {
-        padding: 10px;
+        padding-bottom: 10px;
+        justify-items: center;
     }
 
     #secondPart section input{
         width: 100%;
     }
 
-    #secondPart section:nth-child(1) {
+    #secondPart section {
         padding-left: 10px;
     }
 
     #addButton button{
-        height: 20px;
-        margin-top: 23px;
+        width: 100%;
         background-color: #68B65B;
         border-radius: 5px;
         border: none;
+        
     }
 
     #tagDiv {
