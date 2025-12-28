@@ -1,44 +1,59 @@
 <script lang="ts">
-    import { defineComponent } from 'vue';
-    import axios from 'axios'
-    import type { Recipe, Ingredient, Preparation } from '../types';
-    
-    export default defineComponent({
-        data() {
-            return {
-                recipe: null as Recipe | null,
-                ingredients: [] as Ingredient[],
-                preparations: [] as Preparation[]
-            }
-        },
-        methods: {
-            // getRecipe: function(){
-            //     axios.get("/api/recipe/" + this.recipe)
-            //         .then(response => this.recipe = response.data)
-            // },
+import { defineComponent } from "vue";
+import axios from "axios";
+import type { Recipe, Ingredient, Preparation } from "../types";
 
-            // getIngredients: function(){
-            //     axios.get("/api/recipe/" + this.recipe + "/" + this.ingredients)
-            //         .then(response => this.ingredients = response.data)
-            // },
+export default defineComponent({
+  data() {
+    return {
+      recipe: null as Recipe | null,
+      ingredients: [] as Ingredient[],
+      preparations: [] as Preparation[]
+    };
+  },
 
-            // getStepsByRecipe: function(){
-            //     axios.get("/api/recipe/"+ this.$route.params.nomericetta + "/steps/")
-            //         .then(response => this.preparations = response.data)
-            // }
-        },
-        mounted() {
-            // this.getRecipe();
-            // this.getIngredients();
-            // this.getStepsByRecipe();
-        }
-    })
+  methods: {
+    async getRecipe() {
+      const id = this.$route.params.id;
+      const res = await axios.get(`/api/recipes/${id}`);
+      this.recipe = res.data;
+    },
+
+    /*
+    async getIngredients() {
+      const id = this.$route.params.id;
+      const res = await axios.get(`/api/recipes/${id}/ingredients`);
+      this.ingredients = res.data;
+    },
+    async getPreparations() {
+      const id = this.$route.params.id;
+      const res = await axios.get(`/api/recipes/${id}/steps`);
+      this.preparations = res.data;
+    }
+      */
+  },
+
+  // WATCH NECESSARIO AL FINE DI CAMBIARE I DATI AL CAMBIO DELLA PAGINA
+  // (MOUNTED ESEGUE UNA SOLA VOLTA, WATCH AD OGNI RENDER)
+  watch: {
+    "$route.params.id": {
+      immediate: true,
+      handler() {
+        this.getRecipe();
+        /*
+        this.getIngredients();
+        this.getPreparations();
+        */
+      }
+    }
+  }
+});
 </script>
 <!-- TUTTI I VALORI ANDRANNO SOSTITUITI CON I VALORI EFFETTIVI DATI DALLE QUERY UNA VOLTA SVOLTE -->
 <template>
     <div id="container">
         <header id="title">
-            <h1>Carbonara</h1>
+            <h1>{{ recipe?.name }}</h1>
         </header>
         <div id="firstPart">
             <section id="imageCont">
@@ -46,9 +61,9 @@
             </section>
             <section id="tagView">
                 <ul>
-                    <li>difficoltà: FACILE</li>
-                    <li>Tempo: 120</li>
-                    <li>Portata: PRIMO</li>
+                    <li>difficoltà: {{ recipe?.difficulty }}</li>
+                    <li>Tempo: {{ recipe?.prep_time }}</li>
+                    <li>Portata: {{ recipe?.course }}</li>
                 </ul>
             </section>
         </div>
@@ -56,7 +71,7 @@
         <section id="secondPart">
             <section id="description">
                 <h2>Descrizione</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae blanditiis architecto fugit aliquam in iure nulla cupiditate quibusdam eum. Iure, nisi. Veritatis sapiente amet, quis fuga qui nulla est eum!</p>
+                <p>{{ recipe?.description }}</p>
             </section>
             <section id="ingredients">
                 <h2>ingredients</h2>
