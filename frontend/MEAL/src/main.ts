@@ -21,7 +21,7 @@ const router: Router = createRouter({
     { path: "/Users", component: Users },
     { path: "/UserProfile/:username", component: UserProfile},
     { path: "/PersonalArea", component: PersonalArea, meta: { requireLogin: true } },
-    { path: "/RecipeView", component: RecipeView },
+    { path: "/RecipeView/:id", component: RecipeView },
     { path: "/Login", component: Login, meta: { requireLogout: true } },
     { path: "/CreateRecipe", component: CreateRecipe, meta: { requireLogin: true } },
     { path: "/:pathMatch(.*)*", component: NotFound }

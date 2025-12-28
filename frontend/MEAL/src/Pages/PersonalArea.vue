@@ -59,17 +59,17 @@
             @click="activeViewRecipe = 'favourites'">Preferiti</h2>
         </header>
         <div class="MyRecipes">
-            <div class="Card" v-for="recipe in recipes">
+            <router-link :to="`/RecipeView/${recipe.recipe_id}`" class="Card" v-for="recipe in recipes">
                 <img src="../assets/carbonara.jpg">
                 <h3>{{ recipe.name }}</h3>
                 <form>
                     <input type="button" id="Edit" value="Modifica">
                     <input type="button" id="Remove" value="Elimina">
                 </form>
-            </div>
-            <div class="AddCard">
+            </router-link>
+            <router-link to="/CreateRecipe" class="AddCard">
                 <img src="../assets/addButton.png">
-            </div>
+            </router-link>
         </div>
         <div class="logout">
             <input type="button" id="logoutButton" value="Logout" @click="logout">
