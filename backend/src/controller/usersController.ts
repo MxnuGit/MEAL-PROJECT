@@ -19,3 +19,16 @@ export function userByID(req: Request, res: Response) {
         }
     )
 }
+
+export function getUsername(req: Request, res: Response){
+    connection.execute(
+        "SELECT username FROM users WHERE username = ?",
+        [req.params.username],
+        (err, results: any[]) => {
+            if (err) {
+                return res.status(500).json(err)
+            }
+            res.json(results)
+        }
+    )
+}

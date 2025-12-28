@@ -8,6 +8,7 @@
                 recipeName: "",
                 difficulty: "",
                 recipeTime: "",
+                recipeImage: "",
                 
                 ingredientInput: "",
                 quantityInput: null as number | null,
@@ -78,6 +79,7 @@
              <section id="nameField">
                 <label for="recipeName">Nome della Ricetta</label>
                 <input type="text" id="recipeName" v-model="recipeName" required>
+                <input type="file">
              </section>
 
             <!-- Difficoltà & Tempo -->

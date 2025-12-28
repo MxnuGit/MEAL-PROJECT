@@ -10,6 +10,7 @@ import RecipeView from "./Pages/RecipeView.vue"
 import NotFound from "./Pages/NotFound.vue"
 import Login from "./Pages/Login.vue"
 import CreateRecipe from "./Pages/CreateRecipe.vue"
+import UserProfile from "./Pages/UserProfile.vue"
 import axios from "axios"
 import type { User } from "./types"
 
@@ -18,6 +19,7 @@ const router: Router = createRouter({
   routes: [
     { path: "/", component: Home },
     { path: "/Users", component: Users },
+    { path: "/UserProfile/:username", component: UserProfile},
     { path: "/PersonalArea", component: PersonalArea, meta: { requireLogin: true } },
     { path: "/RecipeView", component: RecipeView },
     { path: "/Login", component: Login, meta: { requireLogout: true } },

@@ -21,6 +21,10 @@
             }).then(response => {
                 this.users = response.data
             })
+        },
+
+        goToProfile(user: User){
+            this.$router.push(`/UserProfile/${user.username}`)
         }
     }
 })
@@ -39,7 +43,7 @@
 
     <ul v-if="users.length > 0">
         <li v-for="user in users" :key="user.username" id="userItemList">
-            {{ user.username }}
+            <router-link :to="`/UserProfile/${ user.username }`">{{ user.username }}</router-link>
         </li>
     </ul>
 </template>
@@ -65,13 +69,14 @@
         background-color: #DCC9A3;
         border-radius: 6px;
         list-style: none;
-        width: 30%;
+        min-width: 20%;
         border-color: white;
         border: solid white 2px;
         height: 20px;
         font-size: 20px;
         font-weight: bold;
         padding: 10px;
+        margin-bottom: 8px;
     }
 
     #findButton {
@@ -86,5 +91,15 @@
     ul {
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+
+    }
+
+    a{
+        text-decoration: none;
+        color: #262A52;
+        text-align: center;
     }
 </style>
