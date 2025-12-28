@@ -33,7 +33,6 @@ router.beforeEach(async (to) => {
     const res = await axios.get("/api/auth/profile")
     user = res.data
   } catch (err) {
-    // backend offline → user rimane null
   }
 
   if (to.meta.requireLogin && !user) {

@@ -5,13 +5,12 @@
 body {
   margin: 0;
   padding: 0;
-  
-  background-color: #262a52;
-  background-image: url("assets/background.PNG");
+  background-image:
+    linear-gradient(rgba(38, 42, 82,0.6), rgba(38, 42, 82,0.6)),
+    url("assets/background.PNG");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-
   font-family: 'Roboto', sans-serif;
 }
 
