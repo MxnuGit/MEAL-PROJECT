@@ -19,7 +19,7 @@ aside {
   top: 0;
   left: 0;
   height: 100vh;
-  width: 35%;
+  width: 40%;
   padding: 2px 2px;
   box-sizing: border-box;
   display: flex;
@@ -75,7 +75,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90%;
+  width: 100%;
 }
 
 #imgSec a {
@@ -154,7 +154,7 @@ aside a p {
 
   aside {
     transform: none;
-    width: 280px;
+    width: 200px;
     border-radius: 0 32px 0px 0;
   }
   aside.open {
@@ -166,8 +166,8 @@ aside a p {
   }
 
   main {
-    margin-left: 280px;
-    width: calc(100% - 280px);
+    margin-left: 200px;
+    width: calc(100% - 200px);
   }
 
   aside a {
@@ -198,5 +198,24 @@ aside a p {
   aside section ul img {
     width: 38px;
     height: 38px;
+  }
+}
+
+@media (min-width: 1440px) {
+  aside {
+    width: 400px;
+  }
+
+  aside a p{
+    font-size: 35px;
+  }
+
+  aside section ul img {
+    width: 70px;
+    height: 70px;
+  }
+  main {
+    margin-left: 400px;
+    width: calc(100% - 400px);
   }
 }

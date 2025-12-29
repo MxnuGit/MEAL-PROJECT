@@ -1,16 +1,31 @@
 <script setup lang="ts">
-import SearchBar from "../components/SearchBar.vue"
-import Card from "../components/Card.vue"
-import carbonaraImg from "../assets/carbonara.jpg"
+  import SearchBar from "../components/SearchBar.vue"
+  import Card from "../components/Card.vue"
+  import carbonaraImg from "../assets/carbonara.jpg"
+  import filter from "../assets/filter.png"
+  import { ref } from "vue"
 
-async function searchRecipes(q: string) {
-  console.log("Query:", q)
-}
+  const q = ref("")
+
+  function searchRecipes(query: string) {
+    console.log("API ricette:", query)
+  }
+
+  function openFilters(currentQuery: string) {
+    console.log("Apro filtri con query:", currentQuery)
+  }
 </script>
 
 <template>
   <div class="home-page">
-    <SearchBar placeholder="Cerca una ricetta..." :onSearch="searchRecipes" />
+    <SearchBar
+      v-model="q"
+      placeholder="Cerca una ricetta..."
+      @query="searchRecipes"
+      @action="openFilters"
+      :icon="filter"
+      buttonAriaLabel="Filtri"
+    />
     <Card
       recipeId="1"
       :image="carbonaraImg"

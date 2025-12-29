@@ -78,7 +78,7 @@ a:active{
 }
 
 .recipe-card {
-  width: min(245px);
+  width: min(230px);
   background: rgb(220, 201, 163);
   border-radius: 28px;
   box-sizing: border-box;
@@ -113,7 +113,7 @@ a:active{
 .pill {
   display: inline-flex;
   align-items: center;
-  height: 23px;
+  height: 20px;
   padding: 7px 12px;
   border-radius: 999px;
   font-weight: bolder;
@@ -152,7 +152,7 @@ a:active{
 .recipe-card__title {
   margin: 6px 10px;
   font-weight: bolder;
-  font-size: 30px;
+  font-size: 25px;
   color: #262a52;
 }
 
@@ -181,7 +181,7 @@ a:active{
   font-size: 15px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .recipe-card {
     width: min(300px);
   }
