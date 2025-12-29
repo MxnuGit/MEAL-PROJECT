@@ -14,7 +14,9 @@ export interface User {
 }
 
 export interface Ingredient {
-    name: string
+    name: string,
+    quantity: number,
+    unit: string
 }
 
 export interface Preparation {

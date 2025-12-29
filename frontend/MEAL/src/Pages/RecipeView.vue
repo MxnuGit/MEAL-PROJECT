@@ -18,13 +18,14 @@ export default defineComponent({
       const res = await axios.get(`/api/recipes/${id}`);
       this.recipe = res.data;
     },
-
-    /*
+    
     async getIngredients() {
       const id = this.$route.params.id;
       const res = await axios.get(`/api/recipes/${id}/ingredients`);
       this.ingredients = res.data;
     },
+
+    /*
     async getPreparations() {
       const id = this.$route.params.id;
       const res = await axios.get(`/api/recipes/${id}/steps`);
@@ -39,11 +40,8 @@ export default defineComponent({
     "$route.params.id": {
       immediate: true,
       handler() {
-        this.getRecipe();
-        /*
+        this.getRecipe(),
         this.getIngredients();
-        this.getPreparations();
-        */
       }
     }
   }
@@ -61,7 +59,7 @@ export default defineComponent({
             </section>
             <section id="tagView">
                 <ul>
-                    <li>difficoltà: {{ recipe?.difficulty }}</li>
+                    <li>Difficoltà: {{ recipe?.difficulty }}</li>
                     <li>Tempo: {{ recipe?.prep_time }}</li>
                     <li>Portata: {{ recipe?.course }}</li>
                 </ul>
@@ -74,20 +72,16 @@ export default defineComponent({
                 <p>{{ recipe?.description }}</p>
             </section>
             <section id="ingredients">
-                <h2>ingredients</h2>
+                <h2>Ingredienti</h2>
                 <ul>
-                    <li>PASTA</li>
-                    <li>PASTA</li>
-                    <li>PASTA</li>
+                    <li v-for="ingredient in ingredients">{{ ingredient.name }} {{ ingredient.quantity }} {{ ingredient.unit }}</li>
                 </ul>
             </section>
         </section>
         <section id="thirdPart">
             <h2>Preparazione</h2>
             <ul>
-                <li>TAGLIA IL PANE</li>
-                <li>TAGLIA IL PANE</li>
-                <li>TAGLIA IL PANE</li>
+                <li></li>
             </ul>
         </section>
     </div>
@@ -104,55 +98,85 @@ export default defineComponent({
     }
 
     #title h1 {
-        margin-left: 3%;
-        margin-top: 5%;
         font-size: 35px;
         color: #262a52;
+        margin: 10px 0 10px;
+        margin-left: 20px;
     }
 
-    #firstPart {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 10%;
+    #title{
+        border-bottom: #262a52 solid 2px;
     }
 
-    #imageCont img {
+    #firstPart{
         width: 100%;
-        height: auto;
-        max-width: 200px;
-        max-height: 200px;
-        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    #tagView {
+    #firstPart #imageCont{
+        display: flex;
+    }
+
+    #imageCont img{
+        max-width: 224px;
+        border-radius: 10px;
+    }
+
+    #tagView{
+        background-color: #262a52;
+        border-radius: 10px;
+        min-width: 200px;
+        max-width: 310px;
         display: flex;
         justify-content: center;
-        justify-items: center;
-        background-color: #262a52;
-        border-radius: 20px;
-        color: #ffffff;
     }
 
     #tagView ul{
+        margin: 0;
+        padding: 0;
+        list-style: none;
         display: flex;
         flex-direction: column;
-        text-align: center;
-        padding: 10px;
-        margin: 0 auto;
     }
 
-    #tagView li {
-        margin-bottom: 10px;
+    #tagView ul li{
+        color: aliceblue;
+        padding: 5px 0 5px;
+        text-align: center; 
+        font-weight: bold;      
+    }
+
+    #imageCont, #tagView{
         margin-top: 10px;
-        list-style: none;
-        font-weight: bold;
     }
 
-    @media screen and (min-width: 800px) {
-    #imageCont{
-        float: left;
+    @media (min-width:1024px) {
+        #firstPart{
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 20px 0 20px;
+        }
+
+        #imageCont img{
+            max-width: 300px;
+            margin-left: 80px;
+            border-radius: 10px;
+        }
+
+        #tagView{
+            margin-right: 80px;
+            padding: 30px 5px 30px;
+        }
+
+        #title h1 {
+            font-size: 45px;
+            color: #262a52;
+            margin: 10px 0 10px;
+            margin-left: 30px;
+        }
     }
-}
 </style>
