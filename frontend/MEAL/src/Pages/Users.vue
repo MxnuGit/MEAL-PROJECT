@@ -70,7 +70,6 @@
         border-radius: 6px;
         list-style: none;
         min-width: 20%;
-        border-color: white;
         border: solid white 2px;
         height: 20px;
         font-size: 20px;

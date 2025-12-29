@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue"
 import SearchBar from "../components/SearchBar.vue"
 import Card from "../components/Card.vue"
-
-const results = ref<any[]>([])
+import carbonaraImg from "../assets/carbonara.jpg"
 
 async function searchRecipes(q: string) {
   console.log("Query:", q)
@@ -15,14 +13,24 @@ async function searchRecipes(q: string) {
     <SearchBar placeholder="Cerca una ricetta..." :onSearch="searchRecipes" />
     <Card
       recipeId="1"
-      image="../assets/carbonara.jpg"
+      :image="carbonaraImg"
       user="Chef Mario"
       difficul="Facile"
       time="0:30"
       title="Spaghetti alla Carbonara"
       dishType="Primo"
       people="4 persone"
-      :likes="120"
+      class="card"
     />
   </div>
 </template>
+
+<style scoped>
+  .card {
+    display: inline-block;
+    margin: 20px;
+  }
+  .home-page {
+    text-align: center;
+  }
+</style>

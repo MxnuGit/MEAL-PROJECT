@@ -9,7 +9,7 @@
     />
 
     <button class="searchbar__btn" type="button" aria-label="Filtri">
-      <img src="../assets/filter.png" alt="Icona filtri" width="30px" height="30px"/>
+      <img src="../assets/filter.png" alt="filtri" width="30px" height="30px"/>
     </button>
   </div>
 </template>
@@ -33,7 +33,7 @@ function onInput() {
   div{
     width: 70%;
     height: 52px;
-    margin: 50px auto;
+    margin: 50px auto 10px auto;
     background: #ffffff;
     border-radius: 999px;
     display: flex;

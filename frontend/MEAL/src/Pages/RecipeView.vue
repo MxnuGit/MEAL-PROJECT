@@ -82,7 +82,6 @@
     #container{
         background-color: #DCC9A3;
         border-radius: 10px;
-        border-color: white;
         border: 2.5px solid white;
         max-width: 80%;
         margin: 80px auto;
