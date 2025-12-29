@@ -70,6 +70,21 @@ export async function ingredientsByID(req: Request, res: Response) {
     );
 }
 
+export async function stepsByID(req: Request, res: Response) {
+    const { id } = req.params;
+
+    connection.execute(
+        `SELECT preparations.step_number as stepNumber, preparations.step_desc AS stepDesc
+        FROM recipes JOIN preparations ON RECIPES_recipe_id = preparations.RECIPES_recipe_id
+        WHERE recipes.recipe_id = ?`,
+        [id],
+        (err, results: any[]) => {
+            if (err) return res.sendStatus(500);
+            res.json(results);
+        }
+    );
+}
+
 export async function createRecipe(req: Request, res: Response){
     const user = getUser(req, res)
     if(!user) {

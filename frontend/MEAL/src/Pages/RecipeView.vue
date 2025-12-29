@@ -8,7 +8,7 @@ export default defineComponent({
     return {
       recipe: null as Recipe | null,
       ingredients: [] as Ingredient[],
-      preparations: [] as Preparation[]
+      preparations: [] as Preparation[],
     };
   },
 
@@ -25,13 +25,11 @@ export default defineComponent({
       this.ingredients = res.data;
     },
 
-    /*
     async getPreparations() {
       const id = this.$route.params.id;
       const res = await axios.get(`/api/recipes/${id}/steps`);
       this.preparations = res.data;
     }
-      */
   },
 
   // WATCH NECESSARIO AL FINE DI CAMBIARE I DATI AL CAMBIO DELLA PAGINA
@@ -41,7 +39,8 @@ export default defineComponent({
       immediate: true,
       handler() {
         this.getRecipe(),
-        this.getIngredients();
+        this.getIngredients(),
+        this.getPreparations();
       }
     }
   }
@@ -81,7 +80,7 @@ export default defineComponent({
         <section id="thirdPart">
             <h2>Preparazione</h2>
             <ul>
-                <li></li>
+                <li v-for="preparation in preparations">{{ preparation.stepNumber}}. {{ preparation.stepDesc }}</li>
             </ul>
         </section>
     </div>
