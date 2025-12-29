@@ -38,7 +38,7 @@
                id="findUser"
                minlength="2"
                maxlength="20">
-        <button type="submit" id="findButton">O</button>
+        <button type="submit" id="findButton">⌕</button>
     </form>
 
     <ul v-if="users.length > 0">
@@ -50,6 +50,7 @@
 
 <style scoped>
     form {
+        padding-top: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -58,7 +59,7 @@
     }
 
     #findUser{
-        width: 100%;
+        width: 70%;
         height: 35px;
         font-size: 100%;
         border-radius: 20px;
@@ -80,9 +81,9 @@
     }
 
     #findButton {
-        width: 5%;
+        max-width: 15%;
         height: 40px;
-        font-size: 15px;
+        font-size: 25px;
         border-radius: 20px;
         background-color: orange;
         font-weight: bold;
