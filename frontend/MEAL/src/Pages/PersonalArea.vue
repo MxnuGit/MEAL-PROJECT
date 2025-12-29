@@ -60,16 +60,18 @@
         </header>
         <div class="MyRecipes">
             <div class="Card" v-for="recipe in recipes">
-                <img src="../assets/carbonara.jpg">
-                <h3>{{ recipe.name }}</h3>
+                <router-link :to="`/RecipeView/${recipe.recipe_id}`" class="Card">
+                    <img src="../assets/carbonara.jpg">
+                    <h3>{{ recipe.name }}</h3>
+                </router-link>
                 <form>
                     <input type="button" id="Edit" value="Modifica">
                     <input type="button" id="Remove" value="Elimina">
                 </form>
             </div>
-            <div class="AddCard">
+            <router-link to="/CreateRecipe" class="AddCard">
                 <img src="../assets/addButton.png">
-            </div>
+            </router-link>
         </div>
         <div class="logout">
             <input type="button" id="logoutButton" value="Logout" @click="logout">
@@ -84,7 +86,7 @@
         border: solid 2.5px white;
         border-radius: 25px;
         
-        width: 100%;
+        width: 80%;
         max-width: 600px;
 
         margin: 80px auto;
@@ -165,6 +167,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        text-decoration: none;
+        color: inherit;
     }
 
     .Card > form{

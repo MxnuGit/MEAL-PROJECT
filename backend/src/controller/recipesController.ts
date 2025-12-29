@@ -29,6 +29,32 @@ export async function recipesByLoggedUser(req: Request, res: Response) {
     );
 }
 
+export async function recipesByUsername(req: Request, res: Response) {
+    const { username } = req.params;
+
+    connection.execute(
+        "SELECT * FROM recipes WHERE USERS_username = ?",
+        [username],
+        (err, results) => {
+            if (err) return res.sendStatus(500);
+            res.json(results);
+        }
+    );
+}
+
+export async function recipesByID(req: Request, res: Response) {
+    const { id } = req.params;
+
+    connection.execute(
+        "SELECT * FROM recipes WHERE recipe_id = ?",
+        [id],
+        (err, results: any[]) => {
+            if (err) return res.sendStatus(500);
+            res.json(results[0] ?? null);
+        }
+    );
+}
+
 export async function createRecipe(req: Request, res: Response){
     const user = getUser(req, res)
     if(!user) {
@@ -48,7 +74,7 @@ export async function createRecipe(req: Request, res: Response){
 export async function deleteRecipe(req: Request, res: Response){
     const user = getUser(req, res)
     if(!user) {
-        res.status(401).send("Creare il post richiede il login")
+        res.status(401).send("Eliminare il post richiede il login")
         return 
     }
 

@@ -1,12 +1,13 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
     import axios from "axios";
-    import type { User } from "../types";
+    import type { User, Recipe } from "../types";
 
     export default defineComponent({
         data(){
             return{
                 user: null as User | null,
+                recipes: [] as Recipe[]
             }
         },
         methods:{
@@ -16,10 +17,18 @@
                     this.user = response.data[0]
                     console.log(this.user?.username)
                 })
+            },
+
+            async getUserRecipes() {
+                const username = this.$route.params.username;
+                const res = await axios.get(`/api/users/${username}/recipes`);
+                this.recipes = res.data;
             }
         },
+
         mounted() {
             this.userByID()
+            this.getUserRecipes()
         },
     })
 </script>
@@ -33,6 +42,14 @@
                 <div>Like</div>
                 <div>1</div>
             </section>
+        </div>
+        <div class="MyRecipes">
+            <div class="Card" v-for="recipe in recipes">
+                <router-link :to="`/RecipeView/${recipe.recipe_id}`" class="Card">
+                    <img src="../assets/carbonara.jpg">
+                    <h3>{{ recipe.name }}</h3>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -82,44 +99,30 @@
         font-size: large;
         font-weight: bold;
     }
-    
-    header{
-        display: flex;
-        justify-content: center;
+
+    .MyRecipes{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+
+        justify-items: center;
     }
 
-    h2{
-       background-color: white; 
-       border-radius: 15px;
-       padding: 5px;
-       color: #2D2C53;
-       cursor: pointer;
-       
-       text-align: center;
-       width: 50%;
-    }
+    .Card{
+        background-color: white;
+        border-radius: 15px;
 
-    h2.active{
-        background-color: #E18727;
-        color: white;
-    }
-
-    .logout{
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
         width: 100%;
+        max-width: 250px;
+
         display: flex;
-        justify-content: right;
-    }
+        flex-direction: column;
+        align-items: center;
 
-    #logoutButton{
-        border: red;
-        background-color: red;
-        border-radius: 3.5px;
-
-        font-size: large;
-        font-weight: bold;
-        color: white;
-
-        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
     }
 </style>
