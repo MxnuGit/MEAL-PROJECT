@@ -97,7 +97,7 @@
 
                 <section id="time">
                     <h4>minuti</h4>
-                    <input type="text" placeholder="120..." v-model="recipeTime" required>
+                    <input type="text" placeholder="120..." v-model="recipeTime" id="inputTime" required>
                 </section>
 
             </div>
@@ -129,7 +129,7 @@
                 </section>
 
                 <section id="addButton">
-                    <button type="button" @click="addIngredient" id="">+</button>
+                    <button type="button" @click="addIngredient">Aggiungi</button>
                 </section>
 
             </div>
@@ -167,7 +167,7 @@
                     <!-- <li v-for="step in steps"></li> -->
                 </ul>
             </section>
-            <button type="submit">Aggiungi Ricetta</button>
+            <button type="submit" id="sendRecipe">Conferma</button>
         </form>
     </div>
 </template>
@@ -221,7 +221,7 @@
         color: #262a52;
         width: 40%;
         border-radius: 6px;
-        height: 25px;
+        height: 27px;
         border: white;
     }
 
@@ -258,11 +258,9 @@
     }
 
     #secondPart {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        padding-bottom: 10px;
-        justify-items: center;
+        align-items: flex-start;
+        width: 60%;
+        justify-content: center;
     }
 
     #secondPart section input{
@@ -271,25 +269,28 @@
 
     #secondPart section {
         padding-left: 10px;
+        padding-right: 10px;
     }
 
     #addButton button{
-        width: 100%;
+        max-width: 100%;
         background-color: #68B65B;
         border-radius: 5px;
         border: none;
-        
+        margin: 0;
+        margin-bottom: 20px;
+        font-size: 17px;
     }
 
     #tagDiv {
         padding-left: 10px;
+        border-top: solid #262A52;
         border-bottom: solid #262A52;
         padding-bottom: 10px;
     }
 
     #tagInputDiv {
-        display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
     }
 
     #vegan, #proteinRich, #glutenFree, #lactoseFree {
@@ -297,7 +298,8 @@
     }
 
     #description {
-        padding-left: 10px; 
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     #descriptionText {
@@ -306,16 +308,5 @@
         resize: none;
         border-radius: 6px;
         border-color: black;
-    }
-
-    #steps h4 {
-        padding-left: 10px;
-    }
-
-    @media screen and (max-width: 816px){
-        #ingredients {
-            display: flex;
-            flex-wrap: wrap;
-        }
     }
 </style>
