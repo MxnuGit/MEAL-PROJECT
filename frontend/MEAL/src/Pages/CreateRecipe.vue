@@ -13,6 +13,8 @@
                 ingredientInput: "",
                 quantityInput: null as number | null,
                 unitInput: "",
+                stepNumber: 1,
+                stepDescInput: "",
 
                 ingredients: [] as {
                     name: string,
@@ -32,10 +34,12 @@
                 // recipeIngredientsUnit: [] as string[],
 
                 description: "",
+                
                 steps: [] as {
+                    stepDesc: string,
                     stepNumber: number
-                    stepDesc: string
-                }[]
+                }[],
+                
             }
         },
         methods:{
@@ -58,6 +62,22 @@
                 this.ingredientInput = "";
                 this.quantityInput = null;
                 this.unitInput = "";
+            },
+
+            addStep(){
+                if(this.stepDescInput == null) {
+                    return
+                }
+
+                this.steps.push(
+                    {
+                        stepDesc: this.stepDescInput,
+                        stepNumber: this.stepNumber
+                    }
+                )
+
+                this.stepDescInput = ""
+                this.stepNumber++
             },
 
             submitRecipe: function(){
@@ -164,9 +184,13 @@
             </section>
             <section id="steps">
                 <h4>Preparazioni</h4>
+                <input v-model="stepDescInput" type="text">
                 <ul>
-                    <!-- <li v-for="step in steps"></li> -->
+                    <li v-for="step in steps">{{ step.stepNumber }} - {{ step.stepDesc }}</li>
                 </ul>
+                <section id="addButton">
+                    <button type="button" @click="addStep">Aggiungi</button>
+                </section>
             </section>
             <button type="submit" id="sendRecipe">Conferma</button>
         </form>
