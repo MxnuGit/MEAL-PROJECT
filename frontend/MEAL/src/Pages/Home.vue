@@ -4,11 +4,20 @@
   import carbonaraImg from "../assets/carbonara.jpg"
   import filter from "../assets/filter.png"
   import { ref } from "vue"
+  import axios from "axios"
 
-  const q = ref("")
+  const q = ref("") //variabile reattiva per la query di ricerca
 
-  function searchRecipes(query: string) {
-    console.log("API ricette:", query)
+  async function searchRecipes(query: string) { //funzione per cercare le ricette
+      const s = query.trim() //rimuove spazi bianchi all'inizio e alla fine
+      if (!s) { //se la stringa è vuota
+          console.log("non trovato") //logga "non trovato"
+          return //esce dalla funzione
+      }
+
+      const { data } = await axios.get("/api/recipe/" + s ) //chiamata axios per ottenere le ricette
+
+      console.log(data) //logga i dati ricevuti
   }
 
   function openFilters(currentQuery: string) {

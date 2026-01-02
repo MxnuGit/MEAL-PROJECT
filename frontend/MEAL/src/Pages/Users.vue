@@ -9,17 +9,17 @@
     const users = ref<User[]>([])
 
     async function searchUsers(query: string) {
-    const s = query.trim()
-    if (!s) {
-        users.value = []
-        return
-    }
+        const s = query.trim()
+        if (!s) {
+            users.value = []
+            return
+        }
 
-    const { data } = await axios.get("/api/user", {
-        params: { search: s },
-    })
+        const { data } = await axios.get("/api/user", {
+            params: { search: s },
+        })
 
-    users.value = data
+        users.value = data
     }
 </script>
 
