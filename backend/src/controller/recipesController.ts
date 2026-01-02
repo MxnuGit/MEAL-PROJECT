@@ -109,7 +109,7 @@ export async function deleteRecipe(req: Request, res: Response){
         return 
     }
 
-    const results = connection.execute("SELECT * FROM recipes WHERE USERS_username = ?", 
+    /* const results = connection.execute("SELECT * FROM recipes WHERE USERS_username = ?", 
         [user.username])
     if (!Array.isArray(results) || results.length === 0) {
         res.status(400).send("Ricette non trovate")
@@ -117,10 +117,11 @@ export async function deleteRecipe(req: Request, res: Response){
       }
 
     const recipe = results[0] as any
-
+    */
+   
     connection.execute(
-        'DELETE FROM recipes WHERE USERS_username = ? and recipe_id = ?',
-        [user.username, recipe.id],
+        'DELETE FROM recipes WHERE recipe_id = ?',
+        [req.params.id],
         function(err, results, fields){
             res.json(results)
         }

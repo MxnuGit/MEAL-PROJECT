@@ -11,6 +11,6 @@ router.get("/api/recipes/:id/ingredients", recipesController.ingredientsByID);
 router.get("/api/recipes/:id/steps", recipesController.stepsByID)
 router.post("/api/createRecipe", recipesController.createRecipe);
 
-router.delete("/api/deleteRecipe", recipesController.deleteRecipe);
+router.delete("/api/deleteRecipe/:id", recipesController.deleteRecipe);
 
 export default router

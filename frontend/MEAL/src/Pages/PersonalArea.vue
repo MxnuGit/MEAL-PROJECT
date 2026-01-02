@@ -22,6 +22,17 @@
             this.recipes = res.data;
             },
 
+            async deleteRecipe(recipe_id: number){
+                console.log(recipe_id)
+                try {
+                    const response = await axios.delete(`/api/deleteRecipe/${recipe_id}`);
+                    console.log('Risorsa eliminata:', response.data);
+                    location.reload();
+                } catch (error) {
+                    console.error('Errore:', error);
+                }
+            },
+
             async logout() {
                 try {
                     await axios.post("/api/auth/logout");
@@ -64,9 +75,9 @@
                     <img src="../assets/carbonara.jpg">
                     <h3>{{ recipe.name }}</h3>
                 </router-link>
-                <form>
+                <form @submit.prevent>
                     <input type="button" id="Edit" value="Modifica">
-                    <input type="button" id="Remove" value="Elimina">
+                    <input @click="deleteRecipe(recipe.recipe_id)" type="button" id="Remove" value="Elimina">
                 </form>
             </div>
             <router-link to="/CreateRecipe" class="AddCard">
