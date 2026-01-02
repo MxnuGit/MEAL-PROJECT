@@ -55,6 +55,36 @@ export async function recipesByID(req: Request, res: Response) {
     );
 }
 
+export async function ingredientsByID(req: Request, res: Response) {
+    const { id } = req.params;
+
+    connection.execute(
+        `SELECT has.INGREDIENTS_name AS name, has.quantity AS quantity, measured_in.UNIT_OF_MEASUREMENT_measurement as unit
+        FROM has JOIN recipes JOIN measured_in ON has.RECIPES_recipe_id = recipes.recipe_id and measured_in.INGREDIENTS_name = has.INGREDIENTS_name
+        WHERE recipes.recipe_id = ?`,
+        [id],
+        (err, results: any[]) => {
+            if (err) return res.sendStatus(500);
+            res.json(results);
+        }
+    );
+}
+
+export async function stepsByID(req: Request, res: Response) {
+    const { id } = req.params;
+
+    connection.execute(
+        `SELECT preparations.step_number as stepNumber, preparations.step_desc AS stepDesc
+        FROM recipes JOIN preparations ON RECIPES_recipe_id = preparations.RECIPES_recipe_id
+        WHERE recipes.recipe_id = ?`,
+        [id],
+        (err, results: any[]) => {
+            if (err) return res.sendStatus(500);
+            res.json(results);
+        }
+    );
+}
+
 export async function createRecipe(req: Request, res: Response){
     const user = getUser(req, res)
     if(!user) {

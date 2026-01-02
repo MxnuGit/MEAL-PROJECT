@@ -1,78 +1,189 @@
 <template>
-  <div>
-    <div>
-      <img :src="image" alt="" />
-      <p>{{ user }}</p>
-      <p>{{ difficul }}</p>
-
-      <div>
-        <img src="https://www.svgrepo.com/show/421561/clock-time.svg" alt="" width="20px" height="20px"/>
-        <p>{{ time }}</p>
+  <article class="recipe-card">
+    <a :href="`/RecipeView/${ recipeId }`">
+      <div class="recipe-card__media">
+        <img class="recipe-card__img" :src="image" alt="" />
+        <div class="recipe-card__meta">
+          <span class="pill pill--name">{{ user }}</span>
+          <span class="pill" :class="difficultyPillClass">
+            {{ difficul }}
+          </span>
+          <span class="pill pill--time">
+            <svg
+              class="pill__icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="9" stroke="white" stroke-width="2" />
+              <path d="M12 7v6l4 2" stroke="white" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <span>{{ time }}</span>
+          </span>
+        </div>
       </div>
-    </div>
 
-    <h2>{{ title }}</h2>
-    <p>{{ dishType }}</p>
-    <p>{{ people }}</p>
+      <div class="recipe-card__body">
+        <h2 class="recipe-card__title">{{ title }}</h2>
 
-    <div>
-      <p>{{ likesCount }}</p>
-
-      <button
-        type="button"
-        :disabled="pending"
-        @click="toggleLike"
-        style="background: none; border: none; cursor: pointer;"
-      >
-        <svg
-          width="30"
-          height="30"
-          viewBox="0 0 24 24"
-          :fill="liked ? '#0b0b0b' : '#ffffff'"
-          :stroke="liked ? '#0b0b0b' : '#ffffff'"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path
-            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
-               2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
-               C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5
-               c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-          />
-        </svg>
-      </button>
-    </div>
-  </div>
+        <div class="recipe-card__footer">
+          <div class="recipe-card__badges">
+            <span class="badge">{{ dishType }}</span>
+            <span class="badge">{{ people }}</span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </article>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue"
+import { computed } from "vue"
 
 const props = defineProps({
-    recipeId: {type: String, required: true},
-    image: {type: String, required: true},
-    user: {type: String, required: true},
-    difficul: {type: String, required: true},
-    time: {type: String, required: true},
-    title: {type: String, required: true},
-    dishType: {type: String, required: true},
-    people: {type: String, required: true},
-    likes: {type: Number, required: true},
-    likedByMe: {type: Boolean, default: false}
+  recipeId: { type: String, required: true },
+  image: { type: String, required: true },
+  user: { type: String, required: true },
+  difficul: { type: String, required: true },
+  time: { type: String, required: true },
+  title: { type: String, required: true },
+  dishType: { type: String, required: true },
+  people: { type: String, required: true }
 })
 
-const likesCount = ref<number>(props.likes)
-const liked = ref<boolean>(props.likedByMe)
-const pending = ref(false)
-
-watch(() => props.likes, (v) => (likesCount.value = v))
-watch(() => props.likedByMe, (v) => (liked.value = v))
-
-
-function toggleLike() {
-  liked.value = !liked.value
-  likesCount.value = liked.value ? 1 : 0
-}
+const difficultyPillClass = computed(() => {
+  const d = props.difficul.toLowerCase()
+  if (d.includes("fac")) return "pill--easy"
+  if (d.includes("med")) return "pill--medium"
+  if (d.includes("diff")) return "pill--hard"
+  return "pill--neutral"
+})
 </script>
+
+<style scoped>
+
+a{
+  text-decoration: none;
+}
+a:visited{
+  color: inherit;
+  text-decoration: none;
+}
+a:active{
+  color: inherit;
+  text-decoration: none;
+}
+
+.recipe-card {
+  width: min(230px);
+  background: rgb(220, 201, 163);
+  border-radius: 28px;
+  box-sizing: border-box;
+}
+
+.recipe-card__media {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  height: 190px;
+}
+
+.recipe-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recipe-card__meta {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(220, 201, 163, 0.8);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-weight: bolder;
+  font-size: 10px;
+}
+
+.pill--name,
+.pill--time {
+  background: #262a52;
+  color: #fff;
+}
+
+.pill--easy {
+  background: #61a959;
+  color: #000000;
+}
+
+.pill--hard {
+  background: #b14036; 
+  color: #fff;
+}
+
+.pill--medium {
+  background: #e36700;
+  color: #000000;
+}
+
+.pill__icon {
+  display: block;
+}
+
+.recipe-card__body {
+  padding: 10px 6px 0;
+}
+
+.recipe-card__title {
+  margin: 6px 10px;
+  font-weight: bolder;
+  font-size: 25px;
+  color: #262a52;
+}
+
+.recipe-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.recipe-card__badges {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-bottom: 10px;
+  gap: 8px;
+  width: 80%;
+}
+
+.badge {
+  background: #262a52;
+  color: #fff;
+  border-radius: 999px;
+  padding: 12px 16px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+@media (min-width: 1024px) {
+  .recipe-card {
+    width: min(300px);
+  }
+}
+</style>

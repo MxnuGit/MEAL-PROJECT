@@ -1,55 +1,49 @@
-<script lang="ts">
-    import { defineComponent } from 'vue';
-    import axios from 'axios'
-    import type { User } from '../types';
-    
-    export default defineComponent({
-        data() {
-            return {
-              users: [] as User[],
-              searchId: ""
-            }
-        },
-    methods: {
-        userByID() {
-            if (this.searchId.length < 1) return
+<script setup lang="ts">
+    import { ref } from "vue"
+    import axios from "axios"
+    import type { User } from "../types"
+    import SearchBar from "../components/SearchBar.vue"
+    import lens from "../assets/lens.png"
 
-            axios.get("/api/user", {
-                params: {
-                    search: this.searchId
-                }
-            }).then(response => {
-                this.users = response.data
-            })
-        },
+    const q = ref("")
+    const users = ref<User[]>([])
 
-        goToProfile(user: User){
-            this.$router.push(`/UserProfile/${user.username}`)
-        }
+    async function searchUsers(query: string) {
+    const s = query.trim()
+    if (!s) {
+        users.value = []
+        return
     }
-})
+
+    const { data } = await axios.get("/api/user", {
+        params: { search: s },
+    })
+
+    users.value = data
+    }
 </script>
 
 <template>
-    <form @submit.prevent="userByID">
-        <input type="text"
-               v-model="searchId"
-               placeholder="Cerca un utente"
-               id="findUser"
-               minlength="2"
-               maxlength="20">
-        <button type="submit" id="findButton">O</button>
-    </form>
+  <SearchBar
+    v-model="q"
+    placeholder="Cerca un utente"
+    :icon="lens"
+    buttonAriaLabel="Cerca"
+    @query="searchUsers"
+    @action="searchUsers"
+  />
 
-    <ul v-if="users.length > 0">
-        <li v-for="user in users" :key="user.username" id="userItemList">
-            <router-link :to="`/UserProfile/${ user.username }`">{{ user.username }}</router-link>
-        </li>
-    </ul>
+  <ul v-if="users.length > 0">
+    <li v-for="user in users" :key="user.username" id="userItemList">
+      <router-link :to="`/UserProfile/${user.username}`">{{ user.username }}</router-link>
+    </li>
+  </ul>
 </template>
+
 
 <style scoped>
     form {
+        padding-top: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -58,7 +52,7 @@
     }
 
     #findUser{
-        width: 100%;
+        width: 70%;
         height: 35px;
         font-size: 100%;
         border-radius: 20px;
@@ -70,7 +64,6 @@
         border-radius: 6px;
         list-style: none;
         min-width: 20%;
-        border-color: white;
         border: solid white 2px;
         height: 20px;
         font-size: 20px;
@@ -80,9 +73,9 @@
     }
 
     #findButton {
-        width: 5%;
+        max-width: 15%;
         height: 40px;
-        font-size: 15px;
+        font-size: 25px;
         border-radius: 20px;
         background-color: orange;
         font-weight: bold;

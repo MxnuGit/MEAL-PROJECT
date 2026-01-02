@@ -6,7 +6,9 @@ export interface Recipe {
     description: string,
     difficulty: string,
     prep_time: number,
-    course: string
+    course: string,
+    stepNuber: number,
+    stepDesc: string
 }
 
 export interface User {
@@ -14,10 +16,12 @@ export interface User {
 }
 
 export interface Ingredient {
-    name: string
+    name: string,
+    quantity: number,
+    unit: string
 }
 
 export interface Preparation {
-    step_number: number
-    step_desc: string
+    stepNumber: number
+    stepDesc: string
 }

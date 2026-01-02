@@ -1,39 +1,57 @@
 <template>
-  <div>
+  <div class="searchbar">
     <input
       class="searchbar__input"
-      v-model="q"
+      v-model="model"
       :placeholder="placeholder"
-      @input="onInput"
       type="text"
     />
 
-    <button class="searchbar__btn" type="button" aria-label="Filtri">
-      <img src="../assets/filter.png" alt="Icona filtri" width="30px" height="30px"/>
+    <button
+      class="searchbar__btn"
+      type="button"
+      :aria-label="buttonAriaLabel"
+      @click="onButtonClick"
+    >
+      <img :src="icon" :alt="iconAlt" width="30" height="30" />
     </button>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { computed } from "vue"
+import defaultIcon from "../assets/filter.png"
 
 const props = defineProps({
+  modelValue: { type: String, default: "" },
   placeholder: { type: String, default: "Cerca una ricetta..." },
-  onSearch: { type: Function, required: true },
+
+  icon: { type: String, default: defaultIcon },
+  iconAlt: { type: String, default: "icona" },
+
+  buttonAriaLabel: { type: String, default: "Azione" },
 })
 
-const q = ref("")
+const emit = defineEmits(["update:modelValue", "query", "action"])
 
-function onInput() {
-  props.onSearch(q.value)
+const model = computed({
+  get: () => props.modelValue,
+  set: (v) => {
+    emit("update:modelValue", v)
+    emit("query", v)
+  },
+})
+
+function onButtonClick() {
+  emit("action", props.modelValue)
 }
 </script>
 
 <style scoped>
   div{
-    width: 70%;
-    height: 52px;
-    margin: 50px auto;
+    width: 85%;
+    height: 40px;
+    margin: 50px auto 10px auto;
     background: #ffffff;
     border-radius: 999px;
     display: flex;
@@ -61,7 +79,7 @@ function onInput() {
 
   .searchbar__btn {
     width: 52px;
-    height: 52px;
+    height: 40px;
     border: 0;
     border-radius: 0px 999px 999px 0px;
     background: #f39a2d;
@@ -71,5 +89,28 @@ function onInput() {
     align-items: center;
     margin-left: 10px;
     cursor: pointer;
+  }
+
+  @media (min-width: 1440px) {
+    div {
+      max-width: 670px;
+    }
+  }
+
+  @media (min-width: 2560px) {
+    div{
+      height: 70px;
+    }
+
+    .searchbar__btn {
+      height: 70px;
+    }
+
+    .searchbar__input {
+      font-size: 25px;
+    }
+    .searchbar__input::placeholder {
+      font-size: 25px;
+    }
   }
 </style>
