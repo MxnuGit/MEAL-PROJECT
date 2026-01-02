@@ -1,7 +1,7 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
+    import type{ Ingredient, Preparation} from '../types';
 
-    
     export default defineComponent({
         data(){
             return{
@@ -33,7 +33,8 @@
 
                 description: "",
                 steps: [] as {
-                    step: string
+                    stepNumber: number
+                    stepDesc: string
                 }[]
             }
         },
@@ -96,7 +97,7 @@
                 </section>
 
                 <section id="time">
-                    <h4>minuti</h4>
+                    <h4>Minuti</h4>
                     <input type="text" placeholder="120..." v-model="recipeTime" id="inputTime" required>
                 </section>
 
