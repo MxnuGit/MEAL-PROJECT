@@ -21,15 +21,6 @@ CREATE TABLE users (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
--- TAG
--- --------------------------------------------------------
-
-CREATE TABLE tag (
-  tag_name VARCHAR(255) NOT NULL,
-  PRIMARY KEY (tag_name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
 -- INGREDIENTS
 -- --------------------------------------------------------
 
@@ -59,33 +50,20 @@ CREATE TABLE recipes (
   description LONGTEXT NOT NULL,
   course VARCHAR(255) NOT NULL,
   recipe_image MEDIUMBLOB NOT NULL,
+
+  -- NEW BOOLEAN ATTRIBUTES
+  isVegan BOOLEAN NOT NULL DEFAULT FALSE,
+  isLactoseFree BOOLEAN NOT NULL DEFAULT FALSE,
+  isGlutenFree BOOLEAN NOT NULL DEFAULT FALSE,
+  isProteinRich BOOLEAN NOT NULL DEFAULT FALSE,
+
   USERS_username VARCHAR(255) NOT NULL,
+
   PRIMARY KEY (recipe_id),
   KEY idx_recipes_user (USERS_username),
   CONSTRAINT fk_recipes_user
     FOREIGN KEY (USERS_username)
     REFERENCES users(username)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
--- ACCEPTS (RECIPES ↔ TAG)
--- --------------------------------------------------------
-
-CREATE TABLE accepts (
-  RECIPES_recipe_id INT NOT NULL,
-  TAG_tag_name VARCHAR(255) NOT NULL,
-  PRIMARY KEY (RECIPES_recipe_id, TAG_tag_name),
-  KEY idx_accepts_tag (TAG_tag_name),
-  CONSTRAINT fk_accepts_recipe
-    FOREIGN KEY (RECIPES_recipe_id)
-    REFERENCES recipes(recipe_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT fk_accepts_tag
-    FOREIGN KEY (TAG_tag_name)
-    REFERENCES tag(tag_name)
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
