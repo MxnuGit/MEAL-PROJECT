@@ -74,9 +74,10 @@ export async function stepsByID(req: Request, res: Response) {
     const { id } = req.params;
 
     connection.execute(
-        `SELECT preparations.step_number as stepNumber, preparations.step_desc AS stepDesc
-        FROM recipes JOIN preparations ON RECIPES_recipe_id = preparations.RECIPES_recipe_id
-        WHERE recipes.recipe_id = ?`,
+        `SELECT preparations.step_number AS stepNumber, preparations.step_desc AS stepDesc
+        FROM preparations
+        WHERE RECIPES_recipe_id = 1;
+        `,
         [id],
         (err, results: any[]) => {
             if (err) return res.sendStatus(500);
