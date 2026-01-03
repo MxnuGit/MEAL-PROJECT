@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { defineComponent } from 'vue';
-    import type{ Ingredient, Preparation} from '../types';
+import { defineComponent } from 'vue';
+import type{ Ingredient, Preparation, User} from '../types';
+import axios from 'axios';
 
     export default defineComponent({
         data(){
@@ -9,6 +10,7 @@
                 difficulty: "",
                 recipeTime: "",
                 recipeImage: "",
+                user: null as User | null,
                 
                 ingredientInput: "",
                 quantityInput: null as number | null,
@@ -80,12 +82,19 @@
                 this.stepNumber++
             },
 
-            submitRecipe: function(){
-                
+            async getUser() {
+                const res = await axios.get("/api/auth/profile")
+                this.user = res.data;
+            },
+
+            async submitRecipe(){
+                const res = await axios.post("/api/createRecipe", {
+                    
+                });
             }
         },
         mounted() {
-            
+            this.getUser()
         },
     })
 </script>
@@ -141,7 +150,7 @@
                     </ol>
                 </section>
 
-                <section id="unitMisure"> <!-- da fare poi la query -->
+                <section id="unitMisure">
                     <h4>Unità</h4>
                     <input type="text" v-model="unitInput">
                     <ol>
@@ -186,13 +195,15 @@
                 <h4>Preparazioni</h4>
                 <input v-model="stepDescInput" type="text">
                 <ul>
-                    <li v-for="step in steps">{{ step.stepNumber }} - {{ step.stepDesc }}</li>
+                    <li v-for="step in steps"><span id="bold">{{ step.stepNumber }}</span>.{{ step.stepDesc }}</li>
                 </ul>
                 <section id="addButton">
                     <button type="button" @click="addStep">Aggiungi</button>
                 </section>
             </section>
-            <button type="submit" id="sendRecipe">Conferma</button>
+            <section id="lastSection">
+                <button type="submit" id="sendRecipe">Conferma</button>
+            </section>
         </form>
     </div>
 </template>
@@ -334,4 +345,36 @@
         border-radius: 6px;
         border-color: black;
     }
+    #steps{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #steps input{
+        width: 60%;
+    }
+
+    #steps li{
+        list-style: none;
+        overflow-wrap: break-word;
+        white-space: normal;
+        width: 100%;
+        padding-top: 10px;
+        font-size: 15px;
+    }
+
+    #steps ul{
+        padding: 0;
+    }
+
+    #lastSection{
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    #bold{
+        font-weight: bold;
+        font-size: 17px;
+    }
+
 </style>
