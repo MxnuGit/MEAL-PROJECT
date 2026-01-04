@@ -3,10 +3,19 @@ import { connection } from "../utils/db"
 import { getUser } from "../utils/auth"
 
 export async function recipeByName(req: Request, res: Response){
+    const search = req.query.search as string
+
+    if (!search) {
+        return res.json([])
+    }
+
     connection.execute(
-        'SELECT * FROM recipes WHERE name = ?',
-        [req.params.recipeName],
-        function(err, results, fields){
+        'SELECT * FROM recipes WHERE name LIKE ?',
+        [`${search}%`],
+        (err, results: any[]) => {
+            if (err) {
+                return res.status(500).json(err)
+            }
             res.json(results)
         }
     )
