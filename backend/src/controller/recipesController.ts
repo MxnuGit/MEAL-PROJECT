@@ -21,6 +21,17 @@ export async function recipeByName(req: Request, res: Response){
     )
 }
 
+export async function allRecipes(req: Request, res: Response) {
+  connection.execute(
+    "SELECT * FROM recipes ORDER BY recipe_id desc",
+    [],
+    (err, results: any[]) => {
+      if (err) return res.status(500).json(err)
+      res.json(results)
+    }
+  )
+}
+
 export async function recipesByLoggedUser(req: Request, res: Response) {
     const user = getUser(req, res);
 
