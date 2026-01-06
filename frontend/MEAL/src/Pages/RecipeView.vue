@@ -59,8 +59,12 @@ export default defineComponent({
             <section id="tagView">
                 <ul>
                     <li>Difficoltà: {{ recipe?.difficulty }}</li>
-                    <li>Tempo: {{ recipe?.prep_time }}</li>
+                    <li>Tempo: {{ recipe?.prep_time }} minuti</li>
                     <li>Portata: {{ recipe?.course }}</li>
+                    <li v-if="recipe?.isGlutenFree">Senza Glutine</li>
+                    <li v-if="recipe?.isLactoseFree">Senza Lattosio</li>
+                    <li v-if="recipe?.isProteinRich">Ricco di proteine</li>
+                    <li v-if="recipe?.isVegan">Vegana</li>
                 </ul>
             </section>
         </div>
@@ -119,7 +123,7 @@ export default defineComponent({
     }
 
     #imageCont img{
-        max-width: 224px;
+        max-width: 200px;
         border-radius: 10px;
     }
 
@@ -130,6 +134,7 @@ export default defineComponent({
         max-width: 310px;
         display: flex;
         justify-content: center;
+        padding: 8px 5px 8px;
     }
 
     #tagView ul{
@@ -142,13 +147,39 @@ export default defineComponent({
 
     #tagView ul li{
         color: aliceblue;
-        padding: 5px 0 5px;
+        padding: 4px 0 5px;
         text-align: center; 
         font-weight: bold;      
     }
 
     #imageCont, #tagView{
         margin-top: 10px;
+    }
+
+    h2{
+        color: #262a52;
+        font-weight: 400;
+        font-size: 30px;
+    }
+
+    p, li{
+        font-size: 17px;
+    }
+
+    #thirdPart ul{
+        padding-left: 20px;
+    }
+
+    #thirdPart ul li{
+        list-style: none;
+        padding-top: 7px;
+    }
+
+    #thirdPart, ul{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        margin-top: 0;
     }
 
     @media (min-width:1024px) {
@@ -168,7 +199,7 @@ export default defineComponent({
 
         #tagView{
             margin-right: 80px;
-            padding: 30px 5px 30px;
+            padding: 17px 5px 17px;
         }
 
         #title h1 {
