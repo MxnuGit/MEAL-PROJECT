@@ -44,7 +44,6 @@
     return ""
   })
 
-
   async function searchRecipes(query: string) {
     const s = query.trim()
     if (!s) {
