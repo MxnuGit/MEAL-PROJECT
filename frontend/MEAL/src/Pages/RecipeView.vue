@@ -51,6 +51,12 @@ export default defineComponent({
     <div id="container">
         <header id="title">
             <h1>{{ recipe?.name }}</h1>
+            <section id="tag">
+                <p v-if="recipe?.isGlutenFree">No Glutine</p>
+                <p v-if="recipe?.isLactoseFree">No Lattosio</p>
+                <p v-if="recipe?.isProteinRich">Proteico</p>
+                <p v-if="recipe?.isVegan">Vegana</p>
+            </section>
         </header>
         <div id="firstPart">
             <section id="imageCont">
@@ -61,10 +67,6 @@ export default defineComponent({
                     <li>Difficoltà: {{ recipe?.difficulty }}</li>
                     <li>Tempo: {{ recipe?.prep_time }} minuti</li>
                     <li>Portata: {{ recipe?.course }}</li>
-                    <li v-if="recipe?.isGlutenFree">Senza Glutine</li>
-                    <li v-if="recipe?.isLactoseFree">Senza Lattosio</li>
-                    <li v-if="recipe?.isProteinRich">Ricco di proteine</li>
-                    <li v-if="recipe?.isVegan">Vegana</li>
                 </ul>
             </section>
         </div>
@@ -100,11 +102,31 @@ export default defineComponent({
         padding: 10px;
     }
 
+    #tag{
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    #tag p{
+        display: inline-block;
+        width: 20%;
+        margin: 5px;
+        font-size: 10px;
+        background-color: #262a52;
+        color: white;
+        border-radius: 5px;
+        min-height: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 120px;
+    }
+
     #title h1 {
         font-size: 35px;
         color: #262a52;
-        margin: 10px 0 10px;
-        margin-left: 20px;
+        margin: 10px 5px 10px;
     }
 
     #title{
@@ -195,6 +217,7 @@ export default defineComponent({
             max-width: 300px;
             margin-left: 80px;
             border-radius: 10px;
+            margin-right: 20px;
         }
 
         #tagView{
@@ -206,7 +229,23 @@ export default defineComponent({
             font-size: 45px;
             color: #262a52;
             margin: 10px 0 10px;
-            margin-left: 30px;
+            margin-left: 20px;
+        }
+
+        #tag p{
+            display: inline-block;
+            width: 20%;
+            margin: 5px;
+            font-size: 13px;
+            background-color: #262a52;
+            color: white;
+            border-radius: 5px;
+            min-height: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 120px;
         }
     }
 </style>
