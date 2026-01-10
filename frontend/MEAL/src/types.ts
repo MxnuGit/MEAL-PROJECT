@@ -10,7 +10,7 @@ export interface Recipe {
     isVegan: boolean
     name: string
     prep_time: number
-    recipe_id: string
+    recipe_id: number
     recipe_image?: { type: "Buffer"; data: number[] } | string | null
 }
 

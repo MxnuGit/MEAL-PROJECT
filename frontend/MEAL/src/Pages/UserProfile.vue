@@ -69,8 +69,15 @@
     }
 
     img{
-        max-width: 200px;
-        max-height: 150px;
+        width: 20%;
+        height: 20%;
+        border-radius: 25px;
+        padding: 10px;
+    }
+
+    .Card > img{
+        width: 100%;
+        height: 100%;
         border-radius: 25px;
         padding: 10px;
     }

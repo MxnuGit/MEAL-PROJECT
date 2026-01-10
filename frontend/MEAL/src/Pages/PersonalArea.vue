@@ -81,7 +81,7 @@
                 </form>
             </div>
             <router-link to="/CreateRecipe" class="AddCard">
-                <img src="../assets/addButton.png">
+                <img id="addButton" src="../assets/addButton.png">
             </router-link>
         </div>
         <div class="logout">
@@ -104,9 +104,16 @@
         padding: 10px;
     }
 
-    img{
-        max-width: 200px;
-        max-height: 150px;
+    .userInfo > img{
+        width: 20%;
+        height: 20%;
+        border-radius: 25px;
+        padding: 10px;
+    }
+
+    .Card > img, .AddCard > img{
+        width: 100%;
+        height: 90%;
         border-radius: 25px;
         padding: 10px;
     }
