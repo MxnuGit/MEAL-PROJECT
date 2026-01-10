@@ -51,6 +51,12 @@ export default defineComponent({
     <div id="container">
         <header id="title">
             <h1>{{ recipe?.name }}</h1>
+            <section id="tag">
+                <p v-if="recipe?.isGlutenFree">No Glutine</p>
+                <p v-if="recipe?.isLactoseFree">No Lattosio</p>
+                <p v-if="recipe?.isProteinRich">Proteico</p>
+                <p v-if="recipe?.isVegan">Vegana</p>
+            </section>
         </header>
         <div id="firstPart">
             <section id="imageCont">
@@ -59,7 +65,7 @@ export default defineComponent({
             <section id="tagView">
                 <ul>
                     <li>Difficoltà: {{ recipe?.difficulty }}</li>
-                    <li>Tempo: {{ recipe?.prep_time }}</li>
+                    <li>Tempo: {{ recipe?.prep_time }} minuti</li>
                     <li>Portata: {{ recipe?.course }}</li>
                 </ul>
             </section>
@@ -96,11 +102,31 @@ export default defineComponent({
         padding: 10px;
     }
 
+    #tag{
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    #tag p{
+        display: inline-block;
+        width: 20%;
+        margin: 5px;
+        font-size: 10px;
+        background-color: #262a52;
+        color: white;
+        border-radius: 5px;
+        min-height: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 120px;
+    }
+
     #title h1 {
         font-size: 35px;
         color: #262a52;
-        margin: 10px 0 10px;
-        margin-left: 20px;
+        margin: 10px 5px 10px;
     }
 
     #title{
@@ -119,7 +145,7 @@ export default defineComponent({
     }
 
     #imageCont img{
-        max-width: 224px;
+        max-width: 200px;
         border-radius: 10px;
     }
 
@@ -130,6 +156,7 @@ export default defineComponent({
         max-width: 310px;
         display: flex;
         justify-content: center;
+        padding: 8px 5px 8px;
     }
 
     #tagView ul{
@@ -142,13 +169,39 @@ export default defineComponent({
 
     #tagView ul li{
         color: aliceblue;
-        padding: 5px 0 5px;
+        padding: 4px 0 5px;
         text-align: center; 
         font-weight: bold;      
     }
 
     #imageCont, #tagView{
         margin-top: 10px;
+    }
+
+    h2{
+        color: #262a52;
+        font-weight: 400;
+        font-size: 30px;
+    }
+
+    p, li{
+        font-size: 17px;
+    }
+
+    #thirdPart ul{
+        padding-left: 20px;
+    }
+
+    #thirdPart ul li{
+        list-style: none;
+        padding-top: 7px;
+    }
+
+    #thirdPart, ul{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        margin-top: 0;
     }
 
     @media (min-width:1024px) {
@@ -164,18 +217,35 @@ export default defineComponent({
             max-width: 300px;
             margin-left: 80px;
             border-radius: 10px;
+            margin-right: 20px;
         }
 
         #tagView{
             margin-right: 80px;
-            padding: 30px 5px 30px;
+            padding: 17px 5px 17px;
         }
 
         #title h1 {
             font-size: 45px;
             color: #262a52;
             margin: 10px 0 10px;
-            margin-left: 30px;
+            margin-left: 20px;
+        }
+
+        #tag p{
+            display: inline-block;
+            width: 20%;
+            margin: 5px;
+            font-size: 13px;
+            background-color: #262a52;
+            color: white;
+            border-radius: 5px;
+            min-height: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 120px;
         }
     }
 </style>
