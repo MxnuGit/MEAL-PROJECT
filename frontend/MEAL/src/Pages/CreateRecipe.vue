@@ -88,10 +88,32 @@ import axios from 'axios';
             },
 
             async submitRecipe(){
-                const res = await axios.post("/api/createRecipe", {
-                    
-                });
-            }
+                if(!this.recipeName || !this.difficulty || !this.recipeTime){
+                    console.error("Inserisci campi obbligatori");
+                    return;
+                }
+
+                const ricetta = 
+                {
+                    name: this.recipeName,
+                    USERS_username: this.user?.username,
+                    // course: this.
+                    // people: 
+                    description: this.description,
+                    difficulty: this.difficulty,
+                    isGlutenFree: this.tag.glutenFree,
+                    isLactoseFree: this.tag.lactoseFree,
+                    isProteinRich: this.tag.proteinRich,
+                    isVegan: this.tag.vegan,
+                    prep_time: this.recipeTime,
+                    // recipe_id: 
+                    // recipe_image:
+                    ingredients: this.ingredients,
+                    steps: this.steps
+                };
+                
+                await axios.post("/api/createRecipe", ricetta);
+            },
         },
         mounted() {
             this.getUser()
@@ -104,13 +126,13 @@ import axios from 'axios';
         <header>
             <h1>Crea La Tua Ricetta</h1>
         </header>
-        <form @submit.prevent="">
+        <form @submit.prevent="submitRecipe">
             <!-- Nome Ricetta -->
              <section id="nameField">
                 <label for="recipeName">Nome della Ricetta</label>
                 <div id="nameAndImage">
                     <input type="text" id="recipeName" v-model="recipeName" required>
-                    <input type="file" value>
+                    <input type="file">
                 </div>
              </section>
 
