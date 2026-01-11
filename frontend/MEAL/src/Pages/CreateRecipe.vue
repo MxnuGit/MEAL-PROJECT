@@ -8,7 +8,7 @@ import axios from 'axios';
                 recipeName: "",
                 difficulty: "",
                 selCourse: "",
-                recipeTime: 0,
+                recipeTime: "",
                 recipeImage: "",
                 user: null as User | null,
                 people: "",
@@ -181,9 +181,9 @@ import axios from 'axios';
                 <section id="difficulty">
                     <h4>Difficoltà</h4>
                     <select name="difficulty" v-model="difficulty">
-                        <option value="easy">Facile</option>
-                        <option value="medium">Media</option>
-                        <option value="hard">Difficile</option>
+                        <option value="Facile">Facile</option>
+                        <option value="Media">Media</option>
+                        <option value="Difficile">Difficile</option>
                     </select>
                 </section>
 
@@ -207,7 +207,7 @@ import axios from 'axios';
             <div id="secondPart">
                 <section id="people">
                     <h4>Dosi persone</h4>
-                    <input type="number" v-model="people" id="peopleInput">
+                    <input type="text" v-model="people" id="peopleInput">
                 </section>
 
                 <section id="ingredients">
