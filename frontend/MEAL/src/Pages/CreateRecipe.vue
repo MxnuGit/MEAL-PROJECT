@@ -8,7 +8,7 @@ import axios from 'axios';
                 recipeName: "",
                 difficulty: "",
                 selCourse: "",
-                recipeTime: "",
+                recipeTime: 0,
                 recipeImage: "",
                 user: null as User | null,
                 people: "",
@@ -89,16 +89,12 @@ import axios from 'axios';
             },
 
             async submitRecipe(){
-                if(!this.recipeName || !this.difficulty || !this.recipeTime){
-                    console.error("Inserisci campi obbligatori");
-                    return;
-                }
-
                 const ricetta = 
                 {
                     name: this.recipeName,
                     USERS_username: this.user?.username,
                     course: this.selCourse,
+                    people: this.people,
                     description: this.description,
                     difficulty: this.difficulty,
                     isGlutenFree: this.tag.glutenFree,
@@ -110,8 +106,14 @@ import axios from 'axios';
                     ingredients: this.ingredients,
                     steps: this.steps
                 };
-                
-                await axios.post("/api/createRecipe", ricetta);
+
+                try{
+                    const res = await axios.post("/api/createRecipe", ricetta);
+                    location.href = "/";
+                    console.log("Risposta backend:", res.data);
+                } catch(err){
+                    console.log("Errore creazione Ricetta")
+                }
             },
 
             convertImg(e: Event){
@@ -129,12 +131,33 @@ import axios from 'axios';
                 if (!file) return;
 
                 reader.readAsDataURL(file);
+            },
+
+            print(){
+                const ricetta = 
+                {
+                    name: this.recipeName,
+                    USERS_username: this.user?.username,
+                    course: this.selCourse,
+                    people: this.people,
+                    description: this.description,
+                    difficulty: this.difficulty,
+                    isGlutenFree: this.tag.glutenFree,
+                    isLactoseFree: this.tag.lactoseFree,
+                    isProteinRich: this.tag.proteinRich,
+                    isVegan: this.tag.vegan,
+                    prep_time: this.recipeTime, 
+                    recipe_image: this.recipeImage,
+                    ingredients: this.ingredients,
+                    steps: this.steps
+                };
+
+                console.log(ricetta)
             }
-            
         },
         mounted() {
             this.getUser()
-        },
+        }
     })
 </script>
 
@@ -166,7 +189,7 @@ import axios from 'axios';
 
                 <section id="time">
                     <h4>Minuti</h4>
-                    <input type="text" placeholder="120..." v-model="recipeTime" id="inputTime" required>
+                    <input type="number" placeholder="120..." v-model.number="recipeTime" id="inputTime" required>
                 </section>
 
                 <section id="course">
@@ -197,7 +220,7 @@ import axios from 'axios';
 
                 <section id="quantity">
                     <h4>Quantità</h4>
-                    <input type="text" v-model="quantityInput">
+                    <input type="number" v-model.number="quantityInput">
                     <ol>
                         <li v-for="(ingredient, i) in ingredients" :key="i">{{ ingredient.quantity }}</li>
                     </ol>
@@ -256,6 +279,7 @@ import axios from 'axios';
             </section>
             <section id="lastSection">
                 <button type="submit" id="sendRecipe">Conferma</button>
+                <button type="button" @click="print">ggg</button>
             </section>
         </form>
     </div>

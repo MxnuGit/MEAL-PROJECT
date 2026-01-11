@@ -115,9 +115,9 @@ export async function createRecipe(req: Request, res: Response){
 
     const {
         name,
-        USERS_username,
         course,
         people,
+        recipe_image,
         description,
         difficulty,
         prep_time,
@@ -129,13 +129,135 @@ export async function createRecipe(req: Request, res: Response){
         steps
     } = req.body;
 
-    connection.execute(
-        'INSERT INTO recipes (name, prep_time, course, people, difficulty, description, isVegan, isLactoseFree, isGlutenFree, isProteinRich, USERS_username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-        [req.body.name, req.body.prep_time, req.body.difficulty, req.body.description, req.body.isVegan, req.body.isLactoseFree, req.body.isGlutenFree, req.body.isProteinRich, req.body.USERS_username],
-        function(err, results, fields){
-            res.json(results)
+    connection.beginTransaction(err => {
+    if (err) {
+        return res.status(500).send(err);
+    }
+
+  /* ---------------- INSERT RECIPE ---------------- */
+  connection.query(
+    `INSERT INTO recipes (
+      name, prep_time, difficulty, description, course, people,
+      isVegan, isLactoseFree, isGlutenFree, isProteinRich, USERS_username, recipe_image
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      name,
+      prep_time,
+      difficulty,
+      description,
+      course,
+      people,
+      isVegan,
+      isLactoseFree,
+      isGlutenFree,
+      isProteinRich,
+      user.username,
+      recipe_image
+    ],
+    (err, recipeResult: any) => {
+      if (err) {
+        return connection.rollback(() => res.status(500).send(err));
+      }
+
+      const recipeId = recipeResult.insertId;
+
+      /* ---------------- INGREDIENTS ---------------- */
+      const ingredientNames = ingredients.map((i: any) => [i.name]);
+
+      connection.query(
+        `INSERT IGNORE INTO ingredients (name) VALUES ?`,
+        [ingredientNames],
+        err => {
+          if (err) {
+            return connection.rollback(() => res.status(500).send(err));
+          }
+
+          /* ---------------- UNITS ---------------- */
+          const units = ingredients.map((i: any) => [i.unit]);
+
+          connection.query(
+            `INSERT IGNORE INTO unit_of_measurement (measurement) VALUES ?`,
+            [units],
+            err => {
+              if (err) {
+                return connection.rollback(() => res.status(500).send(err));
+              }
+
+              /* ---------------- MEASURED_IN ---------------- */
+              const measuredValues = ingredients.map((i: any) => [
+                i.name,
+                i.unit
+              ]);
+
+              connection.query(
+                `INSERT IGNORE INTO measured_in
+                 (INGREDIENTS_name, UNIT_OF_MEASUREMENT_measurement)
+                 VALUES ?`,
+                [measuredValues],
+                err => {
+                  if (err) {
+                    return connection.rollback(() => res.status(500).send(err));
+                  }
+
+                  /* ---------------- HAS ---------------- */
+                  const hasValues = ingredients.map((i: any) => [
+                    recipeId,
+                    i.name,
+                    i.quantity
+                  ]);
+
+                  connection.query(
+                    `INSERT INTO has
+                     (RECIPES_recipe_id, INGREDIENTS_name, quantity)
+                     VALUES ?`,
+                    [hasValues],
+                    err => {
+                      if (err) {
+                        return connection.rollback(() => res.status(500).send(err));
+                      }
+
+                      /* ---------------- STEPS ---------------- */
+                      const stepValues = steps.map((s: any) => [
+                        recipeId,
+                        s.stepNumber,
+                        s.stepDesc
+                      ]);
+
+                      connection.query(
+                        `INSERT INTO preparations
+                         (RECIPES_recipe_id, step_number, step_desc)
+                         VALUES ?`,
+                        [stepValues],
+                        err => {
+                          if (err) {
+                            return connection.rollback(() =>
+                              res.status(500).send(err)
+                            );
+                          }
+
+                          /* ---------------- COMMIT ---------------- */
+                          connection.commit(err => {
+                            if (err) {
+                              return connection.rollback(() =>
+                                res.status(500).send(err)
+                              );
+                            }
+
+                            res.status(201).json({ recipeId });
+                          });
+                        }
+                      );
+                    }
+                  );
+                }
+              );
+            }
+          );
         }
-    )
+      );
+    }
+  );
+});
 }
 
 export async function deleteRecipe(req: Request, res: Response){
@@ -145,16 +267,6 @@ export async function deleteRecipe(req: Request, res: Response){
         return 
     }
 
-    /* const results = connection.execute("SELECT * FROM recipes WHERE USERS_username = ?", 
-        [user.username])
-    if (!Array.isArray(results) || results.length === 0) {
-        res.status(400).send("Ricette non trovate")
-        return
-      }
-
-    const recipe = results[0] as any
-    */
-   
     connection.execute(
         'DELETE FROM recipes WHERE recipe_id = ?',
         [req.params.id],
