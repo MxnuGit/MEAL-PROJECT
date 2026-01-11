@@ -1,250 +1,243 @@
 <script lang="ts">
-    import { defineComponent } from 'vue';
-    import axios from "axios";
-    import type { User, Recipe } from "../types";
+import { defineComponent } from 'vue';
+import axios from "axios";
+import type { User, Recipe } from "../types";
 
-    export default defineComponent({
-        data(){
-            return{
-                activeViewRecipe: "myRecipe" as "myRecipe" | "favourites",
-                user: null as User | null,
-                recipes: [] as Recipe[]
-            }
-        },
-        methods:{
-            async getUser() {
-                const res = await axios.get("/api/auth/profile")
-                this.user = res.data;
-            },
+export default defineComponent({
+  data(){
+    return{
+      user: null as User | null,
+      recipes: [] as Recipe[]
+    }
+  },
+  methods:{
+    async getUser() {
+      const res = await axios.get("/api/auth/profile")
+      this.user = res.data;
+    },
 
-            async getMyRecipes() {
-            const res = await axios.get("/api/recipes/me");
-            this.recipes = res.data;
-            },
+    async getMyRecipes() {
+      const res = await axios.get("/api/recipes/me");
+      this.recipes = res.data;
+    },
 
-            async deleteRecipe(recipe_id: number){
-                console.log(recipe_id)
-                try {
-                    const response = await axios.delete(`/api/deleteRecipe/${recipe_id}`);
-                    console.log('Risorsa eliminata:', response.data);
-                    location.reload();
-                } catch (error) {
-                    console.error('Errore:', error);
-                }
-            },
+    async deleteRecipe(recipe_id: number){
+      console.log(recipe_id)
+      try {
+        const response = await axios.delete(`/api/deleteRecipe/${recipe_id}`);
+        console.log('Risorsa eliminata:', response.data);
+        location.reload();
+      } catch (error) {
+        console.error('Errore:', error);
+      }
+    },
 
-            async logout() {
-                try {
-                    await axios.post("/api/auth/logout");
-                    console.log("Logout effettuato con successo")
-                    location.href = "/";
-                    
-                } catch(err) {
-                    console.log("Devi essere prima registrato")
-                    console.error(err)
-                }
-                
-            }
-        },
-        mounted() {
-            this.getUser()
-            this.getMyRecipes()
-        },
-    })
+    async logout() {
+      try {
+        await axios.post("/api/auth/logout");
+        console.log("Logout effettuato con successo")
+        location.href = "/";
+      } catch(err) {
+        console.log("Devi essere prima registrato")
+        console.error(err)
+      }
+    }
+  },
+  mounted() {
+    this.getUser()
+    this.getMyRecipes()
+  },
+})
 </script>
 
 <template>
-    <div class="mainContainer">
-        <div class="userInfo">
-            <img src="../assets/lock.png" />
-            <section class="userStats">
-                <h1>{{ user?.username }}</h1>
-                <div>Like</div>
-                <div>1</div>
-            </section>
-        </div>
-        <header>
-            <h2 :class="{ active: activeViewRecipe === 'myRecipe' }"
-            @click="activeViewRecipe = 'myRecipe'">Le mie ricette</h2>
-            <h2 :class="{ active: activeViewRecipe === 'favourites' }"
-            @click="activeViewRecipe = 'favourites'">Preferiti</h2>
-        </header>
-        <div class="MyRecipes">
-            <div class="Card" v-for="recipe in recipes">
-                <router-link :to="`/RecipeView/${recipe.recipe_id}`" class="Card">
-                    <img src="../assets/carbonara.jpg">
-                    <h3>{{ recipe.name }}</h3>
-                </router-link>
-                <form @submit.prevent>
-                    <input type="button" id="Edit" value="Modifica">
-                    <input @click="deleteRecipe(recipe.recipe_id)" type="button" id="Remove" value="Elimina">
-                </form>
-            </div>
-            <router-link to="/CreateRecipe" class="AddCard">
-                <img id="addButton" src="../assets/addButton.png">
-            </router-link>
-        </div>
-        <div class="logout">
-            <input type="button" id="logoutButton" value="Logout" @click="logout">
-        </div>
+  <div class="mainContainer">
+    <div class="userInfo">
+      <img src="../assets/person.png" />
+      <section class="userStats">
+        <h1>{{ user?.username }}</h1>
+      </section>
     </div>
+
+    <header>
+      <h2>Le mie ricette</h2>
+    </header>
+
+    <div class="MyRecipes">
+      <div
+        class="Card"
+        v-for="recipe in recipes"
+        :key="recipe.recipe_id"
+      >
+        <router-link
+          :to="`/RecipeView/${recipe.recipe_id}`"
+          class="CardContent"
+        >
+          <img src="../assets/carbonara.jpg" />
+          <h3>{{ recipe.name }}</h3>
+        </router-link>
+
+        <form @submit.prevent>
+          <input
+            @click="deleteRecipe(recipe.recipe_id)"
+            type="button"
+            id="Remove"
+            value="Elimina"
+          />
+        </form>
+      </div>
+
+      <router-link to="/CreateRecipe" class="AddCard">
+        <img id="addButton" src="../assets/addButton.png" />
+      </router-link>
+    </div>
+
+    <div class="logout">
+      <input
+        type="button"
+        id="logoutButton"
+        value="Logout"
+        @click="logout"
+      />
+    </div>
+  </div>
 </template>
 
 <style scoped>
-    .mainContainer{
-        background-color: #DCC9A3;
+.mainContainer{
+  background-color: #DCC9A3;
+  border: solid 2.5px white;
+  border-radius: 25px;
+  width: 80%;
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 10px;
+}
 
-        border: solid 2.5px white;
-        border-radius: 25px;
-        
-        width: 80%;
-        max-width: 600px;
+.userInfo{
+  display: flex;
+  flex-direction: row;
+  border-bottom: solid white;
+}
 
-        margin: 80px auto;
-        padding: 10px;
-    }
+.userInfo > img{
+  width: 20%;
+  height: 20%;
+  border-radius: 25px;
+  padding: 10px;
+}
 
-    .userInfo > img{
-        width: 20%;
-        height: 20%;
-        border-radius: 25px;
-        padding: 10px;
-    }
+.userStats{
+  display: grid;
+  text-align: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
 
-    .Card > img, .AddCard > img{
-        width: 100%;
-        height: 90%;
-        border-radius: 25px;
-        padding: 10px;
-    }
+.userStats > h1{
+  grid-column: span 3;
+  text-align: center;
+}
 
-    .userInfo{
-        display: flex;
-        flex-direction: row;
-        border-bottom: solid white;
-    }
+header{
+  display: flex;
+  justify-content: center;
+}
 
-    .userStats{
-        display: grid;
-        text-align: center;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
-        height: auto;
-    }
+h2{
+  background-color: #E18727;
+  border-radius: 15px;
+  padding: 5px;
+  color: white;
+  text-align: center;
+  width: 50%;
+}
 
-    .userStats > h1{
-        grid-column: span 3;
-        text-align: center;
-    }
+.MyRecipes{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  justify-items: center;
+}
 
-    .userStats > div{
-        color: white;
-        font-size: large;
-        font-weight: bold;
-    }
-    
-    header{
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
+.Card{
+  background-color: white;
+  border-radius: 15px;
+  padding: 10px;
+  width: 100%;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    h2{
-       background-color: white; 
-       border-radius: 15px;
-       padding: 5px;
-       color: #2D2C53;
-       cursor: pointer;
-       
-       text-align: center;
-       width: 50%;
-    }
+.CardContent{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
 
-    h2.active{
-        background-color: #E18727;
-        color: white;
-    }
+.Card img{
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 15px;
+}
 
-    .MyRecipes{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+.Card h3{
+  margin: 8px 0;
+  text-align: center;
+  font-size: 1rem;
+}
 
-        justify-items: center;
-    }
+.Card > form{
+  display: flex;
+  justify-content: center;
+}
 
-    .Card{
-        background-color: white;
-        border-radius: 15px;
+.Card > form > input{
+  border-radius: 10px;
+  border: none;
+  font-size: larger;
+  font-weight: bolder;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+}
 
-        padding: 10px;
-        margin-bottom: 10px;
-        width: 100%;
-        max-width: 250px;
+#Remove{
+  background-color: #FF3131;
+}
 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+.AddCard{
+  width: 100%;
+  max-width: 250px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-        text-decoration: none;
-        color: inherit;
-    }
+.AddCard > img{
+  width: 60%;
+  cursor: pointer;
+}
 
-    .Card > form{
-        display: flex;
-        gap: 20px;
-        height: 30%;
-    }
+.logout{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
 
-    .Card > form > input{
-        border-radius: 10px;
-        border: none;
-        
-        font-size: larger;
-        font-weight: bolder;
-        color: white;
-        padding: 5px;
-
-        cursor: pointer;
-    }
-
-    #Edit{
-        background-color: #004AAD;
-    }
-
-    #Remove{
-        background-color: #FF3131;
-    }
-
-    .AddCard{
-        width: 100%;
-        max-width: 250px;
-        height: 100%;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .AddCard > img{
-        cursor: pointer;
-    }
-
-    .logout{
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-    }
-
-    #logoutButton{
-        border: red;
-        background-color: red;
-        border-radius: 3.5px;
-
-        font-size: large;
-        font-weight: bold;
-        color: white;
-
-        cursor: pointer;
-    }
+#logoutButton{
+  background-color: red;
+  border-radius: 3.5px;
+  font-size: large;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
 </style>
