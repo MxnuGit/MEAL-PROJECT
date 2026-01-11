@@ -106,158 +106,160 @@ export async function stepsByID(req: Request, res: Response) {
     );
 }
 
-export async function createRecipe(req: Request, res: Response){
-    const user = getUser(req, res)
-    if(!user) {
-        res.status(401).send("Creare il post richiede il login")
-        return 
-    }
+export async function createRecipe(req: Request, res: Response) {
+  const user = getUser(req, res);
+  if (!user) {
+    return res.status(401).send("Creare il post richiede il login");
+  }
 
-    const {
+  const {
+    name,
+    course,
+    people,
+    recipe_image,
+    description,
+    difficulty,
+    prep_time,
+    isGlutenFree,
+    isLactoseFree,
+    isProteinRich,
+    isVegan,
+    ingredients,
+    steps
+  } = req.body;
+
+  /* ---------------- VALIDAZIONI ---------------- */
+  if (!name || !difficulty || !prep_time) {
+    return res.status(400).send("Campi obbligatori mancanti");
+  }
+
+  if (!Array.isArray(ingredients) || ingredients.length === 0) {
+    return res.status(400).send("Inserire almeno un ingrediente");
+  }
+
+  if (!Array.isArray(steps) || steps.length === 0) {
+    return res.status(400).send("Inserire almeno uno step");
+  }
+
+  /* ---------------- IMAGE FIX ---------------- */
+  let imageBuffer: Buffer;
+  if (typeof recipe_image === "string" && recipe_image.startsWith("data:")) {
+    imageBuffer = Buffer.from(recipe_image.split(",")[1], "base64");
+  } else {
+    imageBuffer = Buffer.alloc(0);
+  }
+
+  /* ---------------- TRANSACTION ---------------- */
+  connection.beginTransaction(err => {
+    if (err) return res.status(500).json(err);
+
+    /* ---------- INSERT RECIPE ---------- */
+    connection.query(
+      `INSERT INTO recipes (
+        name, prep_time, difficulty, description, course, people,
+        isVegan, isLactoseFree, isGlutenFree, isProteinRich,
+        USERS_username, recipe_image
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
         name,
+        prep_time,
+        difficulty,
+        description,
         course,
         people,
-        recipe_image,
-        description,
-        difficulty,
-        prep_time,
-        isGlutenFree,
-        isLactoseFree,
-        isProteinRich,
         isVegan,
-        ingredients,
-        steps
-    } = req.body;
-
-    connection.beginTransaction(err => {
-    if (err) {
-        return res.status(500).send(err);
-    }
-
-  /* ---------------- INSERT RECIPE ---------------- */
-  connection.query(
-    `INSERT INTO recipes (
-      name, prep_time, difficulty, description, course, people,
-      isVegan, isLactoseFree, isGlutenFree, isProteinRich, USERS_username, recipe_image
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [
-      name,
-      prep_time,
-      difficulty,
-      description,
-      course,
-      people,
-      isVegan,
-      isLactoseFree,
-      isGlutenFree,
-      isProteinRich,
-      user.username,
-      recipe_image
-    ],
-    (err, recipeResult: any) => {
-      if (err) {
-        return connection.rollback(() => res.status(500).send(err));
-      }
-
-      const recipeId = recipeResult.insertId;
-
-      /* ---------------- INGREDIENTS ---------------- */
-      const ingredientNames = ingredients.map((i: any) => [i.name]);
-
-      connection.query(
-        `INSERT IGNORE INTO ingredients (name) VALUES ?`,
-        [ingredientNames],
-        err => {
-          if (err) {
-            return connection.rollback(() => res.status(500).send(err));
-          }
-
-          /* ---------------- UNITS ---------------- */
-          const units = ingredients.map((i: any) => [i.unit]);
-
-          connection.query(
-            `INSERT IGNORE INTO unit_of_measurement (measurement) VALUES ?`,
-            [units],
-            err => {
-              if (err) {
-                return connection.rollback(() => res.status(500).send(err));
-              }
-
-              /* ---------------- MEASURED_IN ---------------- */
-              const measuredValues = ingredients.map((i: any) => [
-                i.name,
-                i.unit
-              ]);
-
-              connection.query(
-                `INSERT IGNORE INTO measured_in
-                 (INGREDIENTS_name, UNIT_OF_MEASUREMENT_measurement)
-                 VALUES ?`,
-                [measuredValues],
-                err => {
-                  if (err) {
-                    return connection.rollback(() => res.status(500).send(err));
-                  }
-
-                  /* ---------------- HAS ---------------- */
-                  const hasValues = ingredients.map((i: any) => [
-                    recipeId,
-                    i.name,
-                    i.quantity
-                  ]);
-
-                  connection.query(
-                    `INSERT INTO has
-                     (RECIPES_recipe_id, INGREDIENTS_name, quantity)
-                     VALUES ?`,
-                    [hasValues],
-                    err => {
-                      if (err) {
-                        return connection.rollback(() => res.status(500).send(err));
-                      }
-
-                      /* ---------------- STEPS ---------------- */
-                      const stepValues = steps.map((s: any) => [
-                        recipeId,
-                        s.stepNumber,
-                        s.stepDesc
-                      ]);
-
-                      connection.query(
-                        `INSERT INTO preparations
-                         (RECIPES_recipe_id, step_number, step_desc)
-                         VALUES ?`,
-                        [stepValues],
-                        err => {
-                          if (err) {
-                            return connection.rollback(() =>
-                              res.status(500).send(err)
-                            );
-                          }
-
-                          /* ---------------- COMMIT ---------------- */
-                          connection.commit(err => {
-                            if (err) {
-                              return connection.rollback(() =>
-                                res.status(500).send(err)
-                              );
-                            }
-
-                            res.status(201).json({ recipeId });
-                          });
-                        }
-                      );
-                    }
-                  );
-                }
-              );
-            }
+        isLactoseFree,
+        isGlutenFree,
+        isProteinRich,
+        user.username,
+        imageBuffer
+      ],
+      (err: any, recipeResult: any) => {
+        if (err) {
+          return connection.rollback(() =>
+            res.status(500).json({ code: err.code, message: err.sqlMessage })
           );
         }
-      );
-    }
-  );
-});
+
+        const recipeId = recipeResult.insertId;
+
+        /* ---------- INGREDIENTS ---------- */
+        const ingredientNames = ingredients.map((i: any) => [i.name]);
+        const units = ingredients.map((i: any) => [i.unit]);
+        const measured = ingredients.map((i: any) => [i.name, i.unit]);
+        const hasValues = ingredients.map((i: any) => [
+          recipeId,
+          i.name,
+          i.quantity
+        ]);
+        const stepValues = steps.map((s: any) => [
+          recipeId,
+          s.stepNumber,
+          s.stepDesc
+        ]);
+
+        connection.query(
+          `INSERT IGNORE INTO ingredients (name) VALUES ?`,
+          [ingredientNames],
+          err => {
+            if (err) return rollback(err);
+
+            connection.query(
+              `INSERT IGNORE INTO unit_of_measurement (measurement) VALUES ?`,
+              [units],
+              err => {
+                if (err) return rollback(err);
+
+                connection.query(
+                  `INSERT IGNORE INTO measured_in
+                   (INGREDIENTS_name, UNIT_OF_MEASUREMENT_measurement)
+                   VALUES ?`,
+                  [measured],
+                  err => {
+                    if (err) return rollback(err);
+
+                    connection.query(
+                      `INSERT INTO has
+                       (RECIPES_recipe_id, INGREDIENTS_name, quantity)
+                       VALUES ?`,
+                      [hasValues],
+                      err => {
+                        if (err) return rollback(err);
+
+                        connection.query(
+                          `INSERT INTO preparations
+                           (RECIPES_recipe_id, step_number, step_desc)
+                           VALUES ?`,
+                          [stepValues],
+                          err => {
+                            if (err) return rollback(err);
+
+                            connection.commit(err => {
+                              if (err) return rollback(err);
+                              res.status(201).json({ recipeId });
+                            });
+                          }
+                        );
+                      }
+                    );
+                  }
+                );
+              }
+            );
+          }
+        );
+
+        function rollback(err: any) {
+          return connection.rollback(() =>
+            res.status(500).json({
+              code: err.code,
+              message: err.sqlMessage
+            })
+          );
+        }
+      }
+    );
+  });
 }
 
 export async function deleteRecipe(req: Request, res: Response){
