@@ -182,6 +182,11 @@ import axios from 'axios';
 
             <!-- Ingredienti -->
             <div id="secondPart">
+                <section id="people">
+                    <h4>Dosi persone</h4>
+                    <input type="number" v-model="people" id="peopleInput">
+                </section>
+
                 <section id="ingredients">
                     <h4>Ingredienti</h4>
                     <input type="text" v-model="ingredientInput" id="inputIngredients">
@@ -209,10 +214,7 @@ import axios from 'axios';
                 <section id="addButton">
                     <button type="button" @click="addIngredient">Aggiungi</button>
                 </section>
-                <section id="people">
-                    <h4>Persone:</h4>
-                    <input type="number" v-model="people" id="peopleInput">
-                </section>
+                
             </div>
             <div id="tagDiv">
                 <h4>Tag</h4>
@@ -434,7 +436,7 @@ import axios from 'axios';
     }
 
     #peopleInput{
-        width: 30px;
+        margin-bottom: 10px;
     }
 
 </style>
