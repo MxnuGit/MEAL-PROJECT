@@ -2,7 +2,6 @@
 import { defineComponent } from 'vue';
 import type{ Ingredient, Preparation, User} from '../types';
 import axios from 'axios';
-
     export default defineComponent({
         data(){
             return{
@@ -12,6 +11,7 @@ import axios from 'axios';
                 recipeTime: "",
                 recipeImage: "",
                 user: null as User | null,
+                people: "",
                 
                 ingredientInput: "",
                 quantityInput: null as number | null,
@@ -106,13 +106,31 @@ import axios from 'axios';
                     isProteinRich: this.tag.proteinRich,
                     isVegan: this.tag.vegan,
                     prep_time: this.recipeTime, 
-                    // recipe_image:
+                    recipe_image: this.recipeImage,
                     ingredients: this.ingredients,
                     steps: this.steps
                 };
                 
                 await axios.post("/api/createRecipe", ricetta);
             },
+
+            convertImg(e: Event){
+                const target = e.target as HTMLInputElement;
+                if (!target.files || target.files.length === 0) return;
+                
+                const reader = new FileReader();
+                const file = target.files[0];
+
+                reader.onload = () => {
+                    const base64 = reader.result as string;
+                    this.recipeImage = base64;
+                }
+                
+                if (!file) return;
+
+                reader.readAsDataURL(file);
+            }
+            
         },
         mounted() {
             this.getUser()
@@ -131,7 +149,7 @@ import axios from 'axios';
                 <label for="recipeName">Nome della Ricetta</label>
                 <div id="nameAndImage">
                     <input type="text" id="recipeName" v-model="recipeName" required>
-                    <input type="file">
+                    <input type="file" @change="convertImg">
                 </div>
              </section>
 
@@ -191,7 +209,10 @@ import axios from 'axios';
                 <section id="addButton">
                     <button type="button" @click="addIngredient">Aggiungi</button>
                 </section>
-
+                <section id="people">
+                    <h4>Persone:</h4>
+                    <input type="number" v-model="people" id="peopleInput">
+                </section>
             </div>
             <div id="tagDiv">
                 <h4>Tag</h4>
@@ -410,6 +431,10 @@ import axios from 'axios';
     #time input, #course select{
         width: 100%;
         height: 28px;
+    }
+
+    #peopleInput{
+        width: 30px;
     }
 
 </style>

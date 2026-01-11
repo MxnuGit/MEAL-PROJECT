@@ -1,5 +1,6 @@
 export interface Recipe {
     USERS_username: string
+    people: string
     course: string
     description: string
     difficulty: string
