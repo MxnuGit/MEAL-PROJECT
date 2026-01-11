@@ -1,7 +1,6 @@
 export interface Recipe {
     USERS_username: string
     course: string
-    people: string
     description: string
     difficulty: string
     isGlutenFree: boolean

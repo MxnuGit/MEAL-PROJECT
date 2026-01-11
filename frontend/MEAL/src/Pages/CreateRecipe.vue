@@ -8,6 +8,7 @@ import axios from 'axios';
             return{
                 recipeName: "",
                 difficulty: "",
+                selCourse: "",
                 recipeTime: "",
                 recipeImage: "",
                 user: null as User | null,
@@ -97,16 +98,14 @@ import axios from 'axios';
                 {
                     name: this.recipeName,
                     USERS_username: this.user?.username,
-                    // course: this.
-                    // people: 
+                    course: this.selCourse,
                     description: this.description,
                     difficulty: this.difficulty,
                     isGlutenFree: this.tag.glutenFree,
                     isLactoseFree: this.tag.lactoseFree,
                     isProteinRich: this.tag.proteinRich,
                     isVegan: this.tag.vegan,
-                    prep_time: this.recipeTime,
-                    // recipe_id: 
+                    prep_time: this.recipeTime, 
                     // recipe_image:
                     ingredients: this.ingredients,
                     steps: this.steps
@@ -152,6 +151,15 @@ import axios from 'axios';
                     <input type="text" placeholder="120..." v-model="recipeTime" id="inputTime" required>
                 </section>
 
+                <section id="course">
+                    <h4>Portata:</h4>
+                    <select name="course" v-model="selCourse">
+                        <option value="antipasto">Antipasto</option>
+                        <option value="primo">Primo</option>
+                        <option value="secondo">Secondo</option>
+                        <option value="dolce">Dolce</option>
+                    </select>
+                </section>
             </div>
 
             <!-- Ingredienti -->
@@ -397,6 +405,11 @@ import axios from 'axios';
     #bold{
         font-weight: bold;
         font-size: 17px;
+    }
+
+    #time input, #course select{
+        width: 100%;
+        height: 28px;
     }
 
 </style>

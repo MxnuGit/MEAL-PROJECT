@@ -116,6 +116,8 @@ export async function createRecipe(req: Request, res: Response){
     const {
         name,
         USERS_username,
+        course,
+        people,
         description,
         difficulty,
         prep_time,
@@ -128,7 +130,7 @@ export async function createRecipe(req: Request, res: Response){
     } = req.body;
 
     connection.execute(
-        'INSERT INTO recipes (name, prep_time, difficulty, description, isVegan, isLactoseFree, isGlutenFree, isProteinRich, USERS_username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'INSERT INTO recipes (name, prep_time, course, people, difficulty, description, isVegan, isLactoseFree, isGlutenFree, isProteinRich, USERS_username) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [req.body.name, req.body.prep_time, req.body.difficulty, req.body.description, req.body.isVegan, req.body.isLactoseFree, req.body.isGlutenFree, req.body.isProteinRich, req.body.USERS_username],
         function(err, results, fields){
             res.json(results)
