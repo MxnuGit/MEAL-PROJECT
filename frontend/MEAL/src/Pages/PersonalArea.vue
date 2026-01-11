@@ -239,5 +239,20 @@ h2{
   font-weight: bold;
   color: white;
   cursor: pointer;
+  border: none;
+}
+
+@media (max-width: 900px){
+    #Remove{
+        font-size: medium;
+    }
+
+    .CardContent > h3{
+        font-size: medium;
+    }
+
+    .Card {
+        width: 95%;
+    }
 }
 </style>

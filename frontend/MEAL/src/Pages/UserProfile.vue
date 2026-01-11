@@ -36,7 +36,7 @@ export default defineComponent({
 <template>
   <div class="mainContainer">
     <div class="userInfo">
-      <img src="../assets/lock.png" />
+      <img src="../assets/person.png" />
       <section class="userStats">
         <h1>{{ user?.username }}</h1>
       </section>
@@ -136,5 +136,19 @@ export default defineComponent({
   margin: 8px 0;
   text-align: center;
   font-size: 1rem;
+}
+
+@media (max-width: 900px){
+    #Remove{
+        font-size: medium;
+    }
+
+    .CardContent > h3{
+        font-size: medium;
+    }
+
+    .Card {
+        width: 95%;
+    }
 }
 </style>
