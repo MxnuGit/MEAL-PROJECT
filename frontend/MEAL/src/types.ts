@@ -14,6 +14,13 @@ export interface Recipe {
     recipe_image?: { type: "Buffer"; data: number[] } | string | null
 }
 
+export type PrepTimeFilter = "<=15" | "<=30" | "<=60" | ">60" | null
+export interface Filters{
+    course: string | null
+    difficulty: string | null
+    peopleMin: number
+    prepTime: PrepTimeFilter
+}
 export interface User {
     username: string
 }
