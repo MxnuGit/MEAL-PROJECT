@@ -132,28 +132,6 @@ import axios from 'axios';
 
                 reader.readAsDataURL(file);
             },
-
-            print(){
-                const ricetta = 
-                {
-                    name: this.recipeName,
-                    USERS_username: this.user?.username,
-                    course: this.selCourse,
-                    people: this.people,
-                    description: this.description,
-                    difficulty: this.difficulty,
-                    isGlutenFree: this.tag.glutenFree,
-                    isLactoseFree: this.tag.lactoseFree,
-                    isProteinRich: this.tag.proteinRich,
-                    isVegan: this.tag.vegan,
-                    prep_time: this.recipeTime, 
-                    recipe_image: this.recipeImage,
-                    ingredients: this.ingredients,
-                    steps: this.steps
-                };
-
-                console.log(ricetta)
-            }
         },
         mounted() {
             this.getUser()
@@ -278,8 +256,7 @@ import axios from 'axios';
                 </section>
             </section>
             <section id="lastSection">
-                <button type="submit" id="sendRecipe">Conferma</button>
-                <button type="button" @click="print">ggg</button>
+                <button type="submit" id="sendRecipe">Crea Ricetta</button>
             </section>
         </form>
     </div>
