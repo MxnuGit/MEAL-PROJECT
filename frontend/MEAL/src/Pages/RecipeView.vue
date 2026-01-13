@@ -36,15 +36,16 @@ export default defineComponent({
         if (!img) return ""
         if (typeof img === "string") return img
         if (img?.data && Array.isArray(img.data)) {
-        const bytes = new Uint8Array(img.data)
-        let bin = ""
-        for (const b of bytes) {
-            const n = Number(b)
-            if (!Number.isFinite(n)) continue
-            bin += String.fromCodePoint(n)
+            const bytes = new Uint8Array(img.data)
+            let bin = ""
+            for (const b of bytes) {
+                const n = Number(b)
+                if (!Number.isFinite(n)) continue
+                bin += String.fromCodePoint(n)
+            }
+            
+            return `data:image/jpeg;base64,${btoa(bin)}`
         }
-      return `data:image/jpeg;base64,${btoa(bin)}`
-    }
 
     return ""
     }
