@@ -277,3 +277,21 @@ export async function deleteRecipe(req: Request, res: Response){
         }
     )
 }
+
+export async function recipesByIngredients(req: Request, res: Response){
+  const ingredients = req.params.list
+  ingredients.split(",")
+
+  const length = ingredients.length
+
+    connection.execute(
+        `SELECT has.RECIPES_recipe_id 
+         FROM has WHERE INGREDIENTS_name IN (?) 
+         GROUP BY has.RECIPES_recipe_id 
+         HAVING COUNT(DISTINCT INGREDIENTS_name) = ?}`,
+        [ingredients, length],
+        function(err, results, fields){
+            res.json(results)
+        }
+    )
+}
