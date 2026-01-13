@@ -7,7 +7,8 @@ export default defineComponent({
   data(){
     return{
       user: null as User | null,
-      recipes: [] as Recipe[]
+      recipes: [] as Recipe[],
+      imageUrlCache: new Map()
     }
   },
   methods:{
@@ -16,24 +17,29 @@ export default defineComponent({
       this.user = res.data;
     },
 
-    loadImage(recipe: Recipe) {
-    const img: any = recipe?.recipe_image
-    if (!img) return ""
-    if (typeof img === "string") return img
-    if (img?.data && Array.isArray(img.data)) {
-      const bytes = new Uint8Array(img.data)
-      let bin = ""
-      for (const b of bytes) {
-        const n = Number(b)
-        if (!Number.isFinite(n)) continue
-        bin += String.fromCodePoint(n)
-      }
-      return `data:image/jpeg;base64,${btoa(bin)}`
-    }
-    return ""
-  },
+  loadImage(recipe: Recipe): string {
+  const id = recipe?.recipe_id ?? recipe?.recipe_id
+  const img = recipe?.recipe_image
+  if (!img) return ""
 
-    async getMyRecipes() {
+  if (typeof img === "string") return img
+
+  if (id != null && this.imageUrlCache.has(id)) {
+    return this.imageUrlCache.get(id)
+  }
+
+  const bytes = new Uint8Array(img.data)
+
+  if (!bytes) return ""
+
+  const blob = new Blob([bytes], { type: "image/jpeg" })
+  const url = URL.createObjectURL(blob)
+
+  if (id != null) this.imageUrlCache.set(id, url)
+  return url
+},
+
+  async getMyRecipes() {
       const res = await axios.get("/api/recipes/me");
       this.recipes = res.data;
     },
@@ -64,6 +70,10 @@ export default defineComponent({
     this.getUser()
     this.getMyRecipes()
   },
+  beforeUnmount() {
+    for (const url of this.imageUrlCache.values()) URL.revokeObjectURL(url)
+    this.imageUrlCache.clear()
+  }
 })
 </script>
 
