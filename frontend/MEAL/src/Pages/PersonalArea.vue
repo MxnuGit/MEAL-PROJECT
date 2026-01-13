@@ -47,6 +47,24 @@ export default defineComponent({
     this.getUser()
     this.getMyRecipes()
   },
+  computed: {
+    currentImage(recipe: Recipe): any {
+      const img: any = recipe?.recipe_image
+      if (!img) return ""
+      if (typeof img === "string") return img
+      if (img?.data && Array.isArray(img.data)) {
+        const bytes = new Uint8Array(img.data)
+        let bin = ""
+        for (const b of bytes) {
+          const n = Number(b)
+          if (!Number.isFinite(n)) continue
+          bin += String.fromCodePoint(n)
+        }
+        return `data:image/jpeg;base64,${btoa(bin)}`
+      }
+      return ""
+    }
+  }
 })
 </script>
 
@@ -73,7 +91,7 @@ export default defineComponent({
           :to="`/RecipeView/${recipe.recipe_id}`"
           class="CardContent"
         >
-          <img src="../assets/carbonara.jpg" />
+          <img :src="currentImage(recipe)" alt="" />
           <h3>{{ recipe.name }}</h3>
         </router-link>
 

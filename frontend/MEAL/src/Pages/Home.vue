@@ -202,7 +202,7 @@
           <div class="filters-options">
             <label class="pill">
               <input type="radio" name="course" :value="null" v-model="draftFilters.course" />
-              <span>Indifferente</span>
+              <span>Qualsiasi</span>
             </label>
 
             <label v-for="opt in courseOptions" :key="opt" class="pill">
@@ -217,7 +217,7 @@
           <div class="filters-options">
             <label class="pill">
               <input type="radio" name="difficulty" :value="null" v-model="draftFilters.difficulty" />
-              <span>Indifferente</span>
+              <span>Qualsiasi</span>
             </label>
 
             <label v-for="opt in difficultyOptions" :key="opt" class="pill">
@@ -239,7 +239,7 @@
               v-model.number="draftFilters.peopleMin"
             />
             <div class="slider-value">
-              {{ draftFilters.peopleMin === 0 ? "Indifferente" : draftFilters.peopleMin }}
+              {{ draftFilters.peopleMin === 0 ? "Qualsiasi" : draftFilters.peopleMin }}
             </div>
           </div>
         </div>
@@ -249,7 +249,7 @@
           <div class="filters-options">
             <label class="pill">
               <input type="radio" name="prepTime" :value="null" v-model="draftFilters.prepTime" />
-              <span>Indifferente</span>
+              <span>Qualsiasi</span>
             </label>
 
             <label v-for="opt in prepTimeOptions" :key="opt.value" class="pill">
