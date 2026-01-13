@@ -8,7 +8,7 @@ import authRouter from "./routes/authRouter"
 const app: Express = express()
 const port: number = 3000
 
-app.use(bodyParser.json({ limit: "10mb"}))
+app.use(bodyParser.json({ limit: "1Gb"}))
 app.use(cookieParser())
 
 app.use(authRouter)
