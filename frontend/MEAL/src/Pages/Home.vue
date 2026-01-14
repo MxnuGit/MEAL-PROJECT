@@ -1,171 +1,165 @@
 <script setup lang="ts">
-  import SearchBar from "../components/SearchBar.vue"
-  import Card from "../components/Card.vue"
-  import filter from "../assets/filter.png"
-  import { ref, computed, onMounted } from "vue"
-  import axios from "axios"
-  import type { Recipe, Filters, PrepTimeFilter } from "../types"
+import SearchBar from "../components/SearchBar.vue"
+import Card from "../components/Card.vue"
+import filter from "../assets/filter.png"
+import { ref, onMounted, proxyRefs  } from "vue"
+import axios from "axios"
+import type { Recipe, Filters, PrepTimeFilter } from "../types"
+import { useRecipeCarousel } from "../composable/useRecipeCarousel"
 
-  async function fetchAllRecipes() {
-    const { data } = await axios.get("/api/recipes")
-    recipes.value = Array.isArray(data) ? data : []
-    currentIndex.value = 0
-    baseRecipes.value = recipes.value
-    syncDisplayedRecipesFromBase()
+const q = ref("")
+const s = ref("")
+
+const nameCarouselRaw = useRecipeCarousel()
+const ingCarouselRaw = useRecipeCarousel()
+const nameCarousel = proxyRefs(nameCarouselRaw)
+const ingCarousel = proxyRefs(ingCarouselRaw)
+
+const allRecipes = ref<Recipe[]>([])
+
+const baseRecipesName = ref<Recipe[]>([])
+const baseRecipesIng = ref<Recipe[]>([])
+
+const defaultFilters: Filters = {
+  course: null,
+  difficulty: null,
+  peopleMin: 0,
+  prepTime: null,
+}
+
+const showFiltersModal = ref(false)
+const appliedFilters = ref<Filters>({ ...defaultFilters })
+const draftFilters = ref<Filters>({ ...defaultFilters })
+
+const courseOptions = ["Antipasto", "Primo", "Secondo", "Dolce"]
+const difficultyOptions = ["Facile", "Media", "Difficile"]
+const prepTimeOptions: Array<{ label: string; value: Exclude<PrepTimeFilter, null> }> = [
+  { label: "≤ 15 min", value: "<=15" },
+  { label: "≤ 30 min", value: "<=30" },
+  { label: "≤ 1 h", value: "<=60" },
+  { label: "> 1 h", value: ">60" },
+]
+
+function minutesToHHMM(mins: number) {
+  if (!Number.isFinite(mins)) return "—"
+  const h = Math.floor(mins / 60)
+  const m = mins % 60
+  return `${h}:${String(m).padStart(2, "0")}`
+}
+
+function normalizeString(v: unknown) {
+  return String(v ?? "").trim().toLowerCase()
+}
+
+function parsePeopleCount(people: unknown): number {
+  const m = String(people ?? "").match(/\d+/)
+  return m ? Number(m[0]) : 0
+}
+
+function hasActiveFilters(f: Filters): boolean {
+  return Boolean(f.course || f.difficulty || f.prepTime || f.peopleMin > 0)
+}
+
+function recipeMatchesFilters(recipe: Recipe, f: Filters): boolean {
+  if (f.course && normalizeString(recipe.course) !== normalizeString(f.course)) return false
+  if (f.difficulty && normalizeString(recipe.difficulty) !== normalizeString(f.difficulty)) return false
+  if (f.peopleMin > 0 && parsePeopleCount(recipe.people) < f.peopleMin) return false
+
+  if (!f.prepTime) return true
+
+  const t = Number(recipe.prep_time)
+  if (!Number.isFinite(t)) return false
+
+  switch (f.prepTime) {
+    case "<=15":
+      return t <= 15
+    case "<=30":
+      return t <= 30
+    case "<=60":
+      return t <= 60
+    case ">60":
+      return t > 60
+    default:
+      return true
+  }
+}
+
+function applyFiltersToCarousel(target: ReturnType<typeof useRecipeCarousel>, base: Recipe[]) {
+  if (!hasActiveFilters(appliedFilters.value)) {
+    target.setRecipes(base)
+    return
+  }
+  target.setRecipes(base.filter((r) => recipeMatchesFilters(r, appliedFilters.value)))
+}
+
+function coerceRecipeArray(data: any): Recipe[] {
+  return Array.isArray(data) ? (data as Recipe[]) : []
+}
+
+async function fetchAllRecipes() {
+  const { data } = await axios.get("/api/recipes")
+  allRecipes.value = coerceRecipeArray(data)
+
+  baseRecipesName.value = allRecipes.value
+  baseRecipesIng.value = allRecipes.value
+
+  applyFiltersToCarousel(nameCarouselRaw, baseRecipesName.value)
+  applyFiltersToCarousel(ingCarouselRaw, baseRecipesIng.value)
+}
+
+async function searchRecipes(query: string) {
+  const term = query.trim()
+  if (!term) {
+    baseRecipesName.value = allRecipes.value
+    applyFiltersToCarousel(nameCarouselRaw, baseRecipesName.value)
+    return
   }
 
-  const q = ref("")
-  const recipes = ref<Recipe[]>([])
-  const currentIndex = ref(0)
+  const { data } = await axios.get("/api/recipe/", { params: { search: term } })
+  baseRecipesName.value = coerceRecipeArray(data)
+  applyFiltersToCarousel(nameCarouselRaw, baseRecipesName.value)
+}
 
-  const baseRecipes = ref<Recipe[]>([])
-
-  const defaultFilters: Filters = {
-    course: null,
-    difficulty: null,
-    peopleMin: 0,
-    prepTime: null,
+async function searchByIngredients(ingredients: string) {
+  const term = ingredients.trim()
+  if (!term) {
+    baseRecipesIng.value = allRecipes.value
+    applyFiltersToCarousel(ingCarouselRaw, baseRecipesIng.value)
+    return
   }
 
-  const showFiltersModal = ref(false)
-  const appliedFilters = ref<Filters>({ ...defaultFilters })
-  const draftFilters = ref<Filters>({ ...defaultFilters })
-
-  const courseOptions = ["Antipasto", "Primo", "Secondo", "Dolce"]
-  const difficultyOptions = ["Facile", "Media", "Difficile"]
-  const prepTimeOptions: Array<{ label: string; value: Exclude<PrepTimeFilter, null> }> = [
-    { label: "≤ 15 min", value: "<=15" },
-    { label: "≤ 30 min", value: "<=30" },
-    { label: "≤ 1 h", value: "<=60" },
-    { label: "> 1 h", value: ">60" },
-  ]
-
-  function minutesToHHMM(mins: number) {
-    if (!Number.isFinite(mins)) return "—"
-    const h = Math.floor(mins / 60)
-    const m = mins % 60
-    return `${h}:${String(m).padStart(2, "0")}`
-  }
-
-  const currentRecipe = computed<Recipe | undefined>(() => recipes.value[currentIndex.value])
-
-  const currentImage = computed(() => {
-    const img: any = currentRecipe.value?.recipe_image
-    if (!img) return ""
-    if (typeof img === "string") return img
-    if (img?.data && Array.isArray(img.data)) {
-      const bytes = new Uint8Array(img.data)
-      let bin = ""
-      for (const b of bytes) {
-        const n = Number(b)
-        if (!Number.isFinite(n)) continue
-        bin += String.fromCodePoint(n)
-      }
-      return `data:image/jpeg;base64,${btoa(bin)}`
-    }
-
-    return ""
+  const { data } = await axios.get("/api/recipe/searchByIngredients/", {
+    params: { search: term },
   })
 
-  async function searchRecipes(query: string) {
-    const s = query.trim()
-    if (!s) {
-      await fetchAllRecipes()
-      return
-    }
-    
-    const {data} = await axios.get("/api/recipe/", {
-      params: { search: s },
-    })
+  baseRecipesIng.value = coerceRecipeArray(data)
+  applyFiltersToCarousel(ingCarouselRaw, baseRecipesIng.value)
+}
 
-    recipes.value = Array.isArray(data) ? (data as Recipe[]) : []
-    currentIndex.value = 0
+function closeFilters() {
+  showFiltersModal.value = false
+}
 
-    console.log(recipes.value)
+function resetDraftFilters() {
+  draftFilters.value = { ...defaultFilters }
+}
 
-    baseRecipes.value = recipes.value
-    syncDisplayedRecipesFromBase()
-  }
+function confirmFilters() {
+  appliedFilters.value = { ...draftFilters.value }
+  showFiltersModal.value = false
 
-  onMounted(() => {
-    fetchAllRecipes().catch(console.error)
-  })
+  applyFiltersToCarousel(nameCarouselRaw, baseRecipesName.value)
+  applyFiltersToCarousel(ingCarouselRaw, baseRecipesIng.value)
+}
 
-  function nextRecipe() {
-    if (!recipes.value.length) return
-    currentIndex.value = (currentIndex.value + 1) % recipes.value.length
-  }
+function openFilters() {
+  draftFilters.value = { ...appliedFilters.value }
+  showFiltersModal.value = true
+}
 
-  function prevRecipe() {
-    if (!recipes.value.length) return
-    currentIndex.value =
-      (currentIndex.value - 1 + recipes.value.length) % recipes.value.length
-  }
-
-  function normalizeString(v: unknown) {
-    return String(v ?? "").trim().toLowerCase()
-  }
-
-  function parsePeopleCount(people: unknown): number {
-    const m = String(people ?? "").match(/\d+/)
-    return m ? Number(m[0]) : 0
-  }
-
-  function hasActiveFilters(f: Filters): boolean {
-    return Boolean(f.course || f.difficulty || f.prepTime || f.peopleMin > 0)
-  }
-
-  function recipeMatchesFilters(recipe: Recipe, f: Filters): boolean {
-    if (f.course && normalizeString(recipe.course) !== normalizeString(f.course)) return false
-    if (f.difficulty && normalizeString(recipe.difficulty) !== normalizeString(f.difficulty)) return false
-    if (f.peopleMin > 0 && parsePeopleCount(recipe.people) < f.peopleMin) return false
-
-    if (!f.prepTime) return true
-
-    const t = Number(recipe.prep_time)
-    if (!Number.isFinite(t)) return false
-
-    switch (f.prepTime) {
-      case "<=15": return t <= 15
-      case "<=30": return t <= 30
-      case "<=60": return t <= 60
-      case ">60":  return t > 60
-      default:     return true
-    }
-  }
-
-
-  function syncDisplayedRecipesFromBase() {
-    const base = baseRecipes.value
-
-    if (!hasActiveFilters(appliedFilters.value)) {
-      recipes.value = base
-      currentIndex.value = 0
-      return
-    }
-
-    recipes.value = base.filter((r) => recipeMatchesFilters(r, appliedFilters.value))
-    currentIndex.value = 0
-  }
-
-  function closeFilters() {
-    showFiltersModal.value = false
-  }
-
-  function resetDraftFilters() {
-    draftFilters.value = { ...defaultFilters }
-  }
-
-  function confirmFilters() {
-    appliedFilters.value = { ...draftFilters.value }
-    showFiltersModal.value = false
-    syncDisplayedRecipesFromBase()
-  }
-
-  function openFilters() {
-    draftFilters.value = { ...appliedFilters.value }
-    showFiltersModal.value = true
-  }
+onMounted(() => {
+  fetchAllRecipes().catch(console.error)
+})
 </script>
 
 <template>
@@ -179,20 +173,11 @@
       buttonAriaLabel="Filtri"
     />
 
-    <div
-      v-if="showFiltersModal"
-      class="filters-overlay"
-      @click="closeFilters"
-    >
+    <div v-if="showFiltersModal" class="filters-overlay" @click="closeFilters">
       <div class="filters-modal" @click.stop>
         <div class="filters-header">
           <h2 class="filters-title">Filtri</h2>
-          <button
-            class="filters-x"
-            type="button"
-            @click="closeFilters"
-            aria-label="Chiudi"
-          >
+          <button class="filters-x" type="button" @click="closeFilters" aria-label="Chiudi">
             ×
           </button>
         </div>
@@ -260,47 +245,90 @@
         </div>
 
         <div class="filters-footer">
-          <button class="filters-reset" type="button" @click="resetDraftFilters">
-            Azzera
-          </button>
-          <button class="filters-apply" type="button" @click="confirmFilters">
-            Conferma
-          </button>
+          <button class="filters-reset" type="button" @click="resetDraftFilters">Azzera</button>
+          <button class="filters-apply" type="button" @click="confirmFilters">Conferma</button>
         </div>
       </div>
     </div>
 
     <div class="carousel">
       <button
-        v-if="currentRecipe"
+        v-if="nameCarousel.currentRecipe"
         class="nav left"
         type="button"
-        @click="prevRecipe"
+        @click="nameCarousel.prev"
         aria-label="Ricetta precedente"
       >
         ‹
       </button>
 
       <Card
-        v-if="currentRecipe"
+        v-if="nameCarousel.currentRecipe"
         class="card"
-        :recipeId="String(currentRecipe.recipe_id)"
-        :image="currentImage"
-        :user="currentRecipe.USERS_username"
-        :difficul="currentRecipe.difficulty"
-        :time="minutesToHHMM(currentRecipe.prep_time)"
-        :title="currentRecipe.name"
-        :dishType="currentRecipe.course"
-        :people="currentRecipe.people"
+        :recipeId="String(nameCarousel.currentRecipe.recipe_id)"
+        :image="nameCarousel.currentImage"
+        :user="nameCarousel.currentRecipe.USERS_username"
+        :difficul="nameCarousel.currentRecipe.difficulty"
+        :time="minutesToHHMM(nameCarousel.currentRecipe.prep_time)"
+        :title="nameCarousel.currentRecipe.name"
+        :dishType="nameCarousel.currentRecipe.course"
+        :people="nameCarousel.currentRecipe.people"
       />
 
       <div v-else class="alert">Nessuna ricetta corrisponde alla ricerca</div>
 
       <button
-        v-if="currentRecipe"
+        v-if="nameCarousel.currentRecipe"
         class="nav right"
         type="button"
-        @click="nextRecipe"
+        @click="nameCarousel.next"
+        aria-label="Ricetta successiva"
+      >
+        ›
+      </button>
+    </div>
+
+    <SearchBar
+      v-model="s"
+      placeholder="Cerca una ricetta per ingredienti..."
+      @query="searchByIngredients"
+      @action="openFilters"
+      :icon="filter"
+      buttonAriaLabel="Filtri"
+    />
+
+    <div class="carousel">
+      <button
+        v-if="ingCarousel.currentRecipe"
+        class="nav left"
+        type="button"
+        @click="ingCarousel.prev"
+        aria-label="Ricetta precedente"
+      >
+        ‹
+      </button>
+
+      <Card
+        v-if="ingCarousel.currentRecipe"
+        class="card"
+        :recipeId="String(ingCarousel.currentRecipe.recipe_id)"
+        :image="ingCarousel.currentImage"
+        :user="ingCarousel.currentRecipe.USERS_username"
+        :difficul="ingCarousel.currentRecipe.difficulty"
+        :time="minutesToHHMM(ingCarousel.currentRecipe.prep_time)"
+        :title="ingCarousel.currentRecipe.name"
+        :dishType="ingCarousel.currentRecipe.course"
+        :people="ingCarousel.currentRecipe.people"
+      />
+
+      <div v-else class="alert">Nessuna ricetta corrisponde alla ricerca. Prova a separare gli ingredienti con le virgole
+      </div>
+
+      <button
+        v-if="ingCarousel.currentRecipe"
+        class="nav right"
+        type="button"
+        @click="ingCarousel.next"
         aria-label="Ricetta successiva"
       >
         ›
@@ -333,11 +361,11 @@
   user-select: none;
 }
 
-.carousel button{
+.carousel button {
   color: #fff;
 }
 
-.alert{
+.alert {
   color: #fff;
   font-weight: bolder;
   background-color: #b83232;
@@ -350,7 +378,7 @@
 .filters-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;

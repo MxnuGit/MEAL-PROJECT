@@ -10,7 +10,7 @@ router.get("/api/users/:username/recipes", recipesController.recipesByUsername);
 router.get("/api/recipes/:id", recipesController.recipesByID);
 router.get("/api/recipes/:id/ingredients", recipesController.ingredientsByID);
 router.get("/api/recipes/:id/steps", recipesController.stepsByID)
-router.get("/api/recipe/searchByIngredients", recipesController.recipesByIngredients);
+router.get("/api/recipe/searchByIngredients/", recipesController.recipesByIngredients);
 
 router.post("/api/createRecipe", recipesController.createRecipe);
 

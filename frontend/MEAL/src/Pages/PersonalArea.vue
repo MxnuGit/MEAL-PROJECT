@@ -18,26 +18,26 @@ export default defineComponent({
     },
 
   loadImage(recipe: Recipe): string {
-  const id = recipe?.recipe_id ?? recipe?.recipe_id
-  const img = recipe?.recipe_image
-  if (!img) return ""
+    const id = recipe?.recipe_id ?? recipe?.recipe_id
+    const img = recipe?.recipe_image
+    if (!img) return ""
 
-  if (typeof img === "string") return img
+    if (typeof img === "string") return img
 
-  if (id != null && this.imageUrlCache.has(id)) {
-    return this.imageUrlCache.get(id)
-  }
+    if (id != null && this.imageUrlCache.has(id)) {
+      return this.imageUrlCache.get(id)
+    }
 
-  const bytes = new Uint8Array(img.data)
+    const bytes = new Uint8Array(img.data)
 
-  if (!bytes) return ""
+    if (!bytes) return ""
 
-  const blob = new Blob([bytes], { type: "image/jpeg" })
-  const url = URL.createObjectURL(blob)
+    const blob = new Blob([bytes], { type: "image/jpeg" })
+    const url = URL.createObjectURL(blob)
 
-  if (id != null) this.imageUrlCache.set(id, url)
-  return url
-},
+    if (id != null) this.imageUrlCache.set(id, url)
+    return url
+  },
 
   async getMyRecipes() {
       const res = await axios.get("/api/recipes/me");

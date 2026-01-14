@@ -278,20 +278,40 @@ export async function deleteRecipe(req: Request, res: Response){
     )
 }
 
-export async function recipesByIngredients(req: Request, res: Response){
-  const ingredients = req.params.list
-  ingredients.split(",")
+export async function recipesByIngredients(req: Request, res: Response) {
+    const querySearch = req.query.search
+    let raw = ""
 
-  const length = ingredients.length
+    if (typeof querySearch === "string") {
+      raw = querySearch.trim()
+    } else if (Array.isArray(querySearch) && querySearch.length > 0 && typeof querySearch[0] === "string") {
+      raw = querySearch[0].trim()
+    }
 
-    connection.execute(
-        `SELECT has.RECIPES_recipe_id 
-         FROM has WHERE INGREDIENTS_name IN (?) 
-         GROUP BY has.RECIPES_recipe_id 
-         HAVING COUNT(DISTINCT INGREDIENTS_name) = ?}`,
-        [ingredients, length],
-        function(err, results, fields){
-            res.json(results)
-        }
-    )
+    if (!raw) return res.json([])
+
+    const ingredientsArr = raw.split(",").map(s => s.trim()).filter(Boolean)
+
+    if (ingredientsArr.length === 0) return res.json([])
+    const patterns = ingredientsArr.map(t => `${t}%`)  
+    const whereLikes = patterns.map(() => "h.INGREDIENTS_name LIKE ?").join(" OR ")
+    const length = patterns.length
+
+    const sql = `
+      SELECT r.*
+      FROM recipes r
+      WHERE r.recipe_id IN (
+        SELECT h.RECIPES_recipe_id
+        FROM has h
+        WHERE (${whereLikes})
+        GROUP BY h.RECIPES_recipe_id
+        HAVING COUNT(DISTINCT h.INGREDIENTS_name) = ?
+      )
+      ORDER BY r.recipe_id DESC
+    `
+
+    connection.execute(sql, [...patterns, length], (err, results) => {
+      if (err) return res.status(500).json({ error: err.message, code: (err as any).code })
+      res.json(results)
+    })
 }
