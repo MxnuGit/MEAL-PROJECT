@@ -7,7 +7,8 @@ export default defineComponent({
   data(){
     return{
       user: null as User | null,
-      recipes: [] as Recipe[]
+      recipes: [] as Recipe[],
+      imageUrlCache: new Map()
     }
   },
   methods:{
@@ -23,13 +24,38 @@ export default defineComponent({
       const username = this.$route.params.username;
       const res = await axios.get(`/api/users/${username}/recipes`);
       this.recipes = res.data;
-    }
-  },
+    },
 
+    loadImage(recipe: Recipe): string {
+    const id = recipe?.recipe_id ?? recipe?.recipe_id
+    const img = recipe?.recipe_image
+    if (!img) return ""
+
+    if (typeof img === "string") return img
+
+    if (id != null && this.imageUrlCache.has(id)) {
+      return this.imageUrlCache.get(id)
+    }
+
+    const bytes = new Uint8Array(img.data)
+
+    if (!bytes) return ""
+
+    const blob = new Blob([bytes], { type: "image/jpeg" })
+    const url = URL.createObjectURL(blob)
+
+    if (id != null) this.imageUrlCache.set(id, url)
+    return url
+  },
+  },
   mounted() {
     this.userByID()
     this.getUserRecipes()
   },
+  beforeUnmount() {
+    for (const url of this.imageUrlCache.values()) URL.revokeObjectURL(url)
+    this.imageUrlCache.clear()
+  }
 })
 </script>
 
@@ -56,7 +82,7 @@ export default defineComponent({
           :to="`/RecipeView/${recipe.recipe_id}`"
           class="CardContent"
         >
-          <img src="../assets/carbonara.jpg" />
+          <img :src="loadImage(recipe)" alt=""/>
           <h3>{{ recipe.name }}</h3>
         </router-link>
       </div>

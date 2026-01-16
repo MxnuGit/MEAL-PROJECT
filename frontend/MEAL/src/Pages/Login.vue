@@ -20,6 +20,7 @@
                     <img src="../assets/lock.png" />
                     <input type="password" id="password" name="password" placeholder="Inserisci la Password" v-model="login.password" required>
                 </li>
+                <p v-if="loginError" class="error">ID utente o password errata, riprovare</p>
                 <li>
                   <input type="submit" value="Submit" id="submit"></input>
                 </li>
@@ -41,6 +42,7 @@
                     <img src="../assets/lock.png"/>
                     <input type="password" id="confirm_password" name="confirm_password" placeholder="Conferma Password" v-model="signup.confPassword" required> 
                 </li>
+                <p v-if="signUpError" class="error">ID utente già esistente o le password non combaciano, riprovare</p>
                 <li>
                   <input type="submit" value="Submit" id="submit"></input>
                 </li>
@@ -65,13 +67,16 @@
         login: {
           username: "",
           password: ""
-        }
+        },
+        signUpError: false,
+        loginError: false,
       };
     },
     methods: {
       async handleSignUp() {
         if(this.signup.password != this.signup.confPassword){
           console.log("Le password non combaciano...");
+          this.signUpError = true
           return;
         }
 
@@ -84,6 +89,7 @@
           console.log("Risposta backend:", res.data);
         } catch (err) {
           console.log("Errore di connessione al server");
+          this.signUpError = true
         }
       },
 
@@ -97,6 +103,7 @@
           console.log("Risposta backend:", res.data);
         } catch (err) {
           console.log("Errore di connessione al server");
+          this.loginError = true
         }
       }
     }
@@ -162,13 +169,10 @@
   input {
     width: 100%;
     max-width: 240px;
-    
     padding: 8px;
     box-sizing: border-box;
-
     border-radius: 10px;
     border: 1.5px solid white;
-
     font-weight: bold;
   }
 
@@ -188,10 +192,19 @@
   img{
     max-width: 30px;
     width: 100%;
-    
     max-height: 30px;
     height: 100%;
-
     margin-right: 10px;
+  }
+
+  .error{
+    color: #fff;
+    font-weight: bolder;
+    background-color: #b83232;
+    padding: 8px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 11px;
+    text-align: center;
   }
 </style>
