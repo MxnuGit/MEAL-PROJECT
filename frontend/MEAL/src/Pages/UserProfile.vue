@@ -42,6 +42,10 @@ export default defineComponent({
       </section>
     </div>
 
+    <header>
+      <h2>Le sue ricette</h2>
+    </header>
+
     <div class="MyRecipes">
       <div
         class="Card"
@@ -65,7 +69,7 @@ export default defineComponent({
   background-color: #DCC9A3;
   border: solid 2.5px white;
   border-radius: 25px;
-  width: 100%;
+  width: 80%;
   max-width: 600px;
   margin: 80px auto;
   padding: 10px;
@@ -96,20 +100,33 @@ export default defineComponent({
   text-align: center;
 }
 
+header{
+  display: flex;
+  justify-content: center;
+}
+
+h2{
+  background-color: #E18727;
+  border-radius: 15px;
+  padding: 5px;
+  color: white;
+  text-align: center;
+  width: 50%;
+}
+
 .MyRecipes{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;             
+  gap: 20px;
   justify-items: center;
-  margin-top: 15px;
 }
+
 .Card{
   background-color: white;
   border-radius: 15px;
   padding: 10px;
   width: 100%;
   max-width: 250px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -120,15 +137,14 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-
   text-decoration: none;
   color: inherit;
 }
 
 .Card img{
   width: 100%;
-  height: 150px;        
-  object-fit: cover;     
+  height: 150px;
+  object-fit: cover;
   border-radius: 15px;
 }
 
@@ -136,6 +152,21 @@ export default defineComponent({
   margin: 8px 0;
   text-align: center;
   font-size: 1rem;
+}
+
+.Card > form{
+  display: flex;
+  justify-content: center;
+}
+
+.Card > form > input{
+  border-radius: 10px;
+  border: none;
+  font-size: larger;
+  font-weight: bolder;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
 }
 
 @media (max-width: 900px){

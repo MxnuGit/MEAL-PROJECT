@@ -114,7 +114,7 @@
     display: flex;
     flex-direction: column;
 
-    width: 100%;
+    width: 80%;
     max-width: 600px;
 
     margin: 80px auto;
