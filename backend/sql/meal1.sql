@@ -138,7 +138,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`username`, `password`, `role`) VALUES
 ('enrico', '$2b$10$xH0l1BZYfTyin4xf4KeXzOVQXesRStiXFSEmH2JaUdpU0iBuTjWhq', 'user'),
-('ernesto', '$2b$10$n87kwjNkOH0X/0His75.WeUwBMzukht.sMsKOh4Zgye6uQgEX85u6', 'user');
+('ernesto', '$2b$10$n87kwjNkOH0X/0His75.WeUwBMzukht.sMsKOh4Zgye6uQgEX85u6', 'admin');
 
 --
 -- Indici per le tabelle scaricate

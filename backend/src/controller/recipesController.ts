@@ -128,7 +128,7 @@ export async function createRecipe(req: Request, res: Response) {
     steps
   } = req.body;
 
-  /* ---------------- VALIDAZIONI ---------------- */
+  /* ---------------- VALIDATIONS ---------------- */
   if (!name || !difficulty || !prep_time) {
     return res.status(400).send("Campi obbligatori mancanti");
   }
@@ -154,6 +154,11 @@ export async function createRecipe(req: Request, res: Response) {
     if (err) return res.status(500).json(err);
 
     /* ---------- INSERT RECIPE ---------- */
+
+    /*
+    * Progressive insert which stops in case there's an error, and rolls back all the database edits.
+    */
+   
     connection.query(
       `INSERT INTO recipes (
         name, prep_time, difficulty, description, course, people,
